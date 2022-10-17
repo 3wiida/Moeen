@@ -9,4 +9,12 @@
     <color name="white">#FFFFFFFF</color>
     <color name="Blue">#01B7CD</color>
     <color name="LightBlue">#CAEFF3</color>
+    <color name="_444">#444444</color>
+    <color name="_c6">#C6C6C6</color>
+    <color name="_3c">#3C3C3C</color>
+    <color name="_92">#929292</color>
+    <color name="_70">#707070</color>
+    <color name="_fc">#FCFCFC</color>
+    <color name="_df">#DFDFDF</color>
+    <color name="_42">#424242</color>
 </resources>
