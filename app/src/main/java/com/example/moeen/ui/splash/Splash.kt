@@ -15,5 +15,6 @@ class Splash : AppCompatActivity() {
             startActivity(Intent(this,OnBoardingActivity::class.java))
             finish()
         },1000L)
+        //COMMENT
     }
 }
