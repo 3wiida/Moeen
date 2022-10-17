@@ -6,6 +6,6 @@
     app:startDestination="@id/loginFragment">
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.example.moeen.ui.Login.ui.login.LoginFragment"
+        android:name="com.example.moeen.ui.Login.LoginFragment"
         android:label="LoginFragment" />
 </navigation>

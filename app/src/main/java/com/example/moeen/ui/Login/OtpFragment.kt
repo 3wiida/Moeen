@@ -1,4 +1,4 @@
-package com.example.moeen.ui.Login.ui.login
+package com.example.moeen.ui.Login
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -7,8 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.moeen.R
 
-class LoginFragment : Fragment() {
+
+class OtpFragment : Fragment() {
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_login, container, false)
+        return inflater.inflate(R.layout.fragment_otp, container, false)
     }
+
 }
