@@ -1,4 +1,4 @@
-package com.example.moeen.ui.Login.ui.login
+package com.example.moeen.ui.Login
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

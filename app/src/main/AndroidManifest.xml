@@ -15,7 +15,7 @@
         android:theme="@style/Theme.Moeen"
         tools:targetApi="31">
         <activity
-            android:name=".ui.Login.ui.login.LoginActivity"
+            android:name=".ui.Login.LoginActivity"
             android:exported="false" />
         <activity
             android:name=".ui.onBoarding.OnBoardingActivity"

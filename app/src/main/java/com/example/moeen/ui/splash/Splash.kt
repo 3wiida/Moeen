@@ -7,7 +7,7 @@ import android.os.Handler
 import android.os.Looper
 import androidx.activity.viewModels
 import com.example.moeen.R
-import com.example.moeen.ui.Login.ui.login.LoginActivity
+import com.example.moeen.ui.Login.LoginActivity
 import com.example.moeen.ui.onBoarding.OnBoardingActivity
 import dagger.hilt.android.AndroidEntryPoint
 
