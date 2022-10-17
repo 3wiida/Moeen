@@ -16,5 +16,6 @@ class Splash : AppCompatActivity() {
             finish()
         },1000L)
         //COMMENT
+        //secondcomment
     }
 }
