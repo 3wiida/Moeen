@@ -5,13 +5,13 @@ import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
 import java.io.IOException
 
-sealed class ResultWrapper<out T> {
-    data class Success<out T>(val results: T) : ResultWrapper<T>()
+sealed class ResultWrapper <T> {
+    data class Success<T>(val results: T) : ResultWrapper<T>()
     data class Failure(val code: Int? = null, val message: String? = null) : ResultWrapper<Nothing>()
     object Loading : ResultWrapper<Nothing>()
 }
 
-fun <T> performSafeApiCall(apiCall:suspend () -> T)= flow {
+fun <T> performSafeApiCall(apiCall:suspend () -> T) = flow {
     emit(ResultWrapper.Loading)
     try {
         emit(ResultWrapper.Success(apiCall.invoke()))
@@ -22,6 +22,7 @@ fun <T> performSafeApiCall(apiCall:suspend () -> T)= flow {
         }
     }
 }
+
 
 /*
 private fun convertErrorBody(e:HttpException):String{
