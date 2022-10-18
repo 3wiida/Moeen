@@ -3,6 +3,7 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
     id 'com.google.dagger.hilt.android'
+    id 'com.google.gms.google-services'
 }
 
 android {
@@ -63,6 +64,7 @@ dependencies {
     implementation 'androidx.annotation:annotation:1.5.0'
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.5.1'
     implementation 'androidx.navigation:navigation-fragment:2.5.2'
+    implementation 'com.google.firebase:firebase-auth-ktx:21.0.8'
     kapt 'com.github.bumptech.glide:compiler:4.14.1'
 
     //ViewModel
@@ -86,6 +88,15 @@ dependencies {
 
     // Circular indicator
     implementation 'me.relex:circleindicator:2.1.6'
+
+    // ccp
+    implementation 'com.hbb20:ccp:2.5.3'
+
+    //Pin view
+    implementation 'io.github.chaosleung:pinview:1.4.4'
+
+    //SafetyNet
+    implementation 'com.google.android.gms:play-services-safetynet:18.0.1'
 
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.5.1'

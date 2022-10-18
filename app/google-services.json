@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "122674436211",
+    "project_id": "moeen-2b5f7",
+    "storage_bucket": "moeen-2b5f7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:122674436211:android:7fc556aba599d50040b206",
+        "android_client_info": {
+          "package_name": "com.example.moeen"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "122674436211-inhkk4vfe3cc75u2cen49ifm8815g238.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAw9-nyXkoAimKVHG8H6fui9-EnU3SnlDk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "122674436211-inhkk4vfe3cc75u2cen49ifm8815g238.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

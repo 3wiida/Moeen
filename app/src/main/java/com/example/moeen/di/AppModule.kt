@@ -1,6 +1,7 @@
 package com.example.moeen.di
 
 import android.content.Context
+import android.os.Bundle
 import com.example.moeen.common.Constants.BASE_URL
 import com.example.moeen.network.api.ApiServices
 import com.example.moeen.utils.PrefUtils.PrefKeys.USER_TOKEN
@@ -45,5 +46,11 @@ object AppModule {
     @Singleton
     fun provideApi(retrofit: Retrofit): ApiServices {
         return retrofit.create(ApiServices::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideBundle():Bundle{
+        return Bundle()
     }
 }

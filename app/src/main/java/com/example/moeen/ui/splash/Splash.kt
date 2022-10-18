@@ -25,7 +25,7 @@ class Splash : AppCompatActivity() {
                 startActivity(Intent(this,OnBoardingActivity::class.java))
                 finish()
             }
-        },5000L)
+        },1000L)
     }
 
 
