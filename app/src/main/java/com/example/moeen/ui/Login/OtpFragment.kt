@@ -1,6 +1,7 @@
 package com.example.moeen.ui.Login
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
@@ -15,9 +16,11 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import com.example.moeen.R
+import com.example.moeen.base.BaseFragment
 import com.example.moeen.common.Constants.TAG
 import com.example.moeen.databinding.FragmentOtpBinding
 import com.example.moeen.ui.home.HomeActivity
+import com.example.moeen.utils.resultWrapper.ApiResult
 import com.google.firebase.auth.PhoneAuthProvider
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
@@ -26,15 +29,11 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class OtpFragment : Fragment() {
+class OtpFragment : BaseFragment() {
     @Inject lateinit var bundle: Bundle
     lateinit var binding: FragmentOtpBinding
     private val viewModel: LoginViewModel by viewModels()
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_otp, container, false)
         return binding.root
     }
@@ -42,8 +41,10 @@ class OtpFragment : Fragment() {
     @SuppressLint("ResourceAsColor")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.startResendOtpTimer()
 
+
+        //TODO start timer for resend code -----------------------------------------------------------------
+        viewModel.startResendOtpTimer()
         lifecycleScope.launch(Dispatchers.Main) {
             viewModel.otpTimer.collect {
                 binding.resendOtpTimer.text = " ( 0:$it )"
@@ -55,35 +56,65 @@ class OtpFragment : Fragment() {
             }
         }
 
+        //TODO resend code click handle-------------------------------------------------------------------
         binding.resendOtpTv.setOnClickListener {
+            loadingDialog().show()
             viewModel.startResendOtpTimer()
             binding.resendOtpTv.isEnabled = false
             binding.resendOtpTv.setTextColor(Color.parseColor("#8F9596"))
             binding.resendOtpTimer.visibility = View.VISIBLE
+            viewModel.resendOtpCode(activity as Activity,bundle.getString("phoneNumber")!!,bundle.getParcelable<PhoneAuthProvider.ForceResendingToken>("resendToken")!!)
+            loadingDialog().dismiss()
         }
 
+
+
+        //TODO back btn click handle----------------------------------------------------------------------
         binding.backBtn.setOnClickListener {
             activity?.onBackPressed()
         }
 
+
+
+        //TODO next btn click handle----------------------------------------------------------------------
         binding.otpNextBtn.setOnClickListener {
-            if(binding.pinView.text!!.isEmpty()){
+            loadingDialog().show()
+
+            if(binding.pinView.text!!.isEmpty() || bundle.getString("OTPCode")==null){
                 binding.wrongOtpErrorMessageTv.visibility = View.VISIBLE
+
             }else{
-                val credential = PhoneAuthProvider.getCredential(
-                    bundle.getString("OTPCode")!!,
-                    binding.pinView.text.toString()
-                )
+
+                val credential = PhoneAuthProvider.getCredential(bundle.getString("OTPCode")!!,binding.pinView.text.toString())
                 viewModel.signInWithCredential(credential)
+
                 viewModel.authValidation.observe(viewLifecycleOwner) {
                     if (it == "Success") {
                         binding.wrongOtpErrorMessageTv.visibility = View.GONE
-                        startActivity(Intent(activity, HomeActivity::class.java))
-                        activity?.finish()
+
+                        //TODO fire login goal------------------------
+                        viewModel.login(bundle.getString("phoneNumber").toString(),bundle.getString("countryName").toString(),"123")
+                        lifecycleScope.launch {
+                            viewModel.apiState.collect{ apiResult ->
+                                when(apiResult){
+                                    is ApiResult.Failure -> {
+                                        loadingDialog().cancel()
+                                        showToast(requireContext(),R.string.unknowError.toString())
+                                    }
+                                    ApiResult.Loading -> loadingDialog().show()
+                                    is ApiResult.Success<*> -> {
+                                        loadingDialog().cancel()
+                                        startActivity(Intent(activity, HomeActivity::class.java))
+                                        activity?.finish()
+                                    }
+                                }
+                            }
+                        }
                     } else {
                         binding.wrongOtpErrorMessageTv.visibility = View.VISIBLE
                     }
                 }
+                loadingDialog().dismiss()
             }
         }
     }

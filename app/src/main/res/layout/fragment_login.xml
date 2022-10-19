@@ -1,180 +1,153 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
-
-    </data>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/Blue"
-        tools:context=".ui.Login.LoginActivity">
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <ScrollView
+            android:layout_width="match_parent"
+            android:fillViewport="true"
+            android:overScrollMode="never"
+            android:layout_height="match_parent">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.1" />
+            android:background="@color/Blue">
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.9" />
-
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:src="@drawable/login_moeen_logo"
-            app:layout_constraintBottom_toTopOf="@+id/guideline8"
-            app:layout_constraintEnd_toStartOf="@+id/guideline3"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/guideline2"
-            app:layout_constraintTop_toTopOf="@+id/guideline4"
-            app:layout_constraintVertical_bias="0.486" />
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.08" />
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.02" />
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline6"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.98" />
-
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:background="@drawable/_15_topleft_15_topright_rect"
-            android:orientation="vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/guideline6"
-            app:layout_constraintStart_toStartOf="@+id/guideline5"
-            app:layout_constraintTop_toTopOf="@+id/guideline7">
-
-            <TextView
-                android:id="@+id/textView"
-                android:layout_width="match_parent"
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
-                android:fontFamily="@font/cairo_bold"
-                android:text="تسجيل الدخول"
-                android:textAlignment="center"
-                android:textColor="@color/_3c"
-                android:textSize="20dp" />
-
-            <TextView
-                android:id="@+id/textView2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:fontFamily="@font/cairo_bold"
-                android:paddingRight="@dimen/_16dp"
-                android:text="رقم الهاتف"
-                android:textColor="@color/_92"
-                android:textSize="12dp" />
+                android:layout_gravity="center"
+                android:layout_marginBottom="32dp"
+                android:src="@drawable/login_moeen_logo"
+                app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
+                app:layout_constraintEnd_toStartOf="@+id/guideline3"
+                app:layout_constraintStart_toStartOf="@+id/guideline2"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.237" />
 
             <LinearLayout
+                android:id="@+id/linearLayout3"
                 android:layout_width="match_parent"
-                android:id="@+id/loginPhoneContainer"
-                android:layout_height="50dp"
-                android:layout_gravity="center"
-                android:layout_marginStart="@dimen/_16dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginEnd="@dimen/_16dp"
-                android:background="@drawable/_15_gray_rect"
-                android:orientation="horizontal"
-                android:paddingRight="@dimen/_16dp">
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:background="@drawable/_15_topleft_15_topright_rect"
+                android:orientation="vertical"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
 
-                <com.hbb20.CountryCodePicker
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="4dp"
-                    app:ccp_autoDetectCountry="true"
-                    app:ccp_defaultLanguage="ARABIC"
-                    app:ccp_defaultPhoneCode="20"
-                    android:id="@+id/countryCodePicker"
-                    app:ccp_rememberLastSelection="true"
-                    app:ccp_showNameCode="false" />
-
-                <EditText
-                    android:id="@+id/loginPhoneEt"
+                <TextView
+                    android:id="@+id/textView"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@null"
-                    android:inputType="phone" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="32dp"
+                    android:fontFamily="@font/cairo_bold"
+                    android:text="تسجيل الدخول"
+
+                    android:textAlignment="center"
+                    android:textColor="@color/_3c"
+                    android:textSize="20dp" />
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:fontFamily="@font/cairo_bold"
+                    android:paddingRight="@dimen/_16dp"
+                    android:text="رقم الهاتف"
+                    android:textColor="@color/_92"
+                    android:textSize="12dp" />
+
+                <LinearLayout
+                    android:id="@+id/loginPhoneContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="@dimen/_16dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginEnd="@dimen/_16dp"
+                    android:background="@drawable/_15_gray_rect"
+                    android:orientation="horizontal"
+                    android:paddingRight="@dimen/_16dp">
+
+                    <com.hbb20.CountryCodePicker
+                        android:id="@+id/countryCodePicker"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="4dp"
+                        app:ccp_autoDetectCountry="true"
+                        app:ccp_defaultLanguage="ARABIC"
+                        app:ccp_defaultPhoneCode="20"
+                        app:ccp_rememberLastSelection="true"
+                        app:ccp_showNameCode="false" />
+
+                    <EditText
+                        android:id="@+id/loginPhoneEt"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@null"
+                        android:inputType="phone" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/invalidPhoneTv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_16dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="@dimen/_16dp"
+                    android:text="يرجى ادخال رقم هاتف صالح"
+                    android:textColor="#F00"
+                    android:visibility="gone" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/loginNextBtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_16dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginEnd="@dimen/_16dp"
+                    android:background="@drawable/_10_blue_rect"
+                    android:fontFamily="@font/cairo_semibold"
+                    android:text="التالي"
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_16dp"
+                    android:layout_marginBottom="30dp"
+                    android:fontFamily="@font/cairo_semibold"
+                    android:text="تخطي"
+                    android:textAlignment="center"
+                    android:textColor="@color/_92"
+                    android:textSize="14sp" />
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/invalidPhoneTv"
-                android:layout_width="match_parent"
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline2"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="يرجى ادخال رقم هاتف صالح"
-                android:textColor="#F00"
-                android:layout_marginTop="5dp"
-                android:visibility="gone"
-                android:layout_marginEnd="@dimen/_16dp"
-                android:layout_marginStart="@dimen/_16dp"/>
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.1" />
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/loginNextBtn"
-                android:layout_width="match_parent"
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline3"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_16dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginEnd="@dimen/_16dp"
-                android:background="@drawable/_10_blue_rect"
-                android:fontFamily="@font/cairo_semibold"
-                android:text="التالي"
-                android:textColor="@color/white"
-                android:textSize="14sp" />
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.9" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_16dp"
-                android:fontFamily="@font/cairo_semibold"
-                android:text="تخطي"
-                android:textAlignment="center"
-                android:textColor="@color/_92"
-                android:textSize="14sp" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
 
 
-        </LinearLayout>
-
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline7"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.6" />
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline8"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.56" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
