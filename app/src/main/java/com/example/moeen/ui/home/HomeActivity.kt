@@ -37,6 +37,7 @@ class HomeActivity : BaseActivity() {
         lifecycleScope.launch(Dispatchers.IO){
             viewModel.homeState.collect{ state ->
                 when(state){
+                    ApiResult.Empty -> {}
                     ApiResult.Loading -> withContext(Dispatchers.Main){
                         loadingDialog().show()
                     }
@@ -57,6 +58,7 @@ class HomeActivity : BaseActivity() {
         lifecycleScope.launch(Dispatchers.IO){
             viewModel.postsState.collect{ state ->
                 when(state){
+                    ApiResult.Empty -> {}
                     ApiResult.Loading -> withContext(Dispatchers.Main){
                         loadingDialog().show()
                     }

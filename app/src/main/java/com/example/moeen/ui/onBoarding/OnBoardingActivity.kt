@@ -27,11 +27,7 @@ class OnBoardingActivity : AppCompatActivity() {
             if(binding.pager.currentItem != 2){
                 binding.pager.currentItem = binding.pager.currentItem.plus(1)
             } else {
-                /*Intent(this, LoginActivity::class.java).apply {
-                    startActivity(this)
-                    finish()
-                }*/
-                Intent(this, HomeActivity::class.java).apply {
+                Intent(this, LoginActivity::class.java).apply {
                     startActivity(this)
                     finish()
                 }
