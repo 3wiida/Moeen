@@ -5,5 +5,6 @@ import com.example.moeen.utils.resultWrapper.performSafeApiCall
 import javax.inject.Inject
 
 class LoginRepository @Inject constructor(val api:ApiServices) {
-    fun login(phone:String,country:String,token:String) = performSafeApiCall { api.loginUser(phone, country, token) }
+    suspend fun login(phone:String,country:String,token:String) = performSafeApiCall { api.loginUser(phone, country, token) }
+    suspend fun getCountries() = performSafeApiCall { api.getCountries() }
 }

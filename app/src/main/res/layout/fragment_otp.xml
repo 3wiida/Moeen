@@ -82,13 +82,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="25dp"
-            android:cursorVisible="true"
+            android:cursorVisible="false"
             app:itemCount="6"
             app:itemRadius="15dp"
+            android:inputType="number"
             app:layout_constraintEnd_toStartOf="@+id/guideline9"
             app:layout_constraintStart_toStartOf="@+id/guideline10"
             app:layout_constraintTop_toBottomOf="@+id/textView4"
-            app:lineColor="#ECECEE" />
+            app:lineColor="@drawable/pinview_selector" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/otpNextBtn"

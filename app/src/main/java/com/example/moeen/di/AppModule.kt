@@ -1,5 +1,6 @@
 package com.example.moeen.di
 
+import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
 import com.example.moeen.common.Constants.BASE_URL
@@ -53,4 +54,5 @@ object AppModule {
     fun provideBundle():Bundle{
         return Bundle()
     }
+
 }
