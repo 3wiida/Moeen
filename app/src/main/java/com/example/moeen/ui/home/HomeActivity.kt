@@ -1,5 +1,6 @@
 package com.example.moeen.ui.home
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -9,6 +10,7 @@ import com.example.moeen.base.BaseActivity
 import com.example.moeen.databinding.ActivityHomeBinding
 import com.example.moeen.network.model.homeResponse.HomeResponse
 import com.example.moeen.network.model.postsResponse.PostsResponse
+import com.example.moeen.ui.pathologyFile.PathologyFile
 import com.example.moeen.utils.resultWrapper.ApiResult
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
@@ -30,6 +32,17 @@ class HomeActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        binding.ivMedicalProfileHome.setOnClickListener {
+            Intent(this, PathologyFile::class.java).also {
+                startActivity(it)
+            }
+        }
+        binding.tvMedicalProfileHome.setOnClickListener {
+            Intent(this, PathologyFile::class.java).also {
+                startActivity(it)
+            }
+        }
 
         viewModel.getHome()
         viewModel.getPosts()
