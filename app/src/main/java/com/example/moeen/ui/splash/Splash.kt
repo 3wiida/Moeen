@@ -18,11 +18,15 @@ class Splash : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.splash_layout)
         Handler(Looper.getMainLooper()).postDelayed({
-            if(viewModel.isLoggedIn()){
+            /*if(viewModel.isLoggedIn()){
                 startActivity(Intent(this, LoginActivity::class.java))
                 finish()
             }else{
                 startActivity(Intent(this,OnBoardingActivity::class.java))
+                finish()
+            }*/
+            Intent(this, OnBoardingActivity::class.java).also {
+                startActivity(it)
                 finish()
             }
         },1000L)

@@ -5,6 +5,6 @@ import com.google.firebase.ktx.Firebase
 
 object Constants {
     const val BASE_URL = "https://moeeen.com/api/"
-    const val TAG = "moeen"
+    const val TAG = "mo3en"
     val auth = Firebase.auth
 }

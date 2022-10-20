@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/miMore"
+        android:title="المزيد"
+        android:icon="@drawable/ic_home_more"/>
+
+    <item
+        android:id="@+id/miEmpty"
+        android:title="الحجوزات"
+        android:enabled="false"/>
+
+    <item
+        android:id="@+id/miProfile"
+        android:title="الملف الطبى"
+        android:icon="@drawable/ic_home_profile"/>
+
+</menu>

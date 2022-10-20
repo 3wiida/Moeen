@@ -9,6 +9,17 @@
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="on_boarding1">بضغطة زر تلاقينا</string>
+    <string name="on_boarding2">معاك في اصعب الاوقات</string>
+    <string name="on_boarding3">مٌعين..ابتسامتك علينا</string>
+    <string name="next_button">Next Button</string>
+    <string name="bottom_navigation1">المزيد</string>
+    <string name="bottom_navigation2">الحجوزات</string>
+    <string name="bottom_navigation3">الملف الطبى</string>
+    <string name="home1">خدمات النقل</string>
+    <string name="home2">خدمات الوفيات</string>
+    <string name="home3">الخدمات الطبية</string>
+    <string name="home4">كيفك اليوم؟؟</string>
+    <string name="ambulance">نقل المرضي</string>
+    <string name="how_are_you1">معدل السكر الطبيعي</string>
 </resources>
