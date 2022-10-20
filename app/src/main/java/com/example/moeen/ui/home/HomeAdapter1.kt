@@ -8,7 +8,9 @@ import android.widget.TextView
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.moeen.R
+import com.example.moeen.network.model.homeResponse.Service
 
 class HomeAdapter1 : RecyclerView.Adapter<HomeAdapter1.MyViewHolder>() {
 
@@ -17,18 +19,18 @@ class HomeAdapter1 : RecyclerView.Adapter<HomeAdapter1.MyViewHolder>() {
         val title : TextView = itemView.findViewById(R.id.tvHomeItem1)
     }
 
-    private val differCallback = object : DiffUtil.ItemCallback<HomeItem1>(){
-        override fun areItemsTheSame(oldItem: HomeItem1, newItem: HomeItem1): Boolean {
-            return oldItem.title == newItem.title
+    private val differCallback = object : DiffUtil.ItemCallback<Service>(){
+        override fun areItemsTheSame(oldItem: Service, newItem: Service): Boolean {
+            return oldItem.id == newItem.id
         }
 
-        override fun areContentsTheSame(oldItem: HomeItem1, newItem: HomeItem1): Boolean {
+        override fun areContentsTheSame(oldItem: Service, newItem: Service): Boolean {
             return oldItem == newItem
         }
     }
     private val differ = AsyncListDiffer(this, differCallback)
 
-    var homeList1 : List<HomeItem1>
+    var homeList1 : List<Service>
         get() = differ.currentList
         set(value) = differ.submitList(value)
 
@@ -40,9 +42,14 @@ class HomeAdapter1 : RecyclerView.Adapter<HomeAdapter1.MyViewHolder>() {
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val item = homeList1[position]
+        /*if(position == 0){
+            val layoutParams = holder.itemView.layoutParams as ViewGroup.MarginLayoutParams
+            layoutParams.setMargins(0, 8, 8, 8)
+            holder.itemView.layoutParams = layoutParams
+        }*/
         holder.apply {
-            image.setImageResource(item.image)
-            title.text = item.title
+            Glide.with(holder.itemView).load(item.photo).into(image)
+            title.text = item.name
         }
     }
 

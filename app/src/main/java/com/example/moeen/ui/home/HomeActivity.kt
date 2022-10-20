@@ -5,26 +5,102 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.moeen.R
+import com.example.moeen.base.BaseActivity
 import com.example.moeen.databinding.ActivityHomeBinding
 import com.example.moeen.ui.pathologyFile.PathologyFile
 import com.google.android.material.shape.CornerFamily
 import com.google.android.material.shape.MaterialShapeDrawable
+import com.example.moeen.network.model.homeResponse.HomeResponse
+import com.example.moeen.network.model.postsResponse.PostsResponse
+import com.example.moeen.utils.resultWrapper.ApiResult
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
-class HomeActivity : AppCompatActivity() {
+@AndroidEntryPoint
+class HomeActivity : BaseActivity() {
 
     private lateinit var binding: ActivityHomeBinding
-    private lateinit var adapter1: HomeAdapter1
-    private lateinit var adapter2: HomeAdapter1
-    private lateinit var adapter3: HomeAdapter1
-    private lateinit var adapter4: HomeAdapter2
-    private lateinit var adapter5: HomeViewPagerAdapter
+    private val viewModel : HomeViewModel by viewModels()
+    private val adapter1 = HomeAdapter1()
+    private val adapter2 = HomeAdapter1()
+    private val adapter3 = HomeAdapter1()
+    private val adapter4 = HomeAdapter2()
+    private val adapter5 = HomeViewPagerAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        //binding.bottomNavigation.background = null
+        viewModel.getHome()
+        viewModel.getPosts()
+
+        lifecycleScope.launch(Dispatchers.IO){
+            viewModel.homeState.collect{ state ->
+                when(state){
+                    ApiResult.Loading -> withContext(Dispatchers.Main){
+                        loadingDialog().show()
+                    }
+                    is ApiResult.Failure -> withContext(Dispatchers.Main){
+                        loadingDialog().cancel()
+                        showToast(this@HomeActivity, R.string.unknowError.toString())
+                    }
+                    is ApiResult.Success<*> -> withContext(Dispatchers.Main){
+                        loadingDialog().cancel()
+                        val result = state.data as HomeResponse
+                        prepareRecyclers(result)
+                    }
+                }
+            }
+        }
+
+        lifecycleScope.launch(Dispatchers.IO){
+            viewModel.postsState.collect{ state ->
+                when(state){
+                    ApiResult.Loading -> withContext(Dispatchers.Main){
+                        loadingDialog().show()
+                    }
+                    is ApiResult.Failure -> withContext(Dispatchers.Main){
+                        loadingDialog().cancel()
+                        showToast(this@HomeActivity, R.string.unknowError.toString())
+                    }
+                    is ApiResult.Success<*> -> withContext(Dispatchers.Main){
+                        loadingDialog().cancel()
+                        val result = state.data as PostsResponse
+                        preparePostsRecycler(result)
+                    }
+                }
+            }
+        }
+    }
+
+    private fun prepareRecyclers(result : HomeResponse){
+        binding.rvMoveServices.adapter = adapter1
+        binding.rvMoveServices.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        adapter1.homeList1 = result.data[0].services
+
+        binding.rvDeadServices.adapter = adapter2
+        binding.rvDeadServices.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        adapter2.homeList1 = result.data[1].services
+
+        binding.rvMedicalServices.adapter = adapter3
+        binding.rvMedicalServices.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        adapter3.homeList1 = result.data[2].services
+
+        binding.vpHome.adapter = adapter5
+        adapter5.list = result.sliders
+    }
+
+    private fun preparePostsRecycler(result: PostsResponse){
+        binding.rvHowAreYouToday.adapter = adapter4
+        binding.rvHowAreYouToday.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        adapter4.homeList2 = result.data
+    }
+}
+
+/*binding.bottomNavigation.background = null
 
         adapter1 = HomeAdapter1()
         adapter2 = HomeAdapter1()
@@ -83,3 +159,4 @@ class HomeActivity : AppCompatActivity() {
 
     }
 }
+        binding.rvHowAreYouToday.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)*/

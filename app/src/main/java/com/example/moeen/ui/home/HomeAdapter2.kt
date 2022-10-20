@@ -5,10 +5,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.view.marginEnd
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CenterInside
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.moeen.R
+import com.example.moeen.network.model.postsResponse.Data
 
 class HomeAdapter2 : RecyclerView.Adapter<HomeAdapter2.MyViewHolder>() {
 
@@ -17,18 +22,18 @@ class HomeAdapter2 : RecyclerView.Adapter<HomeAdapter2.MyViewHolder>() {
         val title : TextView = itemView.findViewById(R.id.tvHomeItem2)
     }
 
-    private val differCallback = object : DiffUtil.ItemCallback<HomeItem1>(){
-        override fun areItemsTheSame(oldItem: HomeItem1, newItem: HomeItem1): Boolean {
+    private val differCallback = object : DiffUtil.ItemCallback<Data>(){
+        override fun areItemsTheSame(oldItem: Data, newItem: Data): Boolean {
             return oldItem.title == newItem.title
         }
 
-        override fun areContentsTheSame(oldItem: HomeItem1, newItem: HomeItem1): Boolean {
+        override fun areContentsTheSame(oldItem: Data, newItem: Data): Boolean {
             return oldItem == newItem
         }
     }
     private val differ = AsyncListDiffer(this, differCallback)
 
-    var homeList2 : List<HomeItem1>
+    var homeList2 : List<Data>
         get() = differ.currentList
         set(value) = differ.submitList(value)
 
@@ -40,8 +45,13 @@ class HomeAdapter2 : RecyclerView.Adapter<HomeAdapter2.MyViewHolder>() {
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val item = homeList2[position]
+        /*if(position == 0){
+            val layoutParams = holder.itemView.layoutParams as ViewGroup.MarginLayoutParams
+            layoutParams.setMargins(0, 5, 5, 30)
+            holder.itemView.layoutParams = layoutParams
+        }*/
         holder.apply {
-            image.setImageResource(item.image)
+            Glide.with(itemView).load(item.photo).transform(CenterInside(), RoundedCorners(50)).into(image)
             title.text = item.title
         }
     }
