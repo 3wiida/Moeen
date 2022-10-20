@@ -5,26 +5,24 @@ import android.app.Activity
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
-import android.provider.ContactsContract.RawContacts.Data
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.findNavController
 import com.example.moeen.R
 import com.example.moeen.base.BaseFragment
 import com.example.moeen.common.Constants.TAG
 import com.example.moeen.databinding.FragmentOtpBinding
+import com.example.moeen.ui.Login.LoginViewModel.Companion.code
+import com.example.moeen.ui.Login.LoginViewModel.Companion.resendToken
 import com.example.moeen.ui.home.HomeActivity
 import com.example.moeen.utils.resultWrapper.ApiResult
 import com.google.firebase.auth.PhoneAuthProvider
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -63,7 +61,7 @@ class OtpFragment : BaseFragment() {
             binding.resendOtpTv.isEnabled = false
             binding.resendOtpTv.setTextColor(Color.parseColor("#8F9596"))
             binding.resendOtpTimer.visibility = View.VISIBLE
-            viewModel.resendOtpCode(activity as Activity,bundle.getString("phoneNumber")!!,bundle.getParcelable<PhoneAuthProvider.ForceResendingToken>("resendToken")!!)
+            viewModel.resendOtpCode(activity as Activity,bundle.getString("phoneNumber")!!,resendToken)
             loadingDialog().dismiss()
         }
 
@@ -78,21 +76,18 @@ class OtpFragment : BaseFragment() {
 
         //TODO next btn click handle----------------------------------------------------------------------
         binding.otpNextBtn.setOnClickListener {
-            loadingDialog().show()
 
-            if(binding.pinView.text!!.isEmpty() || bundle.getString("OTPCode")==null){
+            if(binding.pinView.text!!.isEmpty() || code==null){
                 binding.wrongOtpErrorMessageTv.visibility = View.VISIBLE
-
             }else{
-
-                val credential = PhoneAuthProvider.getCredential(bundle.getString("OTPCode")!!,binding.pinView.text.toString())
+                Log.d(TAG, "onViewCreated: $code")
+                val credential = PhoneAuthProvider.getCredential(code,binding.pinView.text.toString())
                 viewModel.signInWithCredential(credential)
 
-                viewModel.authValidation.observe(viewLifecycleOwner) {
-                    if (it == "Success") {
+                viewModel.sendCodeState.observe(viewLifecycleOwner) {
+                    if (it == "success") {
                         binding.wrongOtpErrorMessageTv.visibility = View.GONE
-
-                        //TODO fire login goal------------------------
+                        //TODO fire login call------------------------
                         viewModel.login(bundle.getString("phoneNumber").toString(),bundle.getString("countryName").toString(),"123")
                         lifecycleScope.launch {
                             viewModel.apiState.collect{ apiResult ->
