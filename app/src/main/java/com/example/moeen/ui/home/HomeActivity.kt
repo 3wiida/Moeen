@@ -1,15 +1,12 @@
 package com.example.moeen.ui.home
 
-import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.activity.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.moeen.R
 import com.example.moeen.base.BaseActivity
 import com.example.moeen.databinding.ActivityHomeBinding
-import com.example.moeen.ui.pathologyFile.PathologyFile
-import com.google.android.material.shape.CornerFamily
-import com.google.android.material.shape.MaterialShapeDrawable
 import com.example.moeen.network.model.homeResponse.HomeResponse
 import com.example.moeen.network.model.postsResponse.PostsResponse
 import com.example.moeen.utils.resultWrapper.ApiResult
@@ -40,6 +37,7 @@ class HomeActivity : BaseActivity() {
         lifecycleScope.launch(Dispatchers.IO){
             viewModel.homeState.collect{ state ->
                 when(state){
+                    ApiResult.Empty -> {}
                     ApiResult.Loading -> withContext(Dispatchers.Main){
                         loadingDialog().show()
                     }
@@ -59,6 +57,7 @@ class HomeActivity : BaseActivity() {
         lifecycleScope.launch(Dispatchers.IO){
             viewModel.postsState.collect{ state ->
                 when(state){
+                    ApiResult.Empty -> {}
                     ApiResult.Loading -> withContext(Dispatchers.Main){
                         loadingDialog().show()
                     }
