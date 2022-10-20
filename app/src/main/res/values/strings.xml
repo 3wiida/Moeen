@@ -25,4 +25,25 @@
     <string name="home4">كيفك اليوم؟؟</string>
     <string name="ambulance">نقل المرضي</string>
     <string name="how_are_you1">معدل السكر الطبيعي</string>
+
+    <string-array name="nationalities">
+        <item>مصرى</item>
+        <item>سعودى</item>
+    </string-array>
+
+    <string-array name="gender">
+        <item>ذكر</item>
+        <item>أنثى</item>
+    </string-array>
+
+    <string-array name="bloodType">
+        <item>A+</item>
+        <item>A-</item>
+        <item>B+</item>
+        <item>B-</item>
+        <item>AB+</item>
+        <item>AB-</item>
+        <item>O+</item>
+        <item>O-</item>
+    </string-array>
 </resources>

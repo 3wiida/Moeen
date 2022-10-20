@@ -1,10 +1,12 @@
 package com.example.moeen.ui.home
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.moeen.R
 import com.example.moeen.databinding.ActivityHomeBinding
+import com.example.moeen.ui.pathologyFile.PathologyFile
 import com.google.android.material.shape.CornerFamily
 import com.google.android.material.shape.MaterialShapeDrawable
 
@@ -71,7 +73,13 @@ class HomeActivity : AppCompatActivity() {
         binding.rvMedicalServices.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         binding.rvHowAreYouToday.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
 
+        binding.ivMedicalProfileHome.setOnClickListener {
+            startActivity(Intent(this,PathologyFile::class.java))
+        }
 
+        binding.tvMedicalProfileHome.setOnClickListener {
+            startActivity(Intent(this,PathologyFile::class.java))
+        }
 
     }
 }

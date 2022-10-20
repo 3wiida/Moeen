@@ -1,4 +1,22 @@
 pluginManagement {
+
+
+    plugins {
+        id 'dagger.hilt.android.plugin'
+        id 'androidx.navigation'
+        id 'org.jetbrains.kotlin.android' version '1.7.10'
+    }
+    resolutionStrategy {
+        eachPlugin {
+            if (requested.id.id == 'dagger.hilt.android.plugin') {
+                useModule("com.google.dagger:hilt-android-gradle-plugin:2.42")
+            }
+            if (requested.id.id == 'androidx.navigation.safeargs') {
+                useModule("androidx.navigation:navigation-safe-args-gradle-plugin:2.3.5")
+            }
+        }
+
+    }
     repositories {
         gradlePluginPortal()
         google()

@@ -1,7 +1,9 @@
 package com.example.moeen.base
 
+import android.app.Activity
 import android.app.Dialog
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.ViewGroup
 import android.widget.Toast
@@ -27,5 +29,9 @@ open class BaseFragment :Fragment() {
         dialog.setCancelable(false)
         dialog.window?.attributes?.windowAnimations= R.style.loadingDialogAnimation
         return dialog
+    }
+
+    public fun start_activity(activity:Activity){
+        startActivity(Intent(requireActivity(),activity::class.java))
     }
 }

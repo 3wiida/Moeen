@@ -37,11 +37,14 @@ class LoginViewModel @Inject constructor(@ApplicationContext val context: Contex
     private var _otpTimer: MutableStateFlow<Int> = MutableStateFlow(59)
     var otpTimer: StateFlow<Int> = _otpTimer
 
-    private var _sendCodeState: MutableLiveData<String> = MutableLiveData()
-    var sendCodeState: LiveData<String> = _sendCodeState
-
     private var _apiState:MutableStateFlow<ApiResult> = MutableStateFlow(ApiResult.Loading)
     var apiState:StateFlow<ApiResult> =_apiState
+
+    private var otpStateFlow:MutableStateFlow<ApiResult> = MutableStateFlow(ApiResult.Empty)
+    fun getOtpStateFlow():StateFlow<ApiResult> = otpStateFlow
+
+    private lateinit var mCallbacks: PhoneAuthProvider.OnVerificationStateChangedCallbacks
+    var mVerificationId=""
 
     //-----------------------------------------------------------------------------------
 
@@ -49,7 +52,7 @@ class LoginViewModel @Inject constructor(@ApplicationContext val context: Contex
     //Logic Section
 
     fun checkPhoneValidation(phone: EditText): Boolean {
-        return !(phone.text!!.isEmpty() || phone.text.toString()[0] != '0' || phone.text.toString().length != 11)
+        return !(phone.text!!.isEmpty())
     }
 
     fun startResendOtpTimer() {
@@ -63,51 +66,53 @@ class LoginViewModel @Inject constructor(@ApplicationContext val context: Contex
         }
     }
 
-    fun sendOtpCode(context: Context, phone: String) {
-        var options = PhoneAuthOptions.newBuilder(auth).apply {
-            setPhoneNumber(phone)
-            setActivity(context as Activity)
-            setTimeout(60L, TimeUnit.SECONDS)
-            setCallbacks(callBacks)
+    fun verifyCode(code:String,context:Activity){
+        if(mVerificationId.isNotBlank()){
+            otpStateFlow.value=ApiResult.Loading
+            var credential=PhoneAuthProvider.getCredential(mVerificationId,code)
+            signInWithPhoneAuthCredential(credential,context)
+        }
+    }
+
+    fun initCallback(context: Activity){
+        mCallbacks=object:PhoneAuthProvider.OnVerificationStateChangedCallbacks(){
+            override fun onVerificationCompleted(p0: PhoneAuthCredential) {
+                signInWithPhoneAuthCredential(p0,context)
+            }
+
+            override fun onVerificationFailed(p0: FirebaseException) {
+                otpStateFlow.value=ApiResult.Failure(null,p0.message.toString())
+            }
+
+            override fun onCodeSent(p0: String, p1: PhoneAuthProvider.ForceResendingToken) {
+                super.onCodeSent(p0, p1)
+                mVerificationId=p0
+            }
+        }
+    }
+
+    fun sendCode(phoneNumber:String,context: Activity){
+        initCallback(context)
+        var options=PhoneAuthOptions.newBuilder().apply {
+            setPhoneNumber(phoneNumber)
+            setTimeout(60L,TimeUnit.SECONDS)
+            setActivity(context)
+            setCallbacks(mCallbacks)
         }.build()
         PhoneAuthProvider.verifyPhoneNumber(options)
     }
 
-    fun resendOtpCode(context: Context,phone: String,resendingToken: PhoneAuthProvider.ForceResendingToken){
-        var options = PhoneAuthOptions.newBuilder(auth).apply {
-            setPhoneNumber(phone)
-            setActivity(context as Activity)
-            setTimeout(60L, TimeUnit.SECONDS)
-            setCallbacks(callBacks)
-            setForceResendingToken(resendingToken)
-        }.build()
-        PhoneAuthProvider.verifyPhoneNumber(options)
-    }
-
-    private val callBacks= object :PhoneAuthProvider.OnVerificationStateChangedCallbacks(){
-        override fun onVerificationCompleted(p0: PhoneAuthCredential) {
-            signInWithCredential(p0)
-        }
-
-        override fun onVerificationFailed(p0: FirebaseException) {
-            _sendCodeState.postValue(p0.message)
-        }
-
-        override fun onCodeSent(p0: String, p1: PhoneAuthProvider.ForceResendingToken) {
-            code=p0
-            resendToken=p1
-        }
-    }
-
-    fun signInWithCredential(credential: PhoneAuthCredential){
-        auth.signInWithCredential(credential).addOnCompleteListener{
-            if(it.isSuccessful){
-                _sendCodeState.postValue("success")
+    fun signInWithPhoneAuthCredential(credential:PhoneAuthCredential,context: Activity){
+        auth.signInWithCredential(credential).addOnCompleteListener{ task ->
+            otpStateFlow.value=ApiResult.Empty
+            if(task.isSuccessful){
+                otpStateFlow.value=ApiResult.Success("success")
             }else{
-                if (it.exception is FirebaseAuthInvalidCredentialsException) {
-                    _sendCodeState.postValue("invalid code")
+                if(task.exception is FirebaseAuthInvalidCredentialsException){
+                    otpStateFlow.value=ApiResult.Failure(message = "Invalid Code")
+                    Log.d(TAG, "signInWithPhoneAuthCredential: ${task.exception?.message}")
                 }else{
-                    _sendCodeState.postValue(it.exception?.message)
+                    otpStateFlow.value=ApiResult.Failure(message = task.exception?.message.toString())
                 }
             }
         }
@@ -135,10 +140,4 @@ class LoginViewModel @Inject constructor(@ApplicationContext val context: Contex
             }
         }
     }
-
-    companion object{
-        lateinit var code:String
-        lateinit var resendToken:PhoneAuthProvider.ForceResendingToken
-    }
-
 }

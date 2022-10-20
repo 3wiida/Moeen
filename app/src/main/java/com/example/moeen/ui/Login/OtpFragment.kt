@@ -1,7 +1,6 @@
 package com.example.moeen.ui.Login
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
@@ -16,22 +15,26 @@ import com.example.moeen.R
 import com.example.moeen.base.BaseFragment
 import com.example.moeen.common.Constants.TAG
 import com.example.moeen.databinding.FragmentOtpBinding
-import com.example.moeen.ui.Login.LoginViewModel.Companion.code
-import com.example.moeen.ui.Login.LoginViewModel.Companion.resendToken
 import com.example.moeen.ui.home.HomeActivity
 import com.example.moeen.utils.resultWrapper.ApiResult
-import com.google.firebase.auth.PhoneAuthProvider
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class OtpFragment : BaseFragment() {
-    @Inject lateinit var bundle: Bundle
     lateinit var binding: FragmentOtpBinding
     private val viewModel: LoginViewModel by viewModels()
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+
+    // args params
+    lateinit var phone: String
+    lateinit var country: String
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_otp, container, false)
         return binding.root
     }
@@ -40,6 +43,8 @@ class OtpFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        //to get args from prev fragment on navigate
+        getArgs()
 
         //TODO start timer for resend code -----------------------------------------------------------------
         viewModel.startResendOtpTimer()
@@ -55,16 +60,13 @@ class OtpFragment : BaseFragment() {
         }
 
         //TODO resend code click handle-------------------------------------------------------------------
-        binding.resendOtpTv.setOnClickListener {
-            loadingDialog().show()
+        /*binding.resendOtpTv.setOnClickListener {
             viewModel.startResendOtpTimer()
             binding.resendOtpTv.isEnabled = false
             binding.resendOtpTv.setTextColor(Color.parseColor("#8F9596"))
             binding.resendOtpTimer.visibility = View.VISIBLE
             viewModel.resendOtpCode(activity as Activity,bundle.getString("phoneNumber")!!,resendToken)
-            loadingDialog().dismiss()
-        }
-
+        }*/
 
 
         //TODO back btn click handle----------------------------------------------------------------------
@@ -73,45 +75,65 @@ class OtpFragment : BaseFragment() {
         }
 
 
-
         //TODO next btn click handle----------------------------------------------------------------------
         binding.otpNextBtn.setOnClickListener {
-
-            if(binding.pinView.text!!.isEmpty() || code==null){
-                binding.wrongOtpErrorMessageTv.visibility = View.VISIBLE
-            }else{
-                Log.d(TAG, "onViewCreated: $code")
-                val credential = PhoneAuthProvider.getCredential(code,binding.pinView.text.toString())
-                viewModel.signInWithCredential(credential)
-
-                viewModel.sendCodeState.observe(viewLifecycleOwner) {
-                    if (it == "success") {
-                        binding.wrongOtpErrorMessageTv.visibility = View.GONE
-                        //TODO fire login call------------------------
-                        viewModel.login(bundle.getString("phoneNumber").toString(),bundle.getString("countryName").toString(),"123")
-                        lifecycleScope.launch {
-                            viewModel.apiState.collect{ apiResult ->
-                                when(apiResult){
-                                    is ApiResult.Failure -> {
-                                        loadingDialog().cancel()
-                                        showToast(requireContext(),R.string.unknowError.toString())
-                                    }
-                                    ApiResult.Loading -> loadingDialog().show()
-                                    is ApiResult.Success<*> -> {
-                                        loadingDialog().cancel()
-                                        startActivity(Intent(activity, HomeActivity::class.java))
-                                        activity?.finish()
-                                    }
-                                }
-                            }
+            viewModel.verifyCode(binding.pinView.text.toString(), requireActivity())
+            lifecycleScope.launch {
+                viewModel.getOtpStateFlow().collect {
+                    when (it) {
+                        ApiResult.Empty -> {}
+                        is ApiResult.Failure -> {
+                            loadingDialog().dismiss()
+                            binding.wrongOtpErrorMessageTv.visibility=View.VISIBLE
+                            Log.d(TAG, "onViewCreated: ${it.message}")
                         }
-                    } else {
-                        binding.wrongOtpErrorMessageTv.visibility = View.VISIBLE
+                        ApiResult.Loading -> {
+                            loadingDialog().show()
+                        }
+                        is ApiResult.Success<*> -> {
+                            loadingDialog().cancel()
+                            binding.wrongOtpErrorMessageTv.visibility=View.GONE
+                            login(phone,country,"123")
+                            Log.d(TAG, "onViewCreated: success")
+                        }
                     }
                 }
-                loadingDialog().dismiss()
             }
         }
     }
+
+    private fun getArgs() {
+        val args = arguments?.let {
+            OtpFragmentArgs.fromBundle(
+                it
+            )
+        }
+        // assert args value to vars
+        phone = args?.phoneNumber!!
+        country = args.country
+        viewModel.sendCode(phone, requireActivity())
+    }
+
+    private fun login(phone:String,country:String,token:String){
+        viewModel.login(phone,country,"123")
+        lifecycleScope.launch {
+            viewModel.apiState.collect{ apiResult ->
+                when(apiResult){
+                    ApiResult.Loading -> loadingDialog().show()
+                    is ApiResult.Failure -> {
+                        loadingDialog().cancel()
+                        showToast(requireContext(),R.string.unknowError.toString())
+                    }
+                    is ApiResult.Success<*> -> {
+                        loadingDialog().cancel()
+                        startActivity(Intent(activity, HomeActivity::class.java))
+                        activity?.finish()
+                    }
+                    ApiResult.Empty -> {}
+                }
+            }
+        }
+    }
+
 }
 

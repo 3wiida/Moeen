@@ -3,7 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.moeen">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+
+
+
 
     <application
         android:name=".di.MyApplication"
@@ -16,6 +19,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Moeen"
         tools:targetApi="31">
+        <activity
+            android:name=".ui.pathologyFile.PathologyFile"
+            android:exported="false" />
         <activity
             android:name=".ui.home.HomeActivity"
             android:exported="true">
@@ -31,8 +37,8 @@
             android:exported="true" />
         <activity
             android:name=".ui.splash.Splash"
-            android:theme="@style/splashTheme"
-            android:exported="true">
+            android:exported="true"
+            android:theme="@style/splashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

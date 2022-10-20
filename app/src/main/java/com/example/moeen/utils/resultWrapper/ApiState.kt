@@ -10,7 +10,6 @@ import java.io.IOException
 sealed class ResultWrapper <out T> {
     data class Success<T>(val results: T) : ResultWrapper<T>()
     data class Failure(val code: Int? = null, val message: String? = null) : ResultWrapper<Nothing>()
-
 }
 
 suspend fun <T> performSafeApiCall(apiCall:suspend () -> T) :ResultWrapper<T>{
@@ -39,6 +38,7 @@ private fun convertErrorBody(e:HttpException):String{
 }
 
 sealed class ApiResult{
+    object Empty:ApiResult()
     object Loading:ApiResult()
     data class Success <T> (val data:T):ApiResult()
     data class Failure(val code:Int?=null,val message: String?=null):ApiResult()
