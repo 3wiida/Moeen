@@ -95,7 +95,7 @@ class LoginViewModel @Inject constructor(@ApplicationContext val context: Contex
         initCallback(context)
         var options=PhoneAuthOptions.newBuilder().apply {
             setPhoneNumber(phoneNumber)
-            setTimeout(60L,TimeUnit.SECONDS)
+            setTimeout(0L,TimeUnit.SECONDS)
             setActivity(context)
             setCallbacks(mCallbacks)
         }.build()
