@@ -20,7 +20,7 @@
         android:theme="@style/Theme.Moeen"
         tools:targetApi="31">
         <activity
-            android:name=".ui.pathologyFile.PathologyFile"
+            android:name=".ui.pathologyFile.PathologyFileActivity"
             android:exported="false" />
         <activity
             android:name=".ui.home.HomeActivity"

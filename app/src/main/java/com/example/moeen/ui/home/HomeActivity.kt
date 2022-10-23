@@ -10,7 +10,7 @@ import com.example.moeen.base.BaseActivity
 import com.example.moeen.databinding.ActivityHomeBinding
 import com.example.moeen.network.model.homeResponse.HomeResponse
 import com.example.moeen.network.model.postsResponse.PostsResponse
-import com.example.moeen.ui.pathologyFile.PathologyFile
+import com.example.moeen.ui.pathologyFile.PathologyFileActivity
 import com.example.moeen.utils.resultWrapper.ApiResult
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
@@ -34,12 +34,12 @@ class HomeActivity : BaseActivity() {
         setContentView(binding.root)
 
         binding.ivMedicalProfileHome.setOnClickListener {
-            Intent(this, PathologyFile::class.java).also {
+            Intent(this, PathologyFileActivity::class.java).also {
                 startActivity(it)
             }
         }
         binding.tvMedicalProfileHome.setOnClickListener {
-            Intent(this, PathologyFile::class.java).also {
+            Intent(this, PathologyFileActivity::class.java).also {
                 startActivity(it)
             }
         }

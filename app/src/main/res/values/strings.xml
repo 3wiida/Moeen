@@ -25,6 +25,8 @@
     <string name="home4">كيفك اليوم؟؟</string>
     <string name="ambulance">نقل المرضي</string>
     <string name="how_are_you1">معدل السكر الطبيعي</string>
+    <string name="noName">لا يوجد اسم</string>
+    <string name="n">null</string>
 
     <string-array name="nationalities">
         <item>مصرى</item>

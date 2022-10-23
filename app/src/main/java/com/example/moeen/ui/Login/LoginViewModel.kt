@@ -45,6 +45,7 @@ class LoginViewModel @Inject constructor(@ApplicationContext val context: Contex
 
     private lateinit var mCallbacks: PhoneAuthProvider.OnVerificationStateChangedCallbacks
     var mVerificationId=""
+    lateinit var mResendToken: PhoneAuthProvider.ForceResendingToken
 
     //-----------------------------------------------------------------------------------
 
@@ -87,6 +88,7 @@ class LoginViewModel @Inject constructor(@ApplicationContext val context: Contex
             override fun onCodeSent(p0: String, p1: PhoneAuthProvider.ForceResendingToken) {
                 super.onCodeSent(p0, p1)
                 mVerificationId=p0
+                mResendToken=p1
             }
         }
     }
@@ -97,6 +99,18 @@ class LoginViewModel @Inject constructor(@ApplicationContext val context: Contex
             setPhoneNumber(phoneNumber)
             setTimeout(0L,TimeUnit.SECONDS)
             setActivity(context)
+            setCallbacks(mCallbacks)
+        }.build()
+        PhoneAuthProvider.verifyPhoneNumber(options)
+    }
+
+    fun resendCode(phoneNumber:String,context: Activity){
+        initCallback(context)
+        var options=PhoneAuthOptions.newBuilder().apply {
+            setPhoneNumber(phoneNumber)
+            setTimeout(0L,TimeUnit.SECONDS)
+            setActivity(context)
+            setForceResendingToken(mResendToken)
             setCallbacks(mCallbacks)
         }.build()
         PhoneAuthProvider.verifyPhoneNumber(options)
@@ -125,8 +139,8 @@ class LoginViewModel @Inject constructor(@ApplicationContext val context: Contex
             when(val response = repo.login(phone, country, token)){
                 is ResultWrapper.Failure -> _apiState.value=ApiResult.Failure(response.code,response.message)
                 is ResultWrapper.Success -> {
-                    _apiState.value=ApiResult.Success(response.results)
                     saveInPref(context,USER_TOKEN,response.results.data.token)
+                    _apiState.value=ApiResult.Success(response.results)
                 }
             }
         }

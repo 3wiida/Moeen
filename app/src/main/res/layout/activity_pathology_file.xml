@@ -4,13 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <import type="com.example.moeen.ui.pathologyFile.PathologyFileViewModel"/>
+        <import type="android.content.Context"/>
+        <variable
+            name="viewModel"
+            type="PathologyFileViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.pathologyFile.PathologyFile">
+        tools:context=".ui.pathologyFile.PathologyFileActivity">
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
@@ -84,16 +88,18 @@
                     android:id="@+id/editTextTextPersonName"
                     android:layout_width="0dp"
                     android:layout_height="50dp"
-                    android:ems="10"
-                    android:textSize="@dimen/_14sp"
-                    android:fontFamily="@font/cairo_regular"
-                    android:inputType="textPersonName"
-                    android:textDirection="rtl"
-                    android:textColor="@color/black"
+                    android:layout_marginTop="16dp"
                     android:background="@drawable/_10_gray_rect"
-                    android:layout_marginTop="20dp"
+                    android:ems="10"
+                    android:fontFamily="@font/cairo_regular"
                     android:hint="الإسم بالكامل"
+                    android:inputType="textPersonName"
+                    android:text="@{viewModel.apiResult.data.user.name}"
+                    android:textColor="@color/black"
+                    android:textDirection="rtl"
+                    android:textSize="@dimen/_14sp"
                     app:layout_constraintEnd_toStartOf="@+id/guideline4"
+                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="@+id/guideline12"
                     app:layout_constraintTop_toBottomOf="@+id/textView8" />
 
@@ -105,6 +111,7 @@
                     android:ems="10"
                     android:fontFamily="@font/cairo_regular"
                     android:hint="رقم الهوية"
+                    android:text="@{viewModel.apiResult.data.user.national_id}"
                     android:layout_marginTop="@dimen/_10dp"
                     android:inputType="number"
                     android:textDirection="rtl"
@@ -144,23 +151,31 @@
 
 
                 <EditText
+                    android:id="@+id/personBirthday"
                     android:layout_width="0dp"
                     android:layout_height="50dp"
                     android:layout_marginTop="@dimen/_10dp"
                     android:layout_weight="1"
+                    android:gravity="center|right"
                     android:background="@drawable/_10_gray_rect"
-                    android:drawableStart="@android:drawable/ic_menu_today"
                     android:hint="تاريخ الميلاد"
+                    android:clickable="false"
+                    android:cursorVisible="false"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:text="@{viewModel.date}"
+                    android:fontFamily="@font/cairo_regular"
+                    android:onClick="@{() -> viewModel.showDataPickerDialog(context)}"
                     app:layout_constraintEnd_toStartOf="@+id/guideline14"
                     app:layout_constraintStart_toStartOf="@+id/guideline12"
-                    app:layout_constraintTop_toBottomOf="@+id/nationalitySpinner" />
+                    app:layout_constraintTop_toBottomOf="@+id/nationalitySpinner"
+                    app:drawableStartCompat="@android:drawable/ic_menu_today"
+                    tools:ignore="RtlHardcoded" />
 
                     <Spinner
                         android:id="@+id/bloodTypeSpinner"
                         android:layout_width="0dp"
                         android:layout_height="50dp"
-
-
                         android:layout_marginTop="@dimen/_10dp"
                         android:background="@drawable/_10_gray_rect"
                         android:entries="@array/bloodType"
@@ -179,6 +194,7 @@
                         android:layout_weight="1"
                         android:fontFamily="@font/cairo_regular"
                         android:hint="الوزن"
+                        android:text="@{String.valueOf(viewModel.apiResult.data.user.weight)}"
                         android:inputType="number"
                         android:textDirection="rtl"
                         android:textColor="@color/black"
@@ -189,7 +205,7 @@
                         app:layout_constraintTop_toBottomOf="@+id/bloodTypeSpinner" />
 
                     <EditText
-                        android:id="@+id/pesonLength"
+                        android:id="@+id/personLength"
                         android:layout_width="0dp"
                         android:layout_height="50dp"
                         android:background="@drawable/_10_gray_rect"
@@ -197,14 +213,16 @@
                         android:layout_weight="1"
                         android:fontFamily="@font/cairo_regular"
                         android:hint="الطول"
-                        android:inputType="textPersonName"
+                        android:text="@{viewModel.apiResult.data.user.length.toString()}"
+                        android:inputType="number"
                         android:textDirection="rtl"
                         android:textColor="@color/black"
                         android:textSize="@dimen/_14sp"
                         android:layout_marginTop="10dp"
                         app:layout_constraintEnd_toStartOf="@+id/guideline4"
                         app:layout_constraintStart_toStartOf="@+id/guideline13"
-                        app:layout_constraintTop_toBottomOf="@+id/bloodTypeSpinner" />
+                        app:layout_constraintTop_toBottomOf="@+id/bloodTypeSpinner"
+                        tools:ignore="TextFields" />
 
 
 
@@ -218,12 +236,13 @@
                     android:fontFamily="@font/cairo_regular"
                     android:hint="رقم التأمين ان وجد"
                     android:inputType="number"
+                    android:text="@{viewModel.apiResult.data.user.insurance_number.toString()}"
                     android:textDirection="rtl"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_14sp"
                     app:layout_constraintEnd_toStartOf="@+id/guideline4"
                     app:layout_constraintStart_toStartOf="@+id/guideline12"
-                    app:layout_constraintTop_toBottomOf="@+id/pesonLength" />
+                    app:layout_constraintTop_toBottomOf="@+id/personLength" />
 
                 <Spinner
                     android:id="@+id/chronicDiseases"
@@ -231,7 +250,7 @@
                     android:layout_height="50dp"
                     android:layout_weight="1"
                     android:background="@drawable/_10_gray_rect"
-                    android:entries="@array/bloodType"
+                    android:entries="@{viewModel.chronicState}"
                     android:layoutDirection="rtl"
                     android:layout_marginTop="@dimen/_10dp"
                     android:textDirection="rtl"
@@ -239,21 +258,23 @@
                     app:layout_constraintStart_toStartOf="@+id/guideline4"
                     app:layout_constraintTop_toBottomOf="@+id/personTameenNumber" />
 
-                <EditText
+                <Spinner
                     android:id="@+id/personRegion"
                     android:layout_width="0dp"
                     android:layout_height="50dp"
+                    android:layout_marginTop="@dimen/_10dp"
                     android:background="@drawable/_10_gray_rect"
                     android:ems="10"
                     android:fontFamily="@font/cairo_regular"
                     android:hint="المنطقة"
                     android:inputType="text"
-                    android:textDirection="rtl"
+
+                    android:layoutDirection="rtl"
                     android:textColor="@color/black"
-                    android:layout_marginTop="@dimen/_10dp"
+                    android:textDirection="rtl"
                     android:textSize="@dimen/_14sp"
-                    app:layout_constraintEnd_toStartOf="@+id/guideline4"
-                    app:layout_constraintStart_toStartOf="@+id/guideline12"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline12"
+                    app:layout_constraintStart_toStartOf="@+id/guideline4"
                     app:layout_constraintTop_toBottomOf="@+id/chronicDiseases" />
 
                 <EditText

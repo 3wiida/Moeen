@@ -27,7 +27,7 @@ object AppModule {
         return OkHttpClient.Builder().addInterceptor {
             it.proceed(
                 it.request().newBuilder()
-                    .addHeader("Authorization", "Bearer " + getFromPref(context, USER_TOKEN, ""))
+                    .addHeader("Authorization", "Bearer ${getFromPref(context, USER_TOKEN, "")}")
                     .build()
             )
         }.build()

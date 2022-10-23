@@ -1,7 +1,5 @@
 package com.example.moeen.ui.Login
 
-import android.app.Activity
-import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -48,7 +46,7 @@ class LoginFragment : BaseFragment() {
                 when (it) {
                     is ApiResult.Failure -> {
                         loadingDialog().cancel()
-                        showToast(requireContext(), R.string.unknowError.toString())
+                        showToast(requireContext(), it.message.toString())
                     }
                     ApiResult.Loading -> loadingDialog().show()
                     is ApiResult.Success<*> -> {

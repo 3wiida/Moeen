@@ -60,13 +60,13 @@ class OtpFragment : BaseFragment() {
         }
 
         //TODO resend code click handle-------------------------------------------------------------------
-        /*binding.resendOtpTv.setOnClickListener {
+        binding.resendOtpTv.setOnClickListener {
             viewModel.startResendOtpTimer()
             binding.resendOtpTv.isEnabled = false
             binding.resendOtpTv.setTextColor(Color.parseColor("#8F9596"))
             binding.resendOtpTimer.visibility = View.VISIBLE
-            viewModel.resendOtpCode(activity as Activity,bundle.getString("phoneNumber")!!,resendToken)
-        }*/
+            viewModel.resendCode(phone,requireActivity())
+        }
 
 
         //TODO back btn click handle----------------------------------------------------------------------
@@ -126,8 +126,9 @@ class OtpFragment : BaseFragment() {
                     }
                     is ApiResult.Success<*> -> {
                         loadingDialog().cancel()
-                        startActivity(Intent(activity, HomeActivity::class.java))
-                        activity?.finish()
+                        val intent=Intent(activity, HomeActivity::class.java)
+                        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                        startActivity(intent)
                     }
                     ApiResult.Empty -> {}
                 }
