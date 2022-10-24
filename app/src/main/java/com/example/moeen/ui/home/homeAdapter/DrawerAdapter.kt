@@ -18,6 +18,8 @@ class DrawerAdapter : RecyclerView.Adapter<DrawerAdapter.MyViewHolder>() {
     inner class MyViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView){
         val title: TextView = itemView.findViewById(R.id.tvDrawerItem)
         val image : ImageView = itemView.findViewById(R.id.ivDrawerItem)
+
+
     }
 
     private val differCallback = object : DiffUtil.ItemCallback<DrawerMenuItem>(){
