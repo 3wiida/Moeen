@@ -5,9 +5,6 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
 
-
-
-
     <application
         android:name=".di.MyApplication"
         android:allowBackup="true"
@@ -19,6 +16,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Moeen"
         tools:targetApi="31">
+        <activity
+            android:name=".ui.home.transportServices.ambulance.AmbulanceActivity"
+            android:exported="false" />
         <activity
             android:name=".ui.pathologyFile.PathologyFileActivity"
             android:exported="false" />

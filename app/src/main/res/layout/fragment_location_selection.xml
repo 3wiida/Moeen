@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+       <import type="android.content.Context"/>
+        <import type="com.example.moeen.ui.home.transportServices.ambulance.locationSelection.LocationSelectionViewModel"/>
+        <variable
+            name="viewModel"
+            type="LocationSelectionViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.home.transportServices.ambulance.locationSelection.LocationSelectionFragment">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline19"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.04" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline20"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.96" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline21"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.02" />
+
+
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toStartOf="@+id/guideline20"
+            app:layout_constraintStart_toStartOf="@+id/guideline19"
+            app:layout_constraintTop_toTopOf="@+id/guideline21">
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:fontFamily="@font/cairo_semibold"
+                android:gravity="center"
+                android:text="حساب التكلفة"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+
+            <ImageButton
+                android:id="@+id/backBtn"
+                android:layout_width="20dp"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent"
+                android:src="@drawable/backbtn" />
+        </LinearLayout>
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:fillViewport="true"
+            android:overScrollMode="never"
+            app:layout_constraintEnd_toStartOf="@+id/guideline20"
+            app:layout_constraintStart_toStartOf="@+id/guideline19"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingTop="30dp"
+                android:paddingRight="5dp"
+                android:paddingLeft="5dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textView6"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/cairo_regular"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_14sp"
+                    android:layout_marginBottom="10dp"
+                    android:text="مكان التحرك" />
+
+                <EditText
+                    android:id="@+id/editTextTextPersonName2"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:ems="10"
+                    android:clickable="false"
+                    android:cursorVisible="false"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:drawableLeft="@drawable/ic_location"
+                    android:hint="قم بتحديد مكان التحرك"
+                    android:fontFamily="@font/cairo_regular"
+                    android:textSize="@dimen/_12sp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:background="@drawable/_15_gray_rect"
+                    android:inputType="textPersonName" />
+
+                <TextView
+                    android:id="@+id/textView9"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/cairo_regular"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_14sp"
+                    android:layout_marginTop="15dp"
+                    android:text="مكان الوصول"
+
+                    android:layout_marginBottom="10dp" />
+
+                <EditText
+                    android:id="@+id/editTextTextPersonName3"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:ems="10"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:inputType="textPersonName"
+                    android:clickable="false"
+                    android:cursorVisible="false"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:hint="قم بتحديد مكان الوصول"
+                    android:drawableLeft="@drawable/ic_location"
+                    android:background="@drawable/_15_gray_rect"
+                    android:fontFamily="@font/cairo_regular"
+                    android:textSize="@dimen/_12sp" />
+
+                <TextView
+                    android:id="@+id/textView10"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/cairo_regular"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_14sp"
+                    android:layout_marginTop="15dp"
+                    android:text="نوع السيارة"
+                    android:layout_marginBottom="10dp" />
+
+                <Spinner
+                    android:id="@+id/ambulanceCarTypeSpinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:ems="10"
+                    android:textDirection="rtl"
+                    android:layoutDirection="rtl"
+                    android:entries="@{viewModel.cars}"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:background="@drawable/_15_gray_rect"
+                    android:fontFamily="@font/cairo_regular"
+                    android:textSize="@dimen/_12sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/textView12"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/cairo_regular"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_14sp"
+                        android:layout_marginTop="15dp"
+                        android:text="الوقت"
+                        android:layout_weight="1"
+                        android:layout_marginBottom="10dp" />
+
+                    <TextView
+                        android:id="@+id/textView11"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/cairo_regular"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_14sp"
+                        android:layout_marginTop="15dp"
+                        android:text="التاريخ"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginBottom="10dp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/ambulanceTimeSelectionEt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="50dp"
+                        android:ems="10"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:inputType="textPersonName"
+                        android:layout_weight="1"
+                        android:clickable="false"
+                        android:cursorVisible="false"
+                        android:focusable="false"
+                        android:onClick="@{()->viewModel.showTimePickerDialog(context)}"
+                        android:text="@{viewModel.time}"
+                        android:textDirection="rtl"
+                        android:focusableInTouchMode="false"
+                        android:hint="قم بتحديد الوقت"
+                        android:drawableLeft="@drawable/ic_clock"
+                        android:background="@drawable/_15_gray_rect"
+                        android:fontFamily="@font/cairo_regular"
+                        android:drawablePadding="5dp"
+                        android:textSize="@dimen/_12sp" />
+
+                    <EditText
+                        android:id="@+id/ambulanceDateSelectionEt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="50dp"
+                        android:layout_marginLeft="15dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/_15_gray_rect"
+                        android:clickable="false"
+                        android:cursorVisible="false"
+                        android:drawableLeft="@drawable/ic_calendar"
+                        android:drawablePadding="5dp"
+                        android:ems="10"
+                        android:textDirection="rtl"
+                        android:focusable="false"
+                        android:focusableInTouchMode="false"
+                        android:fontFamily="@font/cairo_regular"
+                        android:hint="قم بتحديد التاريخ"
+                        android:inputType="textPersonName"
+                        android:onClick="@{() -> viewModel.showDatePickerDialog(context)}"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:text="@{viewModel.date}"
+                        android:textSize="@dimen/_12sp" />
+
+                </LinearLayout>
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/otpNextBtn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/_10_blue_rect"
+            android:fontFamily="@font/cairo_semibold"
+            android:text="التكلفة   0.00"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:layout_marginBottom="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/guideline20"
+            app:layout_constraintStart_toStartOf="@+id/guideline19" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

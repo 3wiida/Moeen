@@ -1,5 +1,6 @@
 package com.example.moeen.network.api
 
+import com.example.moeen.network.model.carsTypesResponse.CarsTypesResponse
 import com.example.moeen.network.model.chronicDiseaseResponse.ChronicDiseaseResponse
 import com.example.moeen.network.model.countriesResponse.CountriesResponse
 import com.example.moeen.network.model.homeResponse.HomeResponse
@@ -36,4 +37,7 @@ interface ApiServices {
 
     @GET("v1/chronic-diseases")
     suspend fun getChronicDiseases():ChronicDiseaseResponse
+
+    @GET("v1/car-types")
+    suspend fun getCarTypes():CarsTypesResponse
 }

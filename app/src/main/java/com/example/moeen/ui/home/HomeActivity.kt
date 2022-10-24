@@ -10,6 +10,10 @@ import com.example.moeen.base.BaseActivity
 import com.example.moeen.databinding.ActivityHomeBinding
 import com.example.moeen.network.model.homeResponse.HomeResponse
 import com.example.moeen.network.model.postsResponse.PostsResponse
+import com.example.moeen.ui.home.homeAdapter.HomeAdapter1
+import com.example.moeen.ui.home.homeAdapter.HomeAdapter2
+import com.example.moeen.ui.home.homeAdapter.HomeViewPagerAdapter
+import com.example.moeen.ui.home.transportServices.ambulance.AmbulanceActivity
 import com.example.moeen.ui.pathologyFile.PathologyFileActivity
 import com.example.moeen.utils.resultWrapper.ApiResult
 import dagger.hilt.android.AndroidEntryPoint
@@ -105,6 +109,12 @@ class HomeActivity : BaseActivity() {
 
         binding.vpHome.adapter = adapter5
         adapter5.list = result.sliders
+
+        adapter1.onItemClick ={ pos->
+            when(pos){
+                0 -> startActivity(Intent(this,AmbulanceActivity::class.java))
+            }
+        }
     }
 
     private fun preparePostsRecycler(result: PostsResponse){

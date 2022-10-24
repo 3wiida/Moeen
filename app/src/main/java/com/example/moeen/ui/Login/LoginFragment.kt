@@ -88,6 +88,7 @@ class LoginFragment : BaseFragment() {
 
         binding.skipLogin.setOnClickListener{
             start_activity(HomeActivity())
+            activity?.finish()
         }
     }
 

@@ -7,12 +7,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.moeen.network.model.profileResponse.ProfileResponse
-import com.example.moeen.network.model.profileResponse.State
 import com.example.moeen.utils.PrefUtils.PrefKeys.USER_TOKEN
 import com.example.moeen.utils.PrefUtils.PrefUtils.Companion.getFromPref
 import com.example.moeen.utils.resultWrapper.ApiResult
 import com.example.moeen.utils.resultWrapper.ResultWrapper
-import com.google.android.gms.common.api.Api
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -31,6 +29,7 @@ class PathologyFileViewModel @Inject constructor(val repo: PathologyRepository) 
     //get profile state flow
     private var _apiState :MutableStateFlow<ApiResult> = MutableStateFlow(ApiResult.Empty)
     var apisate:StateFlow<ApiResult> = _apiState
+
     //this for dataBinding when success
     private var _apiResult:MutableLiveData<ProfileResponse> = MutableLiveData()
     var apiResult :LiveData<ProfileResponse> = _apiResult

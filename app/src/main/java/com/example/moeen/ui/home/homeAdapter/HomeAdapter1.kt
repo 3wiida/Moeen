@@ -1,4 +1,4 @@
-package com.example.moeen.ui.home
+package com.example.moeen.ui.home.homeAdapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -28,6 +28,7 @@ class HomeAdapter1 : RecyclerView.Adapter<HomeAdapter1.MyViewHolder>() {
             return oldItem == newItem
         }
     }
+    var onItemClick: ((Int)-> Unit)?=null
     private val differ = AsyncListDiffer(this, differCallback)
 
     var homeList1 : List<Service>
@@ -42,14 +43,12 @@ class HomeAdapter1 : RecyclerView.Adapter<HomeAdapter1.MyViewHolder>() {
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val item = homeList1[position]
-        /*if(position == 0){
-            val layoutParams = holder.itemView.layoutParams as ViewGroup.MarginLayoutParams
-            layoutParams.setMargins(0, 8, 8, 8)
-            holder.itemView.layoutParams = layoutParams
-        }*/
         holder.apply {
             Glide.with(holder.itemView).load(item.photo).into(image)
             title.text = item.name
+        }
+        holder.itemView.setOnClickListener{
+            onItemClick?.invoke(position)
         }
     }
 
