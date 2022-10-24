@@ -14,6 +14,7 @@ import com.example.moeen.ui.home.homeAdapter.HomeAdapter1
 import com.example.moeen.ui.home.homeAdapter.HomeAdapter2
 import com.example.moeen.ui.home.homeAdapter.HomeViewPagerAdapter
 import com.example.moeen.ui.home.transportServices.ambulance.AmbulanceActivity
+import com.example.moeen.ui.home.homeAdapter.DrawerAdapter
 import com.example.moeen.ui.pathologyFile.PathologyFileActivity
 import com.example.moeen.utils.resultWrapper.ApiResult
 import dagger.hilt.android.AndroidEntryPoint
@@ -31,6 +32,7 @@ class HomeActivity : BaseActivity() {
     private val adapter3 = HomeAdapter1()
     private val adapter4 = HomeAdapter2()
     private val adapter5 = HomeViewPagerAdapter()
+    private val drawerAdapter = DrawerAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -92,6 +94,16 @@ class HomeActivity : BaseActivity() {
                 }
             }
         }
+
+        /*val toggle = ActionBarDrawerToggle(this, binding.drawerLayout, R.string.app_name, R.string.app_name)
+        binding.drawerLayout.addDrawerListener(toggle)
+        toggle.syncState()*/
+
+
+
+
+
+
     }
 
     private fun prepareRecyclers(result : HomeResponse){
@@ -115,6 +127,18 @@ class HomeActivity : BaseActivity() {
                 0 -> startActivity(Intent(this,AmbulanceActivity::class.java))
             }
         }
+
+        binding.rvMenu.adapter = drawerAdapter
+        binding.rvMenu.layoutManager = LinearLayoutManager(this)
+        binding.rvMenu.hasFixedSize()
+        drawerAdapter.drawerList = listOf(
+            DrawerMenuItem("الحجوزات والطلبات", R.drawable.ic_menu_reservations),
+            DrawerMenuItem("الدعم والمساعدة", R.drawable.ic_menu_support),
+            DrawerMenuItem("التقارير الطبية", R.drawable.ic_menu_reports),
+            DrawerMenuItem("مركز المساعدة", R.drawable.ic_menu_help_center),
+            DrawerMenuItem("الاعدادات", R.drawable.ic_menu_settings),
+            DrawerMenuItem("تسجيل الخروج", R.drawable.ic_menu_logout)
+        )
     }
 
     private fun preparePostsRecycler(result: PostsResponse){

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/_8dp"
+    android:layout_marginBottom="@dimen/_8dp"
+    android:gravity="center">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/tvDrawerItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="الحجوزات والطلبات"
+            android:textSize="13sp"
+            android:fontFamily="@font/cairo_regular"
+            android:textColor="@color/_70"
+            android:layout_weight="50"/>
+
+        <ImageView
+            android:id="@+id/ivDrawerItem"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginStart="@dimen/_16dp"
+            android:layout_marginEnd="@dimen/_16dp"
+            android:src="@drawable/ic_menu_reservations"
+            android:layout_weight="1"/>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:alpha="0.5"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="@dimen/_16dp"
+        android:background="@color/_70"/>
+
+</LinearLayout>
