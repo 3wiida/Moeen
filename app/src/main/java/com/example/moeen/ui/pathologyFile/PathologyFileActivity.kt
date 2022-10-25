@@ -2,17 +2,23 @@ package com.example.moeen.ui.pathologyFile
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.example.moeen.R
 import com.example.moeen.base.BaseActivity
+import com.example.moeen.common.Constants.TAG
 import com.example.moeen.databinding.ActivityPathologyFileBinding
+import com.example.moeen.network.model.profileResponse.BloodType
+import com.example.moeen.network.model.profileResponse.Country
 import com.example.moeen.network.model.profileResponse.ProfileResponse
+import com.example.moeen.network.model.profileResponse.Region
 import com.example.moeen.ui.Login.LoginActivity
 import com.example.moeen.ui.pathologyFile.adapters.BloodTypeSpinnerAdapter
 import com.example.moeen.ui.pathologyFile.adapters.DiseasesSpinnerAdapter
 import com.example.moeen.ui.pathologyFile.adapters.NationalitySpinnerAdapter
+import com.example.moeen.ui.pathologyFile.adapters.RegionSpinnerAdapter
 import com.example.moeen.ui.pathologyFile.pojo.NewProfileModel
 import com.example.moeen.utils.resultWrapper.ApiResult
 import dagger.hilt.android.AndroidEntryPoint
@@ -49,6 +55,9 @@ class PathologyFileActivity : BaseActivity() {
                             binding.bloodTypeSpinner.adapter=BloodTypeSpinnerAdapter(this@PathologyFileActivity,it.data.data.blood_types.toMutableList())
                             binding.chronicDiseases.adapter=DiseasesSpinnerAdapter(this@PathologyFileActivity,it.data.data.diseases.toMutableList())
                             binding.nationalitySpinner.adapter=NationalitySpinnerAdapter(this@PathologyFileActivity,it.data.data.countries.toMutableList())
+                            binding.personRegion.adapter=RegionSpinnerAdapter(this@PathologyFileActivity,it.data.data.regions.toMutableList())
+
+                            //binding.personRegion.setSelection(it.data.data.regions.indexOf(it.data.data.user.region))
                             loadingDialog().dismiss()
                         }
                     }
@@ -57,16 +66,21 @@ class PathologyFileActivity : BaseActivity() {
 
             /** save profile call */
             binding.pathologyFileSaveBTn.setOnClickListener {
+
                 val name = binding.editTextTextPersonName.text.toString().trim()
-                val nationalityId = binding.personId.text.toString().toInt()
+                val nationalityId = binding.personId.text.toString()
                 val weight = binding.personWeight.text.toString().toInt()
                 val length = binding.personLength.text.toString().toInt()
                 val insuranceNumber = binding.personTameenNumber.text.toString().trim()
-                //val bloodType=binding.bloodTypeSpinner.selectedItem.toString()
-                //val gender= binding.genderSpinner.selectedItem.toString()
-                //val nationality=binding.nationalitySpinner.selectedItem.toString()
-                val newProfile = NewProfileModel("1", "B+", name,"female" , photo = null, nationalityId, "مصرى", weight, length, insuranceNumber)
+                val bloodType=(binding.bloodTypeSpinner.selectedItem as BloodType).name!!
+                val gender=if(binding.genderSpinner.selectedItem.toString() =="ذكر") "male" else "female"
+                val nationality=(binding.nationalitySpinner.selectedItem as Country).nationality
+                val notes=binding.personAdditionalInfo.text.toString()
+                val region=(binding.personRegion.selectedItem as Region).id
+
+                val newProfile = NewProfileModel(region, bloodType, name,gender , photo = null, nationalityId, nationality, weight, length, insuranceNumber,notes)
                 viewModel.updateProfile(newProfile)
+
                 lifecycleScope.launch {
                     viewModel.updateProfile.collect { result ->
                         when (result) {

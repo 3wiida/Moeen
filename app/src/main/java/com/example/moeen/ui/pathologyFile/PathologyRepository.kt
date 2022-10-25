@@ -19,7 +19,8 @@ class PathologyRepository @Inject constructor(private val apiServices: ApiServic
             newProfile.nationality,
             newProfile.weight,
             newProfile.length,
-            newProfile.insurance_number
+            newProfile.insurance_number,
+            newProfile.notes
         )
     }
 }

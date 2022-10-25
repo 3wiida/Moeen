@@ -44,15 +44,16 @@ interface ApiServices {
     @FormUrlEncoded
     @POST("v1/update-profile")
     suspend fun updateProfile(
-        @Field("region_id") region_id:String,
+        @Field("region_id") region_id:Int,
         @Field("blood_type") blood_type:String,
         @Field("name") name:String,
         @Field("gender") gender:String,
         @Field("photo") photo: String?=null,
-        @Field("national_id") national_id: Int,
+        @Field("national_id") national_id: String,
         @Field("nationality") nationality: String,
         @Field("weight") weight: Int,
         @Field("length") length: Int,
         @Field("insurance_number") insurance_number: String,
+        @Field("notes") notes:String
     )
 }

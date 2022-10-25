@@ -290,6 +290,7 @@
                     android:fontFamily="@font/cairo_regular"
                     android:hint="ملاحظات اضافية"
                     android:inputType="text"
+                    android:text="@{user.notes.toString()}"
                     android:textDirection="rtl"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_14sp"
