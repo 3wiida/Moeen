@@ -39,7 +39,7 @@ class OtpFragment : BaseFragment() {
         return binding.root
     }
 
-    @SuppressLint("ResourceAsColor")
+    @SuppressLint("ResourceAsColor", "SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -47,11 +47,10 @@ class OtpFragment : BaseFragment() {
         getArgs()
 
         //TODO start timer for resend code -----------------------------------------------------------------
-        viewModel.startResendOtpTimer()
-        lifecycleScope.launch(Dispatchers.Main) {
-            viewModel.otpTimer.collect {
-                binding.resendOtpTimer.text = " ( 0:$it )"
-                if (it == 0) {
+        lifecycleScope.launch{
+            viewModel.startResendOtpTimer().collect{
+                binding.resendOtpTimer.text = " ( 0:" + (if(it<10)"0$it )" else "$it )")
+                if(it==0){
                     binding.resendOtpTv.setTextColor(Color.parseColor("#01B7CD"))
                     binding.resendOtpTv.isEnabled = true
                     binding.resendOtpTimer.visibility = View.GONE
@@ -61,7 +60,16 @@ class OtpFragment : BaseFragment() {
 
         //TODO resend code click handle-------------------------------------------------------------------
         binding.resendOtpTv.setOnClickListener {
-            viewModel.startResendOtpTimer()
+            lifecycleScope.launchWhenStarted {
+                viewModel.startResendOtpTimer().collect{
+                    binding.resendOtpTimer.text = " ( 0:" + (if(it<10)"0$it )" else "$it )")
+                    if(it==0){
+                        binding.resendOtpTv.setTextColor(Color.parseColor("#01B7CD"))
+                        binding.resendOtpTv.isEnabled = true
+                        binding.resendOtpTimer.visibility = View.GONE
+                    }
+                }
+            }
             binding.resendOtpTv.isEnabled = false
             binding.resendOtpTv.setTextColor(Color.parseColor("#8F9596"))
             binding.resendOtpTimer.visibility = View.VISIBLE

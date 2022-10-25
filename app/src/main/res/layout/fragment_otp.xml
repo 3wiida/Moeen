@@ -56,7 +56,7 @@
 
             <ImageButton
                 android:id="@+id/backBtn"
-                android:layout_width="wrap_content"
+                android:layout_width="30dp"
                 android:layout_height="match_parent"
                 android:background="@android:color/transparent"
                 android:src="@drawable/backbtn" />
@@ -137,6 +137,7 @@
                 android:enabled="false"
                 android:fontFamily="@font/cairo_semibold"
                 android:text="اعادة الارسال"
+
                 android:textColor="#8F9596"
                 android:textSize="13sp"
                 app:layout_constraintStart_toStartOf="@+id/guideline10"
@@ -146,7 +147,7 @@
                 android:id="@+id/resendOtpTimer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="  ( 0:59 )"
+                android:text=" ( 0:59 )"
                 app:layout_constraintEnd_toStartOf="@+id/guideline9"
                 app:layout_constraintStart_toEndOf="@+id/resendOtpTv"
                 app:layout_constraintTop_toBottomOf="@+id/pinView" />
