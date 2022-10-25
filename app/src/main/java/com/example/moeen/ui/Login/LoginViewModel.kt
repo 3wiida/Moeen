@@ -24,8 +24,10 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -34,9 +36,6 @@ import javax.inject.Inject
 class LoginViewModel @Inject constructor(@ApplicationContext val context: Context,val repo: LoginRepository, bundle: Bundle) : ViewModel() {
 
     //Mutable State Flow Section
-    private var _otpTimer: MutableStateFlow<Int> = MutableStateFlow(59)
-    var otpTimer: StateFlow<Int> = _otpTimer
-
     private var _apiState:MutableStateFlow<ApiResult> = MutableStateFlow(ApiResult.Loading)
     var apiState:StateFlow<ApiResult> =_apiState
 
@@ -56,7 +55,7 @@ class LoginViewModel @Inject constructor(@ApplicationContext val context: Contex
         return !(phone.text!!.isEmpty())
     }
 
-    fun startResendOtpTimer() {
+    /*fun startResendOtpTimer() {
         viewModelScope.launch(Dispatchers.Default) {
             var i = 60
             while (i > 0) {
@@ -64,6 +63,15 @@ class LoginViewModel @Inject constructor(@ApplicationContext val context: Contex
                 i -= 1
                 delay(1000L)
             }
+        }
+    }*/
+
+    fun startResendOtpTimer() = flow {
+        var i=59
+        while(i>=0){
+            emit(i)
+            i--
+            delay(1000L)
         }
     }
 

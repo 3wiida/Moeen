@@ -40,4 +40,19 @@ interface ApiServices {
 
     @GET("v1/car-types")
     suspend fun getCarTypes():CarsTypesResponse
+
+    @FormUrlEncoded
+    @POST("v1/update-profile")
+    suspend fun updateProfile(
+        @Field("region_id") region_id:String,
+        @Field("blood_type") blood_type:String,
+        @Field("name") name:String,
+        @Field("gender") gender:String,
+        @Field("photo") photo: String?=null,
+        @Field("national_id") national_id: Int,
+        @Field("nationality") nationality: String,
+        @Field("weight") weight: Int,
+        @Field("length") length: Int,
+        @Field("insurance_number") insurance_number: String,
+    )
 }

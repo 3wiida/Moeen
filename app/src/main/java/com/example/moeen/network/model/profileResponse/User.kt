@@ -12,7 +12,7 @@ data class User(
     val hospital_client: Any,
     val id: Int,
     val insurance_number: Any,
-    val length: Any,
+    val length: Int,
     val name: String,
     val national_id: String,
     val nationality: String,

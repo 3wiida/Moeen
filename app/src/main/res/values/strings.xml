@@ -28,24 +28,8 @@
     <string name="noName">لا يوجد اسم</string>
     <string name="n">null</string>
 
-    <string-array name="nationalities">
-        <item>مصرى</item>
-        <item>سعودى</item>
-    </string-array>
-
-    <string-array name="gender">
+    <string-array name="genders">
         <item>ذكر</item>
         <item>أنثى</item>
-    </string-array>
-
-    <string-array name="bloodType">
-        <item>A+</item>
-        <item>A-</item>
-        <item>B+</item>
-        <item>B-</item>
-        <item>AB+</item>
-        <item>AB-</item>
-        <item>O+</item>
-        <item>O-</item>
     </string-array>
 </resources>

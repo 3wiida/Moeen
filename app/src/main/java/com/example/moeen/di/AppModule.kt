@@ -28,6 +28,7 @@ object AppModule {
             it.proceed(
                 it.request().newBuilder()
                     .addHeader("Authorization", "Bearer ${getFromPref(context, USER_TOKEN, "")}")
+                    .addHeader("Content-Type","application/json")
                     .build()
             )
         }.build()
