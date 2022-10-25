@@ -1,10 +1,12 @@
 package com.example.moeen.ui.home.homeAdapter
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.view.marginStart
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -13,8 +15,9 @@ import com.bumptech.glide.load.resource.bitmap.CenterInside
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.moeen.R
 import com.example.moeen.network.model.postsResponse.Data
+import com.example.moeen.utils.dpToPx
 
-class HomeAdapter2 : RecyclerView.Adapter<HomeAdapter2.MyViewHolder>() {
+class HomeAdapter2(private val context: Context) : RecyclerView.Adapter<HomeAdapter2.MyViewHolder>() {
 
     inner class MyViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView){
         val image : ImageView = itemView.findViewById(R.id.ivHomeItem2)
@@ -44,14 +47,16 @@ class HomeAdapter2 : RecyclerView.Adapter<HomeAdapter2.MyViewHolder>() {
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val item = homeList2[position]
-        /*if(position == 0){
-            val layoutParams = holder.itemView.layoutParams as ViewGroup.MarginLayoutParams
-            layoutParams.setMargins(0, 5, 5, 30)
-            holder.itemView.layoutParams = layoutParams
-        }*/
         holder.apply {
             Glide.with(itemView).load(item.photo).transform(CenterInside(), RoundedCorners(50)).into(image)
             title.text = item.title
+        }
+
+        if(position == 0){
+            val value = holder.itemView.marginStart
+            val param = holder.itemView.layoutParams as ViewGroup.MarginLayoutParams
+            param.setMargins(value, value, dpToPx(16, context), value)
+            holder.itemView.layoutParams = param
         }
     }
 

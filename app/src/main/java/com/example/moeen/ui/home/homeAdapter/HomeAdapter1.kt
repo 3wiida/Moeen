@@ -1,18 +1,26 @@
 package com.example.moeen.ui.home.homeAdapter
 
+import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.view.marginEnd
+import androidx.core.view.marginStart
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.moeen.R
+import com.example.moeen.common.Constants.TAG
 import com.example.moeen.network.model.homeResponse.Service
+import com.example.moeen.utils.dpToPx
+import javax.inject.Inject
+import kotlin.math.roundToInt
 
-class HomeAdapter1 : RecyclerView.Adapter<HomeAdapter1.MyViewHolder>() {
+class HomeAdapter1(private val context: Context) : RecyclerView.Adapter<HomeAdapter1.MyViewHolder>() {
 
     inner class MyViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView){
         val image : ImageView = itemView.findViewById(R.id.ivHomeItem1)
@@ -50,9 +58,18 @@ class HomeAdapter1 : RecyclerView.Adapter<HomeAdapter1.MyViewHolder>() {
         holder.itemView.setOnClickListener{
             onItemClick?.invoke(position)
         }
+
+        if(position == 0){
+            val value = holder.itemView.marginStart
+            val param = holder.itemView.layoutParams as ViewGroup.MarginLayoutParams
+            param.setMargins(value, value, dpToPx(16, context), value)
+            holder.itemView.layoutParams = param
+        }
     }
 
     override fun getItemCount(): Int {
         return homeList1.size
     }
 }
+
+//recycler_brands.addItemDecoration(new LinearSpacingItemDecoration(Common.dpToPx(15,this)))

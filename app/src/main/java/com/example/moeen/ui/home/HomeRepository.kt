@@ -8,4 +8,5 @@ class HomeRepository @Inject constructor(private val api : ApiServices){
 
     suspend fun getHome() = performSafeApiCall { api.getHome() }
     suspend fun getPosts() = performSafeApiCall { api.getPosts() }
+    suspend fun getProfile() = performSafeApiCall { api.getProfile() }
 }

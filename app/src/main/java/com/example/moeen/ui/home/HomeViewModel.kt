@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.moeen.utils.resultWrapper.ApiResult
 import com.example.moeen.utils.resultWrapper.ResultWrapper
+import com.google.android.gms.common.api.Api
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -19,6 +20,10 @@ class HomeViewModel @Inject constructor(private val repository: HomeRepository) 
 
     private var _postsState: MutableStateFlow<ApiResult> = MutableStateFlow(ApiResult.Loading)
     var postsState: StateFlow<ApiResult> =_postsState
+
+    private var _profileState: MutableStateFlow<ApiResult> = MutableStateFlow(ApiResult.Loading)
+    var profileState: StateFlow<ApiResult> = _profileState
+
 
     fun getHome() {
         viewModelScope.launch(Dispatchers.IO) {
@@ -41,6 +46,19 @@ class HomeViewModel @Inject constructor(private val repository: HomeRepository) 
                 }
                 is ResultWrapper.Success -> {
                     _postsState.value = ApiResult.Success(response.results)
+                }
+            }
+        }
+    }
+
+    fun getProfile() {
+        viewModelScope.launch(Dispatchers.IO) {
+            when(val response = repository.getProfile()){
+                is ResultWrapper.Failure -> {
+                    _profileState.value = ApiResult.Failure(response.code, response.message)
+                }
+                is ResultWrapper.Success -> {
+                    _profileState.value = ApiResult.Success(response.results)
                 }
             }
         }
