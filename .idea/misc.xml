@@ -3,6 +3,8 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Corptia/Mo3en/Moeen/app/src/main/res/layout/activity_home.xml" value="0.3398148148148148" />
+        <entry key="..\:/Corptia/Mo3en/Moeen/app/src/main/res/layout/app_bar_home.xml" value="0.3398148148148148" />
         <entry key="..\:/Users/Corptia 06/AndroidStudioProjects/Moeen/app/src/main/res/drawable/_10_blue_rect.xml" value="0.235" />
         <entry key="..\:/Users/Corptia 06/AndroidStudioProjects/Moeen/app/src/main/res/drawable/_10_gray_rect.xml" value="0.21" />
         <entry key="..\:/Users/Corptia 06/AndroidStudioProjects/Moeen/app/src/main/res/drawable/_10_topleft_10_topright_rect.xml" value="0.235" />
@@ -17,7 +19,6 @@
         <entry key="..\:/Users/Corptia 06/AndroidStudioProjects/Moeen/app/src/main/res/font/font.xml" value="0.38974358974358975" />
         <entry key="..\:/Users/Corptia 06/AndroidStudioProjects/Moeen/app/src/main/res/layout-land/fragment_login.xml" value="0.25" />
         <entry key="..\:/Users/Corptia 06/AndroidStudioProjects/Moeen/app/src/main/res/layout-sw320dp/fragment_login.xml" value="0.3009833262077811" />
-        <entry key="..\:/Users/Corptia 06/AndroidStudioProjects/Moeen/app/src/main/res/layout/activity_ambulance.xml" value="0.2894399315946986" />
         <entry key="..\:/Users/Corptia 06/AndroidStudioProjects/Moeen/app/src/main/res/layout/activity_home.xml" value="0.3009833262077811" />
         <entry key="..\:/Users/Corptia 06/AndroidStudioProjects/Moeen/app/src/main/res/layout/activity_login.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Corptia 06/AndroidStudioProjects/Moeen/app/src/main/res/layout/activity_login2.xml" value="0.36666666666666664" />
@@ -25,20 +26,10 @@
         <entry key="..\:/Users/Corptia 06/AndroidStudioProjects/Moeen/app/src/main/res/layout/activity_on_boarding.xml" value="0.35260416666666666" />
         <entry key="..\:/Users/Corptia 06/AndroidStudioProjects/Moeen/app/src/main/res/layout/activity_pathology_file.xml" value="0.25" />
         <entry key="..\:/Users/Corptia 06/AndroidStudioProjects/Moeen/app/src/main/res/layout/activity_pathology_file_nologin.xml" value="0.25" />
-        <entry key="..\:/Users/Corptia 06/AndroidStudioProjects/Moeen/app/src/main/res/layout/fragment_location_selection.xml" value="0.3009833262077811" />
         <entry key="..\:/Users/Corptia 06/AndroidStudioProjects/Moeen/app/src/main/res/layout/fragment_login.xml" value="0.22" />
         <entry key="..\:/Users/Corptia 06/AndroidStudioProjects/Moeen/app/src/main/res/layout/fragment_otp.xml" value="0.25" />
-        <entry key="..\:/Users/Corptia 06/AndroidStudioProjects/Moeen/app/src/main/res/layout/layout_spinner_text.xml" value="0.3009833262077811" />
         <entry key="..\:/Users/Corptia 06/AndroidStudioProjects/Moeen/app/src/main/res/layout/loading_dialog_layout.xml" value="0.30012825994014536" />
-        <entry key="..\:/Users/Corptia 06/AndroidStudioProjects/Moeen/app/src/main/res/layout/spinner_item_layout.xml" value="0.3009833262077811" />
         <entry key="..\:/Users/Corptia 06/AndroidStudioProjects/Moeen/app/src/main/res/layout/splash_layout.xml" value="0.25" />
-        <entry key="..\:/Users/Corptia/Desktop/abdo/Mo3en/Moeen/app/src/main/res/layout/activity_home.xml" value="0.3453703703703704" />
-        <entry key="..\:/Users/Corptia/Desktop/abdo/Mo3en/Moeen/app/src/main/res/layout/app_bar_home.xml" value="0.3453703703703704" />
-        <entry key="..\:/Users/Corptia/Desktop/abdo/Mo3en/Moeen/app/src/main/res/layout/drawer_header.xml" value="0.21180555555555555" />
-        <entry key="..\:/Users/Corptia/Desktop/abdo/Mo3en/Moeen/app/src/main/res/layout/drawer_layout.xml" value="0.2824074074074074" />
-        <entry key="..\:/Users/Corptia/Desktop/abdo/Mo3en/Moeen/app/src/main/res/layout/drawer_menu_item.xml" value="0.2824074074074074" />
-        <entry key="..\:/Users/Corptia/Desktop/abdo/Mo3en/Moeen/app/src/main/res/layout/drawer_profile_menu.xml" value="0.31261101243339257" />
-        <entry key="..\:/Users/Corptia/Desktop/abdo/Mo3en/Moeen/app/src/main/res/menu/drawer_menu.xml" value="0.3592592592592593" />
       </map>
     </option>
   </component>

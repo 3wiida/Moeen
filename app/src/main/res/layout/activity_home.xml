@@ -45,7 +45,7 @@
                     android:layout_width="68dp"
                     android:layout_height="68dp"
                     android:layout_marginEnd="@dimen/_16dp"
-                    android:src="@drawable/ambulance"
+                    android:src="@drawable/user_drawer_image"
                     app:layout_constraintBottom_toBottomOf="@+id/ivHeader"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@id/ivHeader"

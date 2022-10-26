@@ -2,6 +2,7 @@ package com.example.moeen.ui.home
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
 import android.view.View
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -13,11 +14,11 @@ import com.example.moeen.databinding.ActivityHomeBinding
 import com.example.moeen.network.model.homeResponse.HomeResponse
 import com.example.moeen.network.model.postsResponse.PostsResponse
 import com.example.moeen.network.model.profileResponse.ProfileResponse
+import com.example.moeen.ui.home.homeAdapter.DrawerAdapter
 import com.example.moeen.ui.home.homeAdapter.HomeAdapter1
 import com.example.moeen.ui.home.homeAdapter.HomeAdapter2
 import com.example.moeen.ui.home.homeAdapter.HomeViewPagerAdapter
 import com.example.moeen.ui.home.transportServices.ambulance.AmbulanceActivity
-import com.example.moeen.ui.home.homeAdapter.DrawerAdapter
 import com.example.moeen.ui.pathologyFile.PathologyFileActivity
 import com.example.moeen.utils.PrefUtils.PrefKeys.USER_TOKEN
 import com.example.moeen.utils.PrefUtils.PrefUtils.Companion.getFromPref
@@ -26,6 +27,8 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.util.*
+import kotlin.properties.Delegates
 
 @AndroidEntryPoint
 class HomeActivity : BaseActivity() {
@@ -38,6 +41,7 @@ class HomeActivity : BaseActivity() {
     private val adapter4 = HomeAdapter2(this)
     private val adapter5 = HomeViewPagerAdapter()
     private val drawerAdapter = DrawerAdapter()
+    private var sliderPagesNumber = 3
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -115,6 +119,23 @@ class HomeActivity : BaseActivity() {
             }
         }
 
+        var currentPage = 0
+        val handler = Handler()
+        val update = Runnable {
+            if (currentPage == sliderPagesNumber) {
+                currentPage = 0
+            }
+            binding.appBarHome.vpHome.setCurrentItem(currentPage++, true)
+        }
+
+        val timer = Timer()
+
+        timer.schedule(object : TimerTask() {
+            override fun run() {
+                handler.post(update)
+            }
+        }, 100, 3000)
+
     }
 
     private fun prepareRecyclers(result : HomeResponse){
@@ -141,6 +162,7 @@ class HomeActivity : BaseActivity() {
 
         binding.appBarHome.vpHome.adapter = adapter5
         adapter5.list = result.sliders
+        sliderPagesNumber = result.sliders.size
 
         binding.appBarHome.vpHome.visibility = View.VISIBLE
 
