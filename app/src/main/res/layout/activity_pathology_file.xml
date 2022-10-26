@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="com.example.moeen.utils.FormErrors"/>
         <import type="com.example.moeen.ui.pathologyFile.PathologyFileViewModel"/>
         <import type="android.content.Context"/>
         <variable
@@ -21,7 +22,7 @@
         android:layout_height="match_parent"
         tools:context=".ui.pathologyFile.PathologyFileActivity">
 
-        <androidx.core.widget.NestedScrollView
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fillViewport="true"
@@ -81,7 +82,7 @@
                     android:id="@+id/textView8"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم توليد هذا النص من مولد النص العربى، حيث يمكنك أن تولد مثل هذا النص أو العديد من النصوص الأخرى إضافة إلى زيادة عدد الحروف"
+                    android:text="@string/medicalFileSubTitle"
                     android:gravity="right"
                     android:fontFamily="@font/cairo_regular"
                     android:textSize="14sp"
@@ -95,8 +96,10 @@
                     android:layout_width="0dp"
                     android:layout_height="50dp"
                     android:layout_marginTop="16dp"
-                    android:background="@drawable/_10_gray_rect"
+                    android:background="@{viewModel.formErrors.contains(FormErrors.INVALID_NAME) ? @drawable/_15_red_rect : @drawable/_10_gray_rect}"
                     android:ems="10"
+                    app:errorEnabled="true"
+                    app:error='@{viewModel.formErrors.contains(FormErrors.INVALID_NAME)? "من فضلك ادخل قيمة صالحة" : null}'
                     android:fontFamily="@font/cairo_regular"
                     android:hint="الإسم بالكامل"
                     android:inputType="textPersonName"
@@ -113,8 +116,9 @@
                     android:id="@+id/personId"
                     android:layout_width="0dp"
                     android:layout_height="50dp"
-                    android:background="@drawable/_10_gray_rect"
+                    android:background="@{viewModel.formErrors.contains(FormErrors.INVALID_NATIONALITY_ID) ? @drawable/_15_red_rect : @drawable/_10_gray_rect}"
                     android:ems="10"
+                    app:error='@{viewModel.formErrors.contains(FormErrors.INVALID_NATIONALITY_ID)? "من فضلك ادخل قيمة صالحة" : null}'
                     android:fontFamily="@font/cairo_regular"
                     android:hint="رقم الهوية"
                     android:text='@{user.national_id ?? ""}'
@@ -195,11 +199,12 @@
                         android:id="@+id/personWeight"
                         android:layout_width="0dp"
                         android:layout_height="50dp"
-                        android:background="@drawable/_10_gray_rect"
+                        android:background="@{viewModel.formErrors.contains(FormErrors.INVALID_WEIGHT) ? @drawable/_15_red_rect : @drawable/_10_gray_rect}"
                         android:ems="10"
                         android:layout_weight="1"
                         android:fontFamily="@font/cairo_regular"
                         android:hint="الوزن"
+                        app:error='@{viewModel.formErrors.contains(FormErrors.INVALID_WEIGHT)? "من فضلك ادخل قيمة صالحة" : null}'
                         android:text="@{String.valueOf(user.weight)}"
                         android:inputType="number"
                         android:textDirection="rtl"
@@ -214,8 +219,9 @@
                         android:id="@+id/personLength"
                         android:layout_width="0dp"
                         android:layout_height="50dp"
-                        android:background="@drawable/_10_gray_rect"
+                        android:background="@{viewModel.formErrors.contains(FormErrors.INVALID_LENGTH) ? @drawable/_15_red_rect : @drawable/_10_gray_rect}"
                         android:ems="10"
+                        app:error='@{viewModel.formErrors.contains(FormErrors.INVALID_LENGTH)? "من فضلك ادخل قيمة صالحة" : null}'
                         android:layout_weight="1"
                         android:fontFamily="@font/cairo_regular"
                         android:hint="الطول"
@@ -321,7 +327,7 @@
                     app:layout_constraintVertical_bias="1.0" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.core.widget.NestedScrollView>
+        </ScrollView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

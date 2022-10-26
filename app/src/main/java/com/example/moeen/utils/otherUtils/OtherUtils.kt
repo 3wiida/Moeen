@@ -16,3 +16,22 @@ fun dpToPx(dp : Int, context : Context): Int {
     val density = context.resources.displayMetrics.density;
     return (dp * density).roundToInt()
 }
+
+enum class FormErrors{
+    INVALID_PHONE,
+    INVALID_NAME,
+    INVALID_PASSWORD,
+    INVALID_CONFIRM_PASSWORD,
+    INVALID_NEW_PASSWORD,
+    INVALID_MATCH_PASSWORD,
+    INVALID_EMAIL,
+    INVALID_BIRTH_DATE,
+    INVALID_GENDER,
+    INVALID_SPECIALITY,
+    INVALID_COMPANY,
+    INVALID_HELPER,
+    INVALID_ADDRESS,
+    INVALID_NATIONALITY_ID,
+    INVALID_LENGTH,
+    INVALID_WEIGHT
+}

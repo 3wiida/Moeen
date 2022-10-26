@@ -10,8 +10,8 @@ data class NewProfileModel(
     val photo: String?=null,
     val national_id: String="",
     val nationality: String="",
-    val weight: Int=0,
-    val length: Int=0,
+    val weight: Int,
+    val length: Int,
     val insurance_number: String="",
     val notes:String="",
     val d_o_b:String="1970-01-01"

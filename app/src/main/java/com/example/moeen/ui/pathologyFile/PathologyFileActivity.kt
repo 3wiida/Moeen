@@ -78,8 +78,8 @@ class PathologyFileActivity : BaseActivity() {
 
                 val name = binding.editTextTextPersonName.text.toString().trim()
                 val nationalityId = binding.personId.text.toString()
-                val weight = binding.personWeight.text.toString().toInt()
-                val length = binding.personLength.text.toString().toInt()
+                val weight = if(binding.personWeight.text.isEmpty()) -1 else binding.personWeight.text.toString().toInt()
+                val length = if(binding.personLength.text.isEmpty()) -1 else binding.personLength.text.toString().toInt()
                 val insuranceNumber = binding.personTameenNumber.text.toString().trim()
                 val bloodType=(binding.bloodTypeSpinner.selectedItem as BloodType).name!!
                 val gender=if(binding.genderSpinner.selectedItem.toString() =="ذكر") "male" else "female"
@@ -87,7 +87,6 @@ class PathologyFileActivity : BaseActivity() {
                 val notes=binding.personAdditionalInfo.text.toString()
                 val region=(binding.personRegion.selectedItem as Region).id
                 val d_o_b=binding.personBirthday.text.toString()
-
                 val newProfile = NewProfileModel(region, bloodType, name,gender , photo = null, nationalityId, nationality, weight, length, insuranceNumber,notes,d_o_b)
                 viewModel.updateProfile(newProfile)
 
