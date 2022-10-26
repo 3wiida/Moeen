@@ -9,6 +9,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.moeen.network.model.profileResponse.BloodType
 import com.example.moeen.network.model.profileResponse.ProfileResponse
 import com.example.moeen.ui.pathologyFile.pojo.NewProfileModel
 import com.example.moeen.utils.PrefUtils.PrefKeys.USER_TOKEN
@@ -26,13 +27,13 @@ import javax.inject.Inject
 @HiltViewModel
 class PathologyFileViewModel @Inject constructor(val repo: PathologyRepository) : ViewModel() {
 
-    //Variables Section
+    /** Variables Section */
     private var _dateMutableLiveData=MutableLiveData<String>()
     var date:LiveData<String> =_dateMutableLiveData
 
     //get profile state flow
     private var _apiState :MutableStateFlow<ApiResult> = MutableStateFlow(ApiResult.Empty)
-    var apisate:StateFlow<ApiResult> = _apiState
+    var apistate:StateFlow<ApiResult> = _apiState
 
     //chronic diseases state flow
     private var _chronicState:MutableStateFlow<ArrayList<String>> =MutableStateFlow(arrayListOf())
@@ -57,7 +58,7 @@ class PathologyFileViewModel @Inject constructor(val repo: PathologyRepository) 
         val datePickerDialog = DatePickerDialog(
             context,
             { _, i, i2, i3 ->
-                _dateMutableLiveData.postValue( "$i3/${i2 + 1}/$i")
+                _dateMutableLiveData.postValue( "$i-${if((i2 + 1) <10) "0${i2+1}" else i2+1}-${if (i3<10) "0$i3" else i3}")
             },
             calender.get(Calendar.YEAR),
             calender.get(Calendar.MONTH),
@@ -91,7 +92,7 @@ class PathologyFileViewModel @Inject constructor(val repo: PathologyRepository) 
             when(val response=repo.getChronicDiseases()){
                 is ResultWrapper.Failure -> {}
                 is ResultWrapper.Success -> {
-                    var listOfDiseases= arrayListOf<String>()
+                    val listOfDiseases= arrayListOf<String>()
                     for(i in response.results.data){
                         listOfDiseases.add(i.name)
                     }
@@ -113,5 +114,19 @@ class PathologyFileViewModel @Inject constructor(val repo: PathologyRepository) 
                 is ResultWrapper.Success -> _updateProfile.value=ApiResult.Success(data = response.results)
             }
         }
+    }
+
+    fun getIndexOfItem(list:List<BloodType>,value:String):Int{
+        if(value!=null){
+            for(i in 0..list.size){
+                val item=list[i]
+                if(item.name==value){
+                    return i
+                }
+            }
+        }else{
+            return 0
+        }
+        return -1
     }
 }

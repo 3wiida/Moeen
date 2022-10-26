@@ -9,5 +9,14 @@
         android:id="@+id/locationSelectionFragment"
         android:name="com.example.moeen.ui.home.transportServices.ambulance.locationSelection.LocationSelectionFragment"
         android:label="fragment_location_selection"
-        tools:layout="@layout/fragment_location_selection" />
+        tools:layout="@layout/fragment_location_selection" >
+        <action
+            android:id="@+id/action_locationSelectionFragment_to_mapsFragment"
+            app:destination="@id/mapsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/mapsFragment"
+        android:name="com.example.moeen.ui.home.transportServices.mapsUtility.MapsFragment"
+        android:label="fragment_maps"
+        tools:layout="@layout/fragment_maps" />
 </navigation>

@@ -30,15 +30,13 @@ class LocationSelectionViewModel @Inject constructor(private val repo: LocationS
     private var _carTypes: MutableStateFlow<ApiResult> = MutableStateFlow(ApiResult.Empty)
     var carTypes: StateFlow<ApiResult> = _carTypes
 
-    private var _cars: MutableStateFlow<ArrayList<String>> = MutableStateFlow(arrayListOf())
-    var cars: StateFlow<ArrayList<String>> = _cars
-
+    /** show date picker dialog */
     fun showDatePickerDialog(context: Context) {
         val calendar = Calendar.getInstance()
         val datePickerDialog = DatePickerDialog(
             context,
             { _, i, i2, i3 ->
-                _dateMutableLiveData.postValue("$i3/${i2 + 1}/$i")
+                _dateMutableLiveData.postValue("$i-${if((i2 + 1) <10) "0${i2+1}" else i2+1}-${if (i3<10) "0$i3" else i3}")
             },
             calendar.get(Calendar.YEAR),
             calendar.get(Calendar.MONTH),
@@ -47,6 +45,7 @@ class LocationSelectionViewModel @Inject constructor(private val repo: LocationS
         datePickerDialog.show()
     }
 
+    /** show time picker dialog */
     fun showTimePickerDialog(context: Context) {
         val time = Calendar.getInstance()
         val timePickerDialog = TimePickerDialog(
@@ -59,6 +58,8 @@ class LocationSelectionViewModel @Inject constructor(private val repo: LocationS
         timePickerDialog.show()
     }
 
+
+    /** call to get car types*/
     fun getCarTypes() {
         _carTypes.value = ApiResult.Loading
         viewModelScope.launch(Dispatchers.IO) {
@@ -69,7 +70,6 @@ class LocationSelectionViewModel @Inject constructor(private val repo: LocationS
                     for (car in response.results.data) {
                         carSpinnerList.add(car.name)
                     }
-                    _cars.value = carSpinnerList
                     _carTypes.value = ApiResult.Success(data = response.results)
                 }
             }

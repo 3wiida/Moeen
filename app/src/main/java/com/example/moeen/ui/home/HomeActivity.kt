@@ -95,7 +95,6 @@ class HomeActivity : BaseActivity() {
 
         val token = getFromPref(this, USER_TOKEN, "")
         if(token != ""){
-            // TODO: Send the call
             lifecycleScope.launch(Dispatchers.IO){
                 viewModel.profileState.collect{ state ->
                     when(state){
@@ -112,7 +111,8 @@ class HomeActivity : BaseActivity() {
                             val result = (state.data as ProfileResponse).data.user
                             Glide.with(this@HomeActivity).load(result.photo).into(binding.ivHeaderProfileImage)
                             binding.tvHeaderName.text = result.name
-                            binding.tvHeaderPhone.text = result.phone
+                            val phone=result.phone.slice(3 until result.phone.length)
+                            binding.tvHeaderPhone.text = phone
                         }
                     }
                 }

@@ -5,6 +5,7 @@ pluginManagement {
         id 'dagger.hilt.android.plugin'
         id 'androidx.navigation'
         id 'org.jetbrains.kotlin.android' version '1.7.10'
+        id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin' version '2.0.1'
     }
     resolutionStrategy {
         eachPlugin {

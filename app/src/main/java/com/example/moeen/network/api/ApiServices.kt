@@ -54,6 +54,7 @@ interface ApiServices {
         @Field("weight") weight: Int,
         @Field("length") length: Int,
         @Field("insurance_number") insurance_number: String,
-        @Field("notes") notes:String
+        @Field("notes") notes:String,
+        @Field("d_o_b") d_o_b:String
     )
 }

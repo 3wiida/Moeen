@@ -30,6 +30,6 @@
 
     <string-array name="genders">
         <item>ذكر</item>
-        <item>أنثى</item>
+        <item>أنثي</item>
     </string-array>
 </resources>

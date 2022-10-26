@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-       <import type="android.content.Context"/>
+        <import type="android.content.Context"/>
         <import type="com.example.moeen.ui.home.transportServices.ambulance.locationSelection.LocationSelectionViewModel"/>
         <variable
             name="viewModel"
@@ -94,7 +94,7 @@
                     android:text="مكان التحرك" />
 
                 <EditText
-                    android:id="@+id/editTextTextPersonName2"
+                    android:id="@+id/movingPlaceEt"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:ems="10"
@@ -124,7 +124,7 @@
                     android:layout_marginBottom="10dp" />
 
                 <EditText
-                    android:id="@+id/editTextTextPersonName3"
+                    android:id="@+id/arrivalPlaceEt"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:ems="10"
@@ -159,7 +159,6 @@
                     android:ems="10"
                     android:textDirection="rtl"
                     android:layoutDirection="rtl"
-                    android:entries="@{viewModel.cars}"
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"
                     android:background="@drawable/_15_gray_rect"

@@ -34,14 +34,15 @@ class PathologyFileActivity : BaseActivity() {
             binding = ActivityPathologyFileBinding.inflate(layoutInflater)
             setContentView(binding.root)
 
-            //init dataBinding
+            /** init dataBinding */
             binding.viewModel = viewModel
             binding.lifecycleOwner = this
 
-            //perform call to get profile data
+
+            /** get profile call */
             viewModel.getProfile()
             lifecycleScope.launchWhenCreated {
-                viewModel.apisate.collect {
+                viewModel.apistate.collect {
                     when (it) {
                         ApiResult.Empty -> {}
                         is ApiResult.Failure -> {
@@ -50,6 +51,8 @@ class PathologyFileActivity : BaseActivity() {
                         }
                         ApiResult.Loading -> loadingDialog().show()
                         is ApiResult.Success<*> -> {
+
+                            /** fill data in edit texts and spinners */
                             val user = (it.data as ProfileResponse).data.user
                             binding.user = user
                             binding.bloodTypeSpinner.adapter=BloodTypeSpinnerAdapter(this@PathologyFileActivity,it.data.data.blood_types.toMutableList())
@@ -57,8 +60,14 @@ class PathologyFileActivity : BaseActivity() {
                             binding.nationalitySpinner.adapter=NationalitySpinnerAdapter(this@PathologyFileActivity,it.data.data.countries.toMutableList())
                             binding.personRegion.adapter=RegionSpinnerAdapter(this@PathologyFileActivity,it.data.data.regions.toMutableList())
 
-                            //binding.personRegion.setSelection(it.data.data.regions.indexOf(it.data.data.user.region))
+                            /** auto select user choices in spinners */
+                            //binding.bloodTypeSpinner.setSelection(viewModel.getIndexOfItem(it.data.data.blood_types,user.blood_type.toString()))
+                            binding.personRegion.setSelection(it.data.data.regions.indexOf(it.data.data.user.region))
+                            binding.genderSpinner.setSelection(resources.getStringArray(R.array.genders).indexOf(user.gender_text))
+                            val nationalityList= listOf("سعودي","مصري")
+                            binding.nationalitySpinner.setSelection(nationalityList.indexOf(user.nationality))
                             loadingDialog().dismiss()
+                            Log.d(TAG, user.d_o_b)
                         }
                     }
                 }
@@ -77,8 +86,9 @@ class PathologyFileActivity : BaseActivity() {
                 val nationality=(binding.nationalitySpinner.selectedItem as Country).nationality
                 val notes=binding.personAdditionalInfo.text.toString()
                 val region=(binding.personRegion.selectedItem as Region).id
+                val d_o_b=binding.personBirthday.text.toString()
 
-                val newProfile = NewProfileModel(region, bloodType, name,gender , photo = null, nationalityId, nationality, weight, length, insuranceNumber,notes)
+                val newProfile = NewProfileModel(region, bloodType, name,gender , photo = null, nationalityId, nationality, weight, length, insuranceNumber,notes,d_o_b)
                 viewModel.updateProfile(newProfile)
 
                 lifecycleScope.launch {
@@ -100,7 +110,7 @@ class PathologyFileActivity : BaseActivity() {
             }
         }
 
-        //this for if user skip login , will show this layout
+        /** this for if user skip login , will show this layout */
         else {
             setContentView(R.layout.activity_pathology_file_nologin)
             val loginBtn = findViewById<Button>(R.id.pathologyFileLoginBtn)
