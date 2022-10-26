@@ -67,7 +67,6 @@ class PathologyFileActivity : BaseActivity() {
                             val nationalityList= listOf("سعودي","مصري")
                             binding.nationalitySpinner.setSelection(nationalityList.indexOf(user.nationality))
                             loadingDialog().dismiss()
-                            Log.d(TAG, user.d_o_b)
                         }
                     }
                 }
@@ -87,6 +86,7 @@ class PathologyFileActivity : BaseActivity() {
                 val notes=binding.personAdditionalInfo.text.toString()
                 val region=(binding.personRegion.selectedItem as Region).id
                 val d_o_b=binding.personBirthday.text.toString()
+
                 val newProfile = NewProfileModel(region, bloodType, name,gender , photo = null, nationalityId, nationality, weight, length, insuranceNumber,notes,d_o_b)
                 viewModel.updateProfile(newProfile)
 
