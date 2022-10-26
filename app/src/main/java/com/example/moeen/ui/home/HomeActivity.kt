@@ -14,10 +14,11 @@ import com.example.moeen.databinding.ActivityHomeBinding
 import com.example.moeen.network.model.homeResponse.HomeResponse
 import com.example.moeen.network.model.postsResponse.PostsResponse
 import com.example.moeen.network.model.profileResponse.ProfileResponse
-import com.example.moeen.ui.home.homeAdapter.DrawerAdapter
-import com.example.moeen.ui.home.homeAdapter.HomeAdapter1
-import com.example.moeen.ui.home.homeAdapter.HomeAdapter2
-import com.example.moeen.ui.home.homeAdapter.HomeViewPagerAdapter
+import com.example.moeen.ui.home.homeAdapters.DrawerAdapter
+import com.example.moeen.ui.home.homeAdapters.HomeAdapter1
+import com.example.moeen.ui.home.homeAdapters.HomeAdapter2
+import com.example.moeen.ui.home.homeAdapters.HomeViewPagerAdapter
+import com.example.moeen.ui.home.more.MoreActivity
 import com.example.moeen.ui.home.transportServices.ambulance.AmbulanceActivity
 import com.example.moeen.ui.pathologyFile.PathologyFileActivity
 import com.example.moeen.utils.PrefUtils.PrefKeys.USER_TOKEN
@@ -175,12 +176,12 @@ class HomeActivity : BaseActivity() {
         binding.rvMenu.layoutManager = LinearLayoutManager(this)
         binding.rvMenu.setHasFixedSize(true)
         drawerAdapter.drawerList = listOf(
-            DrawerMenuItem("الحجوزات والطلبات", R.drawable.ic_menu_reservations),
-            DrawerMenuItem("الدعم والمساعدة", R.drawable.ic_menu_support),
-            DrawerMenuItem("التقارير الطبية", R.drawable.ic_menu_reports),
-            DrawerMenuItem("مركز المساعدة", R.drawable.ic_menu_help_center),
-            DrawerMenuItem("الاعدادات", R.drawable.ic_menu_settings),
-            DrawerMenuItem("تسجيل الخروج", R.drawable.ic_menu_logout)
+            RecyclerItem("الحجوزات والطلبات", R.drawable.ic_menu_reservations),
+            RecyclerItem("الدعم والمساعدة", R.drawable.ic_menu_support),
+            RecyclerItem("الإشعارات", R.drawable.ic_menu_reports),
+            RecyclerItem("مركز المساعدة", R.drawable.ic_menu_help_center),
+            RecyclerItem("شارك مع صديق", R.drawable.ic_circle),
+            RecyclerItem("تسجيل الخروج", R.drawable.ic_menu_logout)
         )
 
         // TODO: Launch every activity
@@ -193,7 +194,9 @@ class HomeActivity : BaseActivity() {
         }
 
         binding.appBarHome.moreHomeLayout.setOnClickListener {
-            binding.drawerLayout.openDrawer(binding.navView, true)
+            // TODO: Menu & More Changes
+//            binding.drawerLayout.openDrawer(binding.navView, true)
+            startActivity(Intent(this, MoreActivity::class.java))
         }
 
         binding.appBarHome.medicalProfileLayout.setOnClickListener {

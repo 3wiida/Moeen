@@ -1,4 +1,4 @@
-package com.example.moeen.ui.home.homeAdapter
+package com.example.moeen.ui.home.homeAdapters
 
 import android.view.LayoutInflater
 import android.view.View
@@ -9,11 +9,11 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.moeen.R
-import com.example.moeen.ui.home.DrawerMenuItem
+import com.example.moeen.ui.home.RecyclerItem
 
 class DrawerAdapter : RecyclerView.Adapter<DrawerAdapter.MyViewHolder>() {
 
-    var onItemClicked : ((DrawerMenuItem) -> Unit) ?= null
+    var onItemClicked : ((RecyclerItem) -> Unit) ?= null
 
     inner class MyViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView){
         val title: TextView = itemView.findViewById(R.id.tvDrawerItem)
@@ -22,18 +22,18 @@ class DrawerAdapter : RecyclerView.Adapter<DrawerAdapter.MyViewHolder>() {
 
     }
 
-    private val differCallback = object : DiffUtil.ItemCallback<DrawerMenuItem>(){
-        override fun areItemsTheSame(oldItem: DrawerMenuItem, newItem: DrawerMenuItem): Boolean {
+    private val differCallback = object : DiffUtil.ItemCallback<RecyclerItem>(){
+        override fun areItemsTheSame(oldItem: RecyclerItem, newItem: RecyclerItem): Boolean {
             return newItem.title == oldItem.title
         }
 
-        override fun areContentsTheSame(oldItem: DrawerMenuItem, newItem: DrawerMenuItem): Boolean {
+        override fun areContentsTheSame(oldItem: RecyclerItem, newItem: RecyclerItem): Boolean {
             return newItem == oldItem
         }
     }
     private val differ = AsyncListDiffer(this, differCallback)
 
-    var drawerList : List<DrawerMenuItem>
+    var drawerList : List<RecyclerItem>
         get() = differ.currentList
         set(value) = differ.submitList(value)
 
@@ -46,8 +46,13 @@ class DrawerAdapter : RecyclerView.Adapter<DrawerAdapter.MyViewHolder>() {
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val item = drawerList[position]
-        holder.title.text = item.title
-        holder.image.setImageResource(item.image)
+
+        holder.apply {
+            title.text = item.title
+            if (item.image != null) {
+                image.setImageResource(item.image)
+            }
+        }
 
         holder.itemView.setOnClickListener {
             onItemClicked?.invoke(item)

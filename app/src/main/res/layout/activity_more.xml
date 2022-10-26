@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.home.more.MoreActivity">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline22"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="@dimen/_16dp" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline23"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_end="@dimen/_16dp" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/walletCard"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_100dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/wallet_background"
+            android:paddingStart="@dimen/_8dp"
+            android:paddingTop="@dimen/_12dp"
+            android:paddingEnd="@dimen/_8dp"
+            android:paddingBottom="@dimen/_12dp"
+            app:layout_constraintEnd_toStartOf="@+id/guideline23"
+            app:layout_constraintStart_toStartOf="@+id/guideline22"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/tvWallet"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/cairo_bold"
+                android:text="23 ج.م"
+                android:textColor="@color/_3c"
+                android:textSize="22sp"
+                app:layout_constraintBottom_toTopOf="@+id/tvWalletText"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="packed" />
+
+            <TextView
+                android:id="@+id/tvWalletText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/cairo_semibold"
+                android:text="رصيد المحفظة المتاح"
+                android:textColor="@color/_70"
+                android:textSize="@dimen/_12sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvWallet" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnWalletCharge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/_10_blue_rect"
+                android:fontFamily="@font/cairo_semibold"
+                android:paddingStart="17dp"
+                android:paddingTop="7dp"
+                android:paddingEnd="17dp"
+                android:paddingBottom="7dp"
+                android:text="اشحن المحفظة"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_14sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvMore"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/_4dp"
+            android:layout_marginBottom="@dimen/_16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/guideline23"
+            app:layout_constraintStart_toStartOf="@+id/guideline22"
+            app:layout_constraintTop_toBottomOf="@+id/walletCard" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

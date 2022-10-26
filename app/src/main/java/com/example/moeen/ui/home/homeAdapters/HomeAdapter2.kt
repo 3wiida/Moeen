@@ -1,4 +1,4 @@
-package com.example.moeen.ui.home.homeAdapter
+package com.example.moeen.ui.home.homeAdapters
 
 import android.content.Context
 import android.view.LayoutInflater

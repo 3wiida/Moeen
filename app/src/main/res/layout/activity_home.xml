@@ -53,28 +53,37 @@
 
                 <TextView
                     android:id="@+id/tvHeaderName"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
                     android:layout_marginEnd="16dp"
                     android:fontFamily="@font/cairo_semibold"
+                    android:maxLines="1"
                     android:text="name"
                     android:textColor="@color/_42"
                     android:textSize="@dimen/_14sp"
+                    android:gravity="end"
                     app:layout_constraintBottom_toTopOf="@+id/tvHeaderPhone"
                     app:layout_constraintEnd_toStartOf="@id/ivHeaderProfileImage"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@id/ivHeaderProfileImage" />
 
                 <TextView
                     android:id="@+id/tvHeaderPhone"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
                     android:layout_marginEnd="16dp"
                     android:fontFamily="@font/cairo_semibold"
                     android:text="number"
                     android:textColor="@color/_42"
                     android:textSize="@dimen/_14sp"
+                    android:gravity="end"
                     app:layout_constraintBottom_toBottomOf="@id/ivHeaderProfileImage"
                     app:layout_constraintEnd_toStartOf="@id/ivHeaderProfileImage"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvHeaderName" />
 
                 <androidx.recyclerview.widget.RecyclerView

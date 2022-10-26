@@ -18,4 +18,6 @@
     <color name="_df">#DFDFDF</color>
     <color name="_42">#424242</color>
     <color name="home_item_color1">#01B7CC</color>
+    <color name="wallet_background">#F7FDFE</color>
+    <color name="separate_items">#F5F7FF</color>
 </resources>
