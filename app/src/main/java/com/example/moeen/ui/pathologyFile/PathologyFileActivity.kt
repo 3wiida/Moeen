@@ -101,7 +101,7 @@ class PathologyFileActivity : BaseActivity() {
                             ApiResult.Loading -> loadingDialog().show()
                             is ApiResult.Success<*> -> {
                                 loadingDialog().cancel()
-                                showToast(this@PathologyFileActivity, "success")
+                                showToast(this@PathologyFileActivity, "تم تحديث البيانات بنجاح")
                             }
                         }
                     }

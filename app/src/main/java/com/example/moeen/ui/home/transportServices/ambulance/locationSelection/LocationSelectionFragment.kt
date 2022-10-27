@@ -1,8 +1,13 @@
 package com.example.moeen.ui.home.transportServices.ambulance.locationSelection
 
+import android.Manifest
+import android.app.Activity
+import android.content.Context
+import android.content.Intent
+import android.location.LocationManager
+import android.os.Build
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
+import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,30 +17,39 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import com.example.moeen.R
 import com.example.moeen.base.BaseFragment
-import com.example.moeen.common.Constants.TAG
 import com.example.moeen.databinding.FragmentLocationSelectionBinding
 import com.example.moeen.network.model.carsTypesResponse.CarsTypesResponse
 import com.example.moeen.ui.home.transportServices.ambulance.locationSelection.adapters.CarTypesSpinnerAdapter
-import com.example.moeen.ui.home.transportServices.mapsUtility.MapsViewModel
 import com.example.moeen.utils.resultWrapper.ApiResult
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import pub.devrel.easypermissions.AppSettingsDialog
+import pub.devrel.easypermissions.EasyPermissions
 
 @AndroidEntryPoint
-class LocationSelectionFragment : BaseFragment() {
+class LocationSelectionFragment : BaseFragment(), EasyPermissions.PermissionCallbacks {
 
-    lateinit var binding:FragmentLocationSelectionBinding
-    private val viewModel:LocationSelectionViewModel by viewModels()
+    lateinit var binding: FragmentLocationSelectionBinding
+    private val viewModel: LocationSelectionViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.getCarTypes()
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding=DataBindingUtil.inflate(inflater,R.layout.fragment_location_selection,container,false)
-        binding.viewModel= viewModel
-        binding.lifecycleOwner=viewLifecycleOwner
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        binding = DataBindingUtil.inflate(
+            inflater,
+            R.layout.fragment_location_selection,
+            container,
+            false
+        )
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = viewLifecycleOwner
         collectData()
         return binding.root
     }
@@ -46,35 +60,112 @@ class LocationSelectionFragment : BaseFragment() {
         }
 
         binding.movingPlaceEt.setOnClickListener {
-            view.findNavController().navigate(R.id.action_locationSelectionFragment_to_mapsFragment)
+            if (checkLocationPermission(requireContext())) {
+                if (isGPSEnabled(requireActivity())) {
+                    view.findNavController()
+                        .navigate(R.id.action_locationSelectionFragment_to_mapsFragment)
+                } else {
+                    startActivity(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS))
+                }
+
+            } else {
+                requestLocationPermission()
+            }
         }
 
         binding.arrivalPlaceEt.setOnClickListener {
-            view.findNavController().navigate(R.id.action_locationSelectionFragment_to_mapsFragment)
+            if (checkLocationPermission(requireContext())) {
+                if (isGPSEnabled(requireActivity())) {
+                    view.findNavController()
+                        .navigate(R.id.action_locationSelectionFragment_to_mapsFragment)
+                } else {
+                    startActivity(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS))
+                }
+            } else {
+                requestLocationPermission()
+            }
         }
     }
 
 
     /** collect flow data */
-    private fun collectData(){
+    private fun collectData() {
         lifecycleScope.launch {
-            viewModel.carTypes.collect{ result->
-                when(result){
+            viewModel.carTypes.collect { result ->
+                when (result) {
                     ApiResult.Empty -> {}
                     is ApiResult.Failure -> {
                         loadingDialog().cancel()
-                        showToast(requireContext(),result.message!!)
+                        showToast(requireContext(), result.message!!)
                     }
                     ApiResult.Loading -> {
                         loadingDialog().show()
                     }
                     is ApiResult.Success<*> -> {
                         val cars = result.data as CarsTypesResponse
-                        binding.ambulanceCarTypeSpinner.adapter=CarTypesSpinnerAdapter(requireContext(),cars.data.toMutableList())
+                        binding.ambulanceCarTypeSpinner.adapter =
+                            CarTypesSpinnerAdapter(requireContext(), cars.data.toMutableList())
                         loadingDialog().cancel()
                     }
                 }
             }
         }
+    }
+
+
+    /** this section for handle location permission */
+    private fun checkLocationPermission(context: Context) = EasyPermissions.hasPermissions(
+        context,
+        Manifest.permission.ACCESS_COARSE_LOCATION,
+        Manifest.permission.ACCESS_FINE_LOCATION
+    )
+
+
+    private fun requestLocationPermission() {
+        if (checkLocationPermission(requireContext())) {
+            return
+        }
+
+        EasyPermissions.requestPermissions(
+            this@LocationSelectionFragment,
+            "تطبيق معين يحتاج صلاحيات الموقع حتى تستطيع استحدام هذه الخدمة",
+            0,
+            Manifest.permission.ACCESS_COARSE_LOCATION,
+            Manifest.permission.ACCESS_FINE_LOCATION
+        )
+
+    }
+
+    override fun onPermissionsGranted(requestCode: Int, perms: MutableList<String>) {}
+
+    override fun onPermissionsDenied(requestCode: Int, perms: MutableList<String>) {
+        if (EasyPermissions.somePermissionPermanentlyDenied(
+                this@LocationSelectionFragment,
+                perms
+            )
+        ) {
+            AppSettingsDialog.Builder(this@LocationSelectionFragment)
+                .setRationale("يجب منح صلاحيات الموقع من الاعدادات لاستحدام هذه الخدمة")
+                .setTitle("اذن الحصول على صلاحيات الموقع")
+                .build().show()
+        } else {
+            requestLocationPermission()
+        }
+    }
+
+    private fun isGPSEnabled(context: Context): Boolean {
+        val locationManger =
+            (context as Activity).getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        return locationManger.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManger.isProviderEnabled(
+            LocationManager.NETWORK_PROVIDER
+        )
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        EasyPermissions.onRequestPermissionsResult(0, permissions, grantResults, this)
     }
 }
