@@ -18,6 +18,7 @@ import com.example.moeen.ui.home.homeAdapters.DrawerAdapter
 import com.example.moeen.ui.home.homeAdapters.HomeAdapter1
 import com.example.moeen.ui.home.homeAdapters.HomeAdapter2
 import com.example.moeen.ui.home.homeAdapters.HomeViewPagerAdapter
+import com.example.moeen.ui.home.medicalServices.doctorsBooking.DoctorsBookingActivity
 import com.example.moeen.ui.home.more.MoreActivity
 import com.example.moeen.ui.home.transportServices.ambulance.AmbulanceActivity
 import com.example.moeen.ui.pathologyFile.PathologyFileActivity
@@ -136,6 +137,30 @@ class HomeActivity : BaseActivity() {
             }
         }, 100, 3000)
 
+
+        adapter1.onItemClick = { item->
+            when(item.id){
+                1 -> startActivity(Intent(this,AmbulanceActivity::class.java))
+            }
+        }
+
+        adapter3.onItemClick = { item ->
+            when(item.id){
+                7 -> {
+                    startActivity(Intent(this, DoctorsBookingActivity::class.java))
+                }
+                8 -> {
+                    // TODO: المختبر والاشعة
+                }
+                9 -> {
+                    // TODO: الصيدليات
+                }
+                11 -> {
+                    // TODO: الرعايا الطبية
+                }
+            }
+        }
+
     }
 
     private fun prepareRecyclers(result : HomeResponse){
@@ -166,11 +191,6 @@ class HomeActivity : BaseActivity() {
 
         binding.appBarHome.vpHome.visibility = View.VISIBLE
 
-        adapter1.onItemClick ={ pos->
-            when(pos){
-                0 -> startActivity(Intent(this,AmbulanceActivity::class.java))
-            }
-        }
 
         binding.rvMenu.adapter = drawerAdapter
         binding.rvMenu.layoutManager = LinearLayoutManager(this)

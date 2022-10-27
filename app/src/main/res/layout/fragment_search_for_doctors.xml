@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.home.medicalServices.doctorsBooking.fragments.ConfirmationAndPaymentFragment">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline24"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="@dimen/_16dp" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline25"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_end="@dimen/_16dp" />
+
+        <ImageView
+            android:id="@+id/ivSearchForDoctors"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="22dp"
+            android:src="@drawable/doctors_slider"
+            app:layout_constraintEnd_toStartOf="@+id/guideline25"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="@+id/guideline24"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/ivSearchDoctorsBackground"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:src="@drawable/search_doctors_background"
+            android:scaleType="fitXY"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ivSearchForDoctors" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnSearchBySpecialization"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="80dp"
+            android:background="@drawable/_10_blue_rect"
+            android:fontFamily="@font/cairo_semibold"
+            android:text="البحث حسب التخصص والحي"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_14sp"
+            android:drawableEnd="@drawable/ic_first_aid_kit"
+            android:drawableStart="@drawable/ic_white_arrow"
+            android:paddingStart="27dp"
+            android:paddingEnd="38dp"
+            android:elevation="@dimen/_10dp"
+            app:layout_constraintEnd_toStartOf="@+id/guideline25"
+            app:layout_constraintStart_toStartOf="@+id/guideline24"
+            app:layout_constraintTop_toBottomOf="@+id/ivSearchForDoctors" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnSearchByName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:background="@drawable/_10_blue_rect"
+            android:fontFamily="@font/cairo_semibold"
+            android:text="البحث بإسم الدكتور"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_14sp"
+            android:drawableEnd="@drawable/ic_doctor_headphone"
+            android:drawableStart="@drawable/ic_white_arrow"
+            android:paddingStart="27dp"
+            android:paddingEnd="38dp"
+            android:elevation="@dimen/_10dp"
+            app:layout_constraintEnd_toStartOf="@+id/guideline25"
+            app:layout_constraintStart_toStartOf="@+id/guideline24"
+            app:layout_constraintTop_toBottomOf="@+id/btnSearchBySpecialization" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

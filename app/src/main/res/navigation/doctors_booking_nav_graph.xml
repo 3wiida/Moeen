@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/doctors_booking_nav_graph"
+    app:startDestination="@id/searchForDoctorsFragment">
+
+    <fragment
+        android:id="@+id/searchForDoctorsFragment"
+        android:name="com.example.moeen.ui.home.medicalServices.doctorsBooking.fragments.SearchForDoctorsFragment"
+        android:label="SearchForDoctorsFragment" >
+        <action
+            android:id="@+id/action_searchForDoctorsFragment_to_doctorsFragment"
+            app:destination="@id/doctorsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/doctorsFragment"
+        android:name="com.example.moeen.ui.home.medicalServices.doctorsBooking.fragments.DoctorsFragment"
+        android:label="DoctorsFragment" >
+        <action
+            android:id="@+id/action_doctorsFragment_to_doctorProfileFragment"
+            app:destination="@id/doctorProfileFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/doctorProfileFragment"
+        android:name="com.example.moeen.ui.home.medicalServices.doctorsBooking.fragments.DoctorProfileFragment"
+        android:label="DoctorProfileFragment" >
+        <action
+            android:id="@+id/action_doctorProfileFragment_to_confirmationAndPaymentFragment"
+            app:destination="@id/confirmationAndPaymentFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/confirmationAndPaymentFragment"
+        android:name="com.example.moeen.ui.home.medicalServices.doctorsBooking.fragments.ConfirmationAndPaymentFragment"
+        android:label="fragment_confirmation_data"
+        tools:layout="@layout/fragment_confirmation_data" >
+        <action
+            android:id="@+id/action_confirmationAndPaymentFragment_to_confirmationDataFragment"
+            app:destination="@id/confirmationDataFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/confirmationDataFragment"
+        android:name="com.example.moeen.ui.home.medicalServices.doctorsBooking.fragments.ConfirmationDataFragment"
+        android:label="ConfirmationDataFragment" />
+</navigation>

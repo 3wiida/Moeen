@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/_10_gray_rect"
+    android:paddingStart="9dp"
+    android:paddingTop="@dimen/_10dp"
+    android:paddingEnd="9dp"
+    android:paddingBottom="@dimen/_10dp">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/ivDoctorImage"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="24dp"
+        android:src="@drawable/small_doctor_avatar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvDoctorName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/cairo_semibold"
+        android:text="دكتور مصطفى احمد عبد العال"
+        android:textColor="@color/_444"
+        android:textSize="@dimen/_12sp"
+        app:layout_constraintBottom_toTopOf="@+id/doctorRating"
+        app:layout_constraintEnd_toStartOf="@+id/ivDoctorImage"
+        app:layout_constraintTop_toTopOf="@+id/ivDoctorImage" />
+
+    <RatingBar
+        android:id="@+id/doctorRating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:progressBackgroundTint="@color/black"
+        android:progressTint="@color/starColor"
+        android:rating="1"
+        app:layout_constraintBottom_toBottomOf="@+id/ivDoctorImage"
+        app:layout_constraintEnd_toStartOf="@+id/ivDoctorImage"
+        app:layout_constraintTop_toBottomOf="@+id/tvDoctorName" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

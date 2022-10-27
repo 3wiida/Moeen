@@ -31,7 +31,7 @@ class HomeAdapter1(private val context: Context) : RecyclerView.Adapter<HomeAdap
             return oldItem == newItem
         }
     }
-    var onItemClick: ((Int)-> Unit)?=null
+    var onItemClick: ((Service)-> Unit)?=null
     private val differ = AsyncListDiffer(this, differCallback)
 
     var homeList1 : List<Service>
@@ -51,7 +51,7 @@ class HomeAdapter1(private val context: Context) : RecyclerView.Adapter<HomeAdap
             title.text = item.name
         }
         holder.itemView.setOnClickListener{
-            onItemClick?.invoke(position)
+            onItemClick?.invoke(item)
         }
 
         if(position == 0){

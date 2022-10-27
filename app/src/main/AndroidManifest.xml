@@ -20,14 +20,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Moeen"
         tools:targetApi="31">
-
+        <activity
+            android:name=".ui.home.medicalServices.doctorsBooking.DoctorsBookingActivity"
+            android:exported="true" />
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="${MAPS_API_KEY}" />
 
-        <activity
-            android:name=".ui.home.more.walletCharging.WalletChargingActivity"
-            android:exported="false" />
         <activity
             android:name=".ui.home.more.MoreActivity"
             android:exported="true" />
