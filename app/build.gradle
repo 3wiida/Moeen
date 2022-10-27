@@ -87,8 +87,8 @@ dependencies {
     implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.24'
 
     // Navigation Component
-    implementation 'androidx.navigation:navigation-fragment-ktx:2.5.2'
-    implementation 'androidx.navigation:navigation-ui-ktx:2.5.2'
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.5.3'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.5.3'
 
     // Circular indicator
     implementation 'me.relex:circleindicator:2.1.6'
@@ -107,6 +107,9 @@ dependencies {
 
     // Circle Image View
     implementation 'de.hdodenhof:circleimageview:3.1.0'
+
+    //GPS
+    implementation "com.google.android.gms:play-services-location:21.0.0"
 
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.5.1'
