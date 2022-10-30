@@ -1,21 +1,12 @@
 package com.example.moeen.ui.home.transportServices.mapsUtility
 
-import android.Manifest
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.content.Context
-import android.content.Intent
-import android.content.pm.PackageManager
+import android.location.Address
+import android.location.Geocoder
 import android.location.Location
-import android.location.LocationManager
-import android.net.Uri
 import android.os.Looper
-import android.provider.Settings
 import android.util.Log
-import android.widget.Button
-import android.widget.TextView
-import androidx.browser.customtabs.CustomTabsClient.getPackageName
-import androidx.core.app.ActivityCompat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -27,6 +18,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
+import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
@@ -36,7 +28,6 @@ class MapsViewModel @Inject constructor(@ApplicationContext private val context:
     private var _deviceLocation = MutableLiveData<Location?>()
     var deviceLocation: LiveData<Location?> = _deviceLocation
 
-    private val PERMISSION_ID: Int = 1
     private lateinit var googleMap: GoogleMap
     private val mFusedLocationClient: FusedLocationProviderClient =
         LocationServices.getFusedLocationProviderClient(context)
@@ -60,7 +51,7 @@ class MapsViewModel @Inject constructor(@ApplicationContext private val context:
 
     @SuppressLint("MissingPermission")
     private fun requestNewLocationData() {
-        val mLocationRequest = LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 1)
+        val mLocationRequest = LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 5000)
         mFusedLocationClient.requestLocationUpdates(
             mLocationRequest.build(),
             mLocationCallback,
@@ -72,18 +63,24 @@ class MapsViewModel @Inject constructor(@ApplicationContext private val context:
     private val mLocationCallback: LocationCallback = object : LocationCallback() {
         override fun onLocationResult(location: LocationResult) {
             _deviceLocation.postValue(location.lastLocation)
-            Log.d(TAG, location.lastLocation!!.latitude.toString())
             mFusedLocationClient.removeLocationUpdates(this)
         }
     }
 
-    private fun isLocationEnabled(context: Context): Boolean {
-        val locationManager: LocationManager =
-            (context as Activity).getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(
-            LocationManager.NETWORK_PROVIDER
-        )
+
+    fun pickCentralizedLocation(map: GoogleMap):LatLng {
+        val lat=map.cameraPosition.target.latitude
+        val lon=map.cameraPosition.target.longitude
+        return LatLng(lat,lon)
     }
+
+    fun getLocationDetails(context: Context, latLong: LatLng): Address {
+        val arabicLocale=Locale("ar")
+        val geocoder = Geocoder(context, arabicLocale)
+        return geocoder.getFromLocation(latLong.latitude, latLong.longitude, 1)[0]
+    }
+
+
 
     fun moveCamera(map: GoogleMap, lat: Double, lon: Double) {
         map.moveCamera(CameraUpdateFactory.newLatLng(LatLng(lat, lon)))

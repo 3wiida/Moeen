@@ -2,15 +2,18 @@ package com.example.moeen.ui.home.transportServices.ambulance.locationSelection
 
 import android.Manifest
 import android.app.Activity
+import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.location.LocationManager
-import android.os.Build
+import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -23,7 +26,6 @@ import com.example.moeen.ui.home.transportServices.ambulance.locationSelection.a
 import com.example.moeen.utils.resultWrapper.ApiResult
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import pub.devrel.easypermissions.AppSettingsDialog
 import pub.devrel.easypermissions.EasyPermissions
 
 @AndroidEntryPoint
@@ -41,7 +43,7 @@ class LocationSelectionFragment : BaseFragment(), EasyPermissions.PermissionCall
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = DataBindingUtil.inflate(
             inflater,
             R.layout.fragment_location_selection,
@@ -139,23 +141,15 @@ class LocationSelectionFragment : BaseFragment(), EasyPermissions.PermissionCall
     override fun onPermissionsGranted(requestCode: Int, perms: MutableList<String>) {}
 
     override fun onPermissionsDenied(requestCode: Int, perms: MutableList<String>) {
-        if (EasyPermissions.somePermissionPermanentlyDenied(
-                this@LocationSelectionFragment,
-                perms
-            )
-        ) {
-            AppSettingsDialog.Builder(this@LocationSelectionFragment)
-                .setRationale("يجب منح صلاحيات الموقع من الاعدادات لاستحدام هذه الخدمة")
-                .setTitle("اذن الحصول على صلاحيات الموقع")
-                .build().show()
+        if (EasyPermissions.somePermissionPermanentlyDenied(this@LocationSelectionFragment, perms)) {
+            initPermissionDialog()
         } else {
             requestLocationPermission()
         }
     }
 
     private fun isGPSEnabled(context: Context): Boolean {
-        val locationManger =
-            (context as Activity).getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        val locationManger = (context as Activity).getSystemService(Context.LOCATION_SERVICE) as LocationManager
         return locationManger.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManger.isProviderEnabled(
             LocationManager.NETWORK_PROVIDER
         )
@@ -167,5 +161,22 @@ class LocationSelectionFragment : BaseFragment(), EasyPermissions.PermissionCall
         grantResults: IntArray
     ) {
         EasyPermissions.onRequestPermissionsResult(0, permissions, grantResults, this)
+    }
+
+    private fun initPermissionDialog(){
+        val permissionDialog=Dialog(requireContext())
+        permissionDialog.setContentView(R.layout.permission_request_dialog)
+        permissionDialog.window?.setBackgroundDrawableResource(R.drawable._15_white_rect)
+        permissionDialog.window?.findViewById<Button>(R.id.settingBtn)?.setOnClickListener{
+            val intent=Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+            val uri=Uri.fromParts("package",activity?.packageName,null)
+            intent.data = uri
+            startActivity(intent)
+            permissionDialog.cancel()
+        }
+        permissionDialog.window?.findViewById<TextView>(R.id.cancelDialogBtn)?.setOnClickListener {
+            permissionDialog.cancel()
+        }
+        permissionDialog.show()
     }
 }
