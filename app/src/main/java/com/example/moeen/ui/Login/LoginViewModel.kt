@@ -55,17 +55,6 @@ class LoginViewModel @Inject constructor(@ApplicationContext val context: Contex
         return !(phone.text!!.isEmpty())
     }
 
-    /*fun startResendOtpTimer() {
-        viewModelScope.launch(Dispatchers.Default) {
-            var i = 60
-            while (i > 0) {
-                _otpTimer.value = i - 1
-                i -= 1
-                delay(1000L)
-            }
-        }
-    }*/
-
     fun startResendOtpTimer() = flow {
         var i=59
         while(i>=0){

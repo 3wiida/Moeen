@@ -13,10 +13,27 @@
         <action
             android:id="@+id/action_locationSelectionFragment_to_mapsFragment"
             app:destination="@id/mapsFragment" />
+        <argument
+            android:name="arrivalAddressLine"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue=""/>
+        <argument
+            android:name="movingAddressLine"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue=""/>
     </fragment>
     <fragment
         android:id="@+id/mapsFragment"
         android:name="com.example.moeen.ui.home.transportServices.mapsUtility.MapsFragment"
         android:label="fragment_maps"
-        tools:layout="@layout/fragment_maps" />
+        tools:layout="@layout/fragment_maps" >
+        <action
+            android:id="@+id/action_mapsFragment_to_locationSelectionFragment"
+            app:destination="@id/locationSelectionFragment" />
+        <argument
+            android:name="fromWhat"
+            app:argType="integer" />
+    </fragment>
 </navigation>

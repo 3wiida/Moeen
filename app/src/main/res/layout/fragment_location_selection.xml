@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="com.example.moeen.utils.FormErrors"/>
         <import type="android.content.Context"/>
         <import type="com.example.moeen.ui.home.transportServices.ambulance.locationSelection.LocationSelectionViewModel"/>
         <variable
@@ -101,6 +102,8 @@
                     android:clickable="false"
                     android:cursorVisible="false"
                     android:focusable="false"
+                    android:textDirection="rtl"
+                    android:drawablePadding="5dp"
                     android:focusableInTouchMode="false"
                     android:drawableLeft="@drawable/ic_location"
                     android:hint="قم بتحديد مكان التحرك"
@@ -108,7 +111,7 @@
                     android:textSize="@dimen/_12sp"
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"
-                    android:background="@drawable/_15_gray_rect"
+                    android:background="@{viewModel.formErrors.contains(FormErrors.EMPTY_MOVING_PLACE) ? @drawable/_15_red_rect : @drawable/_15_gray_rect}"
                     android:inputType="textPersonName" />
 
                 <TextView
@@ -134,10 +137,12 @@
                     android:clickable="false"
                     android:cursorVisible="false"
                     android:focusable="false"
+                    android:drawablePadding="5dp"
+                    android:textDirection="rtl"
                     android:focusableInTouchMode="false"
                     android:hint="قم بتحديد مكان الوصول"
                     android:drawableLeft="@drawable/ic_location"
-                    android:background="@drawable/_15_gray_rect"
+                    android:background="@{viewModel.formErrors.contains(FormErrors.EMPTY_ARRIVAL_PLACE) ? @drawable/_15_red_rect : @drawable/_15_gray_rect}"
                     android:fontFamily="@font/cairo_regular"
                     android:textSize="@dimen/_12sp" />
 
@@ -161,7 +166,8 @@
                     android:layoutDirection="rtl"
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"
-                    android:background="@drawable/_15_gray_rect"
+
+                    android:background="@{viewModel.formErrors.contains(FormErrors.EMPTY_CAR_TYPE) ? @drawable/_15_red_rect : @drawable/_15_gray_rect}"
                     android:fontFamily="@font/cairo_regular"
                     android:textSize="@dimen/_12sp" />
 
@@ -254,18 +260,78 @@
         </androidx.core.widget.NestedScrollView>
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/otpNextBtn"
+            android:id="@+id/calcPriceBtn"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:background="@drawable/_10_blue_rect"
             android:fontFamily="@font/cairo_semibold"
-            android:text="التكلفة   0.00"
+            android:text="حساب التكلفة"
             android:textColor="@color/white"
             android:textSize="14sp"
             android:layout_marginBottom="20dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/guideline20"
             app:layout_constraintStart_toStartOf="@+id/guideline19" />
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="0dp"
+            android:id="@+id/confirmationCardView"
+            android:layout_height="wrap_content"
+            app:cardElevation="5dp"
+            android:elevation="10dp"
+            android:layout_marginTop="10dp"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" >
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/confirmTripBtn"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/_10_blue_rect"
+                    android:fontFamily="@font/cairo_semibold"
+                    android:text="تأكيد"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    android:elevation="10dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="20dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:layout_marginLeft="30dp"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+                <TextView
+                    android:id="@+id/textView15"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="التكلفة : "
+                    android:fontFamily="@font/cairo_regular"
+                    android:layout_marginRight="@dimen/_30dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/textView16"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="68.0"
+                    android:textSize="18sp"
+                    android:fontFamily="@font/cairo_regular"
+                    android:textColor="@color/black"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/textView15"
+                    app:layout_constraintHorizontal_bias="0.939"
+                    app:layout_constraintStart_toEndOf="@+id/confirmTripBtn"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.508" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

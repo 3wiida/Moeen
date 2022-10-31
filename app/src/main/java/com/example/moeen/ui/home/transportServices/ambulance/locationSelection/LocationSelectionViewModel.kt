@@ -4,11 +4,12 @@ import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Context
 import android.icu.util.Calendar
+import androidx.databinding.ObservableArrayList
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.moeen.network.model.carsTypesResponse.CarsTypesResponse
+import com.example.moeen.utils.FormErrors
 import com.example.moeen.utils.resultWrapper.ApiResult
 import com.example.moeen.utils.resultWrapper.ResultWrapper
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -19,8 +20,9 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class LocationSelectionViewModel @Inject constructor(private val repo: LocationSelectionRepository) :
-    ViewModel() {
+class LocationSelectionViewModel @Inject constructor(private val repo: LocationSelectionRepository) : ViewModel() {
+
+    /** vars */
     private var _dateMutableLiveData = MutableLiveData<String>()
     var date: LiveData<String> = _dateMutableLiveData
 
@@ -29,6 +31,17 @@ class LocationSelectionViewModel @Inject constructor(private val repo: LocationS
 
     private var _carTypes: MutableStateFlow<ApiResult> = MutableStateFlow(ApiResult.Empty)
     var carTypes: StateFlow<ApiResult> = _carTypes
+
+    private var _checkRegionResponse:MutableStateFlow<ApiResult> = MutableStateFlow(ApiResult.Empty)
+    var checkRegionResponse:StateFlow<ApiResult> =_checkRegionResponse
+
+    private var _calculatePriceResponse:MutableStateFlow<ApiResult> = MutableStateFlow(ApiResult.Empty)
+    var calculatePriceResponse:StateFlow<ApiResult> =_calculatePriceResponse
+
+    var formErrors:ObservableArrayList<FormErrors> = ObservableArrayList()
+    /** ----------------------------------------------------------------------------------------------*/
+
+
 
     /** show date picker dialog */
     fun showDatePickerDialog(context: Context) {
@@ -44,6 +57,7 @@ class LocationSelectionViewModel @Inject constructor(private val repo: LocationS
         )
         datePickerDialog.show()
     }
+
 
     /** show time picker dialog */
     fun showTimePickerDialog(context: Context) {
@@ -65,15 +79,48 @@ class LocationSelectionViewModel @Inject constructor(private val repo: LocationS
         viewModelScope.launch(Dispatchers.IO) {
             when (val response = repo.getCarTypes()) {
                 is ResultWrapper.Failure -> _carTypes.value = ApiResult.Failure(message = response.message)
-                is ResultWrapper.Success -> {
-                    val carSpinnerList = arrayListOf<String>()
-                    for (car in response.results.data) {
-                        carSpinnerList.add(car.name)
-                    }
-                    _carTypes.value = ApiResult.Success(data = response.results)
-                }
+                is ResultWrapper.Success -> _carTypes.value = ApiResult.Success(data = response.results)
             }
         }
+    }
 
+
+    /** call to check order region response */
+    fun checkOrderRegion(lat:String,lon:String){
+        _checkRegionResponse.value=ApiResult.Loading
+        viewModelScope.launch(Dispatchers.IO){
+           when(val response=repo.checkOrderRegion(lat,lon)){
+               is ResultWrapper.Failure -> _checkRegionResponse.value=ApiResult.Failure(message = response.message)
+               is ResultWrapper.Success -> _checkRegionResponse.value=ApiResult.Success(data = response.results)
+           }
+        }
+    }
+
+
+    /** call to calculate trip price */
+    fun calculatePrice(govId:Int,govArrivalId:Int,cityId:Int,cityArrivalId:Int,carTypeId:Int){
+        _calculatePriceResponse.value=ApiResult.Loading
+        viewModelScope.launch(Dispatchers.IO){
+            when(val response=repo.calculatePrice(govId,govArrivalId, cityId, cityArrivalId, carTypeId)){
+                is ResultWrapper.Failure -> _calculatePriceResponse.value=ApiResult.Failure(message = response.message)
+                is ResultWrapper.Success -> _calculatePriceResponse.value=ApiResult.Success(data = response.results)
+            }
+        }
+    }
+
+
+    /** check is all fields are correct and not empty */
+    fun isFormValid(movingPlace:String,arrivalPlace:String,carType:String):Boolean {
+        formErrors.clear()
+        if(movingPlace.isEmpty()){
+            formErrors.add(FormErrors.EMPTY_MOVING_PLACE)
+        }
+        if(arrivalPlace.isEmpty()){
+            formErrors.add(FormErrors.EMPTY_ARRIVAL_PLACE)
+        }
+        if(carType.isEmpty()){
+            formErrors.add(FormErrors.EMPTY_CAR_TYPE)
+        }
+        return formErrors.isEmpty()
     }
 }

@@ -2,16 +2,15 @@ package com.example.moeen.network.api
 
 import com.example.moeen.network.model.carsTypesResponse.CarsTypesResponse
 import com.example.moeen.network.model.chronicDiseaseResponse.ChronicDiseaseResponse
-import com.example.moeen.network.model.citiesResponse.CitiesResponse
 import com.example.moeen.network.model.countriesResponse.CountriesResponse
-import com.example.moeen.network.model.doctorsResponse.DoctorsResponse
 import com.example.moeen.network.model.homeResponse.HomeResponse
 import com.example.moeen.network.model.loginResponse.LoginResponse
 import com.example.moeen.network.model.postsResponse.PostsResponse
 import com.example.moeen.network.model.profileResponse.ProfileResponse
-import com.example.moeen.network.model.regionsResponse.RegionsResponse
-import com.example.moeen.network.model.specializationsResponse.SpecializationsResponse
-import retrofit2.http.*
+import retrofit2.http.Field
+import retrofit2.http.FormUrlEncoded
+import retrofit2.http.GET
+import retrofit2.http.POST
 
 interface ApiServices {
 
@@ -58,20 +57,4 @@ interface ApiServices {
         @Field("notes") notes:String,
         @Field("d_o_b") d_o_b:String
     )
-
-    @GET("v1/specialties")
-    suspend fun getSpecializations() : SpecializationsResponse
-
-    @GET("v1/doctors")
-    suspend fun getDoctors(
-        @Query("specialty_id") id : Int? = null
-    ) : DoctorsResponse
-
-    @GET("v1/cities")
-    suspend fun getCities() : CitiesResponse
-
-    @GET("v1/regions")
-    suspend fun getRegions(
-        @Query("city_id") cityId : Int?
-    ) : RegionsResponse
 }
