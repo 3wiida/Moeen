@@ -18,7 +18,6 @@ import com.example.moeen.databinding.FragmentOtpBinding
 import com.example.moeen.ui.home.HomeActivity
 import com.example.moeen.utils.resultWrapper.ApiResult
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -130,7 +129,7 @@ class OtpFragment : BaseFragment() {
                     ApiResult.Loading -> loadingDialog().show()
                     is ApiResult.Failure -> {
                         loadingDialog().cancel()
-                        showToast(requireContext(),R.string.unknowError.toString())
+                        showToast(requireContext(),R.string.unknownError.toString())
                     }
                     is ApiResult.Success<*> -> {
                         loadingDialog().cancel()

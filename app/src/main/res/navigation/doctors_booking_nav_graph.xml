@@ -15,7 +15,7 @@
     </fragment>
     <fragment
         android:id="@+id/doctorsFragment"
-        android:name="com.example.moeen.ui.home.medicalServices.doctorsBooking.fragments.DoctorsFragment"
+        android:name="com.example.moeen.ui.home.medicalServices.doctorsBooking.fragments.doctors.DoctorsFragment"
         android:label="DoctorsFragment" >
         <action
             android:id="@+id/action_doctorsFragment_to_doctorProfileFragment"

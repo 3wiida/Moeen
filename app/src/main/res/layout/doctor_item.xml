@@ -3,18 +3,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="@drawable/_10_gray_rect"
     android:paddingStart="9dp"
     android:paddingTop="@dimen/_10dp"
     android:paddingEnd="9dp"
-    android:paddingBottom="@dimen/_10dp">
+    android:paddingBottom="@dimen/_10dp"
+    android:layout_marginBottom="@dimen/_10dp">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/ivDoctorImage"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_marginTop="24dp"
         android:src="@drawable/small_doctor_avatar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -23,23 +23,117 @@
         android:id="@+id/tvDoctorName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="7dp"
         android:fontFamily="@font/cairo_semibold"
         android:text="دكتور مصطفى احمد عبد العال"
         android:textColor="@color/_444"
         android:textSize="@dimen/_12sp"
+        android:maxLines="1"
         app:layout_constraintBottom_toTopOf="@+id/doctorRating"
         app:layout_constraintEnd_toStartOf="@+id/ivDoctorImage"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/ivDoctorImage" />
 
     <RatingBar
         android:id="@+id/doctorRating"
+        style="?android:attr/ratingBarStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="7dp"
         android:progressBackgroundTint="@color/black"
         android:progressTint="@color/starColor"
         android:rating="1"
+        android:rotation="180"
+        android:scaleY="-1"
         app:layout_constraintBottom_toBottomOf="@+id/ivDoctorImage"
         app:layout_constraintEnd_toStartOf="@+id/ivDoctorImage"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvDoctorName" />
+
+    <ImageView
+        android:id="@+id/ivDoctorsHeadphoneBlue"
+        android:layout_width="22dp"
+        android:layout_height="22dp"
+        android:layout_marginTop="9dp"
+        android:padding="@dimen/_5dp"
+        android:src="@drawable/ic_doctor_headphone_blue"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ivDoctorImage" />
+
+    <TextView
+        android:id="@+id/tvDoctorSpecialization"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/cairo_regular"
+        android:text="اخصائي طب وجراحة الفم و الاسنان"
+        android:textColor="@color/_92"
+        android:textSize="@dimen/_12sp"
+        app:layout_constraintBottom_toBottomOf="@+id/ivDoctorsHeadphoneBlue"
+        app:layout_constraintEnd_toStartOf="@id/ivDoctorsHeadphoneBlue"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/tvDoctorSessionPrice" />
+
+    <TextView
+        android:id="@+id/tvDoctorSessionPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_8dp"
+        android:fontFamily="@font/cairo_bold"
+        android:text="350"
+        android:textColor="@color/_42"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/tvDoctorSpecialization"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tvDoctorSpecialization" />
+
+    <ImageView
+        android:id="@+id/ivLocationPinBlue"
+        android:layout_width="22dp"
+        android:layout_height="22dp"
+        android:padding="@dimen/_5dp"
+        android:src="@drawable/ic_location_pin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ivDoctorsHeadphoneBlue" />
+
+    <TextView
+        android:id="@+id/tvDoctorLocation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/cairo_regular"
+        android:text="المهندسين شارع لبنان"
+        android:textColor="@color/_92"
+        android:textSize="@dimen/_12sp"
+        app:layout_constraintBottom_toBottomOf="@+id/ivLocationPinBlue"
+        app:layout_constraintEnd_toStartOf="@+id/ivLocationPinBlue"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/tvEgyptianPound" />
+
+    <TextView
+        android:id="@+id/tvEgyptianPound"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/cairo_bold"
+        android:text="ج.م"
+        android:textColor="@color/_42"
+        android:textSize="13sp"
+        app:layout_constraintEnd_toEndOf="@+id/tvDoctorSessionPrice"
+        app:layout_constraintStart_toStartOf="@+id/tvDoctorSessionPrice"
+        app:layout_constraintTop_toBottomOf="@+id/tvDoctorSessionPrice" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnGoToDoctorProfile"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/_10_blue_rect"
+        android:fontFamily="@font/cairo_regular"
+        android:text="تواصل مع الطبيب"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvDoctorLocation" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

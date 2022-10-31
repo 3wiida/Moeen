@@ -12,7 +12,9 @@ import androidx.navigation.fragment.findNavController
 import com.example.moeen.R
 import com.example.moeen.base.BaseFragment
 import com.example.moeen.databinding.FragmentSearchForDoctorsBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SearchForDoctorsFragment : BaseFragment() {
 
     private lateinit var binding : FragmentSearchForDoctorsBinding

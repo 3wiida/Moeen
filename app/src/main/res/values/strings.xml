@@ -11,7 +11,7 @@
     <string name="login_failed">"Login failed"</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="unknowError">حاول فى وقت لاحق</string>
+    <string name="unknownError">حاول فى وقت لاحق</string>
     <string name="on_boarding1">بضغطة زر تلاقينا</string>
     <string name="on_boarding2">معاك في اصعب الاوقات</string>
     <string name="on_boarding3">مٌعين..ابتسامتك علينا</string>
