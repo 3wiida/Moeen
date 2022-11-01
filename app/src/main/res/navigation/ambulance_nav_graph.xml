@@ -31,7 +31,8 @@
         tools:layout="@layout/fragment_maps" >
         <action
             android:id="@+id/action_mapsFragment_to_locationSelectionFragment"
-            app:destination="@id/locationSelectionFragment" />
+            app:destination="@id/locationSelectionFragment"
+            app:popUpTo="@id/locationSelectionFragment" />
         <argument
             android:name="fromWhat"
             app:argType="integer" />

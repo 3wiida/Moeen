@@ -316,7 +316,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/textView16"
+                    android:id="@+id/tripCost"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="68.0"

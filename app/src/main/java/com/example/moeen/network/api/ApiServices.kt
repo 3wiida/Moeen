@@ -3,10 +3,12 @@ package com.example.moeen.network.api
 import com.example.moeen.network.model.carsTypesResponse.CarsTypesResponse
 import com.example.moeen.network.model.chronicDiseaseResponse.ChronicDiseaseResponse
 import com.example.moeen.network.model.citiesResponse.CitiesResponse
+import com.example.moeen.network.model.claculatePriceResponse.CalculatePriceResponse
 import com.example.moeen.network.model.countriesResponse.CountriesResponse
 import com.example.moeen.network.model.doctorsResponse.DoctorsResponse
 import com.example.moeen.network.model.homeResponse.HomeResponse
 import com.example.moeen.network.model.loginResponse.LoginResponse
+import com.example.moeen.network.model.orderRegionResponse.OrderRegionResponse
 import com.example.moeen.network.model.postsResponse.PostsResponse
 import com.example.moeen.network.model.profileResponse.ProfileResponse
 import retrofit2.http.Field
@@ -78,4 +80,21 @@ interface ApiServices {
     suspend fun getRegions(
         @Query("city_id") cityId : Int?
     ) : RegionsResponse
+
+    @FormUrlEncoded
+    @POST("v1/calculate-price")
+    suspend fun calculatePrice(
+        @Field("governorate_id") governorate_id:Int,
+        @Field("governorate_id_arrival") governorate_id_arrival:Int,
+        @Field("city_id") city_id:Int,
+        @Field("city_id_arrival") city_id_arrival:Int,
+        @Field("car_type_id") car_type_id:Int
+    ):CalculatePriceResponse
+
+    @FormUrlEncoded
+    @POST("v1/check-order-region")
+    suspend fun checkOrderRegion(
+        @Field("latitude") latitude:String,
+        @Field("longitude") longitude:String
+    ):OrderRegionResponse
 }

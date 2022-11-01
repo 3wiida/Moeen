@@ -16,6 +16,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -30,13 +31,13 @@ class LocationSelectionViewModel @Inject constructor(private val repo: LocationS
     var time: LiveData<String> = _timeMutableLiveDate
 
     private var _carTypes: MutableStateFlow<ApiResult> = MutableStateFlow(ApiResult.Empty)
-    var carTypes: StateFlow<ApiResult> = _carTypes
+    var carTypes= _carTypes.asStateFlow()
 
     private var _checkRegionResponse:MutableStateFlow<ApiResult> = MutableStateFlow(ApiResult.Empty)
-    var checkRegionResponse:StateFlow<ApiResult> =_checkRegionResponse
+    var checkRegionResponse = _checkRegionResponse.asStateFlow()
 
     private var _calculatePriceResponse:MutableStateFlow<ApiResult> = MutableStateFlow(ApiResult.Empty)
-    var calculatePriceResponse:StateFlow<ApiResult> =_calculatePriceResponse
+    var calculatePriceResponse=_calculatePriceResponse.asStateFlow()
 
     var formErrors:ObservableArrayList<FormErrors> = ObservableArrayList()
     /** ----------------------------------------------------------------------------------------------*/

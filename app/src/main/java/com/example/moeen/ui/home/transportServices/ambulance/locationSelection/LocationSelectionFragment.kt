@@ -1,6 +1,7 @@
 package com.example.moeen.ui.home.transportServices.ambulance.locationSelection
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.Dialog
 import android.content.Context
@@ -13,14 +14,14 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.Animation
-import android.view.animation.AnimationUtils
 import android.view.animation.TranslateAnimation
 import android.widget.Button
 import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.findNavController
 import com.example.moeen.R
 import com.example.moeen.base.BaseFragment
@@ -34,7 +35,9 @@ import com.example.moeen.ui.home.transportServices.ambulance.locationSelection.a
 import com.example.moeen.ui.home.transportServices.ambulance.locationSelection.pojo.LocationAddress
 import com.example.moeen.utils.resultWrapper.ApiResult
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import pub.devrel.easypermissions.EasyPermissions
 import javax.inject.Inject
 
@@ -42,26 +45,22 @@ import javax.inject.Inject
 class LocationSelectionFragment : BaseFragment(), EasyPermissions.PermissionCallbacks {
 
     /** vars */
-    @Inject lateinit var bundle: Bundle
+    @Inject
+    lateinit var bundle: Bundle
     private lateinit var binding: FragmentLocationSelectionBinding
-    private lateinit var scaleDown:Animation
-    private lateinit var scaleUp:Animation
     private val viewModel: LocationSelectionViewModel by viewModels()
-    private var movingGovId:Int=0
-    private var movingCityId:Int=0
-    private var arrivalCityId:Int=0
-    private var arrivalGovId:Int=0
-    /** -------------------------------------------------------------------------------- */
+    private var movingGovId: Int = 0
+    private var movingCityId: Int = 0
+    private var arrivalCityId: Int = 0
+    private var arrivalGovId: Int = 0
 
+    /** -------------------------------------------------------------------------------- */
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        scaleDown=AnimationUtils.loadAnimation(requireContext(),R.anim.scale_down)
-        scaleUp=AnimationUtils.loadAnimation(requireContext(),R.anim.scale_up)
         viewModel.getCarTypes()
     }
-
 
 
     override fun onCreateView(
@@ -82,14 +81,17 @@ class LocationSelectionFragment : BaseFragment(), EasyPermissions.PermissionCall
     }
 
 
-
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val arrivalLocation=bundle.getSerializable("arrivalLocation") as LocationAddress?
-        val movingLocation=bundle.getSerializable("movingLocation") as LocationAddress?
 
+        val arrivalLocation = bundle.getSerializable("arrivalLocation") as LocationAddress?
+        val movingLocation = bundle.getSerializable("movingLocation") as LocationAddress?
+
+
+        /** Handle back Btn press */
         binding.backBtn.setOnClickListener {
-            activity?.onBackPressed()
+            bundle.putSerializable("arrivalLocation",null)
+            bundle.putSerializable("movingLocation",null)
+            activity?.finish()
         }
 
 
@@ -97,7 +99,10 @@ class LocationSelectionFragment : BaseFragment(), EasyPermissions.PermissionCall
         binding.movingPlaceEt.setOnClickListener {
             if (checkLocationPermission(requireContext())) {
                 if (isGPSEnabled(requireActivity())) {
-                    val fromWhereInfo=LocationSelectionFragmentDirections.actionLocationSelectionFragmentToMapsFragment(1)
+                    val fromWhereInfo =
+                        LocationSelectionFragmentDirections.actionLocationSelectionFragmentToMapsFragment(
+                            1
+                        )
                     view.findNavController().navigate(fromWhereInfo)
                 } else {
                     startActivity(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS))
@@ -107,12 +112,16 @@ class LocationSelectionFragment : BaseFragment(), EasyPermissions.PermissionCall
                 requestLocationPermission()
             }
         }
+
 
         /** Handle click on arrival Edit Text */
         binding.arrivalPlaceEt.setOnClickListener {
             if (checkLocationPermission(requireContext())) {
                 if (isGPSEnabled(requireActivity())) {
-                    val fromWhereInfo=LocationSelectionFragmentDirections.actionLocationSelectionFragmentToMapsFragment(2)
+                    val fromWhereInfo =
+                        LocationSelectionFragmentDirections.actionLocationSelectionFragmentToMapsFragment(
+                            2
+                        )
                     view.findNavController().navigate(fromWhereInfo)
                 } else {
                     startActivity(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS))
@@ -121,39 +130,43 @@ class LocationSelectionFragment : BaseFragment(), EasyPermissions.PermissionCall
                 requestLocationPermission()
             }
         }
+
         binding.arrivalPlaceEt.setText(arrivalLocation?.addressLine)
         binding.movingPlaceEt.setText(movingLocation?.addressLine)
 
-
-
         /** Handle calculate price btn */
-        binding.calcPriceBtn.setOnClickListener{
-            if(binding.calcPriceBtn.text=="تأكيد"){
-                Log.d(TAG, "onViewCreated: that's it")
-            }else{
-                val movingPlace=binding.movingPlaceEt.text.toString()
-                val arrivalPlace=binding.arrivalPlaceEt.text.toString()
-                val carId=binding.ambulanceCarTypeSpinner.selectedItem as Data
-                if(viewModel.isFormValid(movingPlace,arrivalPlace,carId.id.toString())){
-                    viewModel.checkOrderRegion(movingLocation!!.lat,movingLocation.lon)
-                    collectCheckRegionResponseForMoving()
-                    viewModel.checkOrderRegion(arrivalLocation!!.lat,arrivalLocation.lon)
-                    collectCheckRegionResponseForArrival()
-                    viewModel.calculatePrice(movingGovId,arrivalGovId,movingCityId,arrivalCityId,carId.id)
-                    collectCalculatePriceResponse()
-                    binding.calcPriceBtn.text="تأكيد"
-                    //scaleDown.fillAfter=true
-                    binding.calcPriceBtn.visibility=View.GONE
-                    binding.confirmationCardView.visibility=View.VISIBLE
-                    //binding.confirmationCardView.animate().translationX(100f)
-                    initAnimation(binding.confirmationCardView)
-                    scaleUp.fillAfter=true
+        binding.calcPriceBtn.setOnClickListener {
+
+            val movingPlace = binding.movingPlaceEt.text.toString()
+            val arrivalPlace = binding.arrivalPlaceEt.text.toString()
+            val carId = binding.ambulanceCarTypeSpinner.selectedItem as Data
+
+            if (viewModel.isFormValid(movingPlace, arrivalPlace, carId.id.toString())) {
+                viewModel.checkOrderRegion(movingLocation!!.lat, movingLocation.lon)
+                collectCheckRegionResponseForMoving()
+                viewModel.checkOrderRegion(arrivalLocation!!.lat, arrivalLocation.lon)
+                collectCheckRegionResponseForArrival()
+                collectCalculatePriceResponse()
+                Log.d(TAG,"$movingGovId + $movingCityId + $arrivalGovId + $arrivalCityId" )
+                runBlocking {
+                    while(movingGovId==0 || arrivalGovId==0){
+                        collectCheckRegionResponseForMoving()
+                        collectCheckRegionResponseForArrival()
+                        delay(300L)
+                        Log.d(TAG,"$movingGovId + $movingCityId + $arrivalGovId + $arrivalCityId" )
+                    }
+                    viewModel.calculatePrice(
+                        movingGovId,
+                        arrivalGovId,
+                        movingCityId,
+                        arrivalCityId,
+                        carId.id
+                    )
                 }
             }
         }
 
     }
-
 
 
     /** collect all response data */
@@ -171,7 +184,8 @@ class LocationSelectionFragment : BaseFragment(), EasyPermissions.PermissionCall
                     }
                     is ApiResult.Success<*> -> {
                         val cars = result.data as CarsTypesResponse
-                        binding.ambulanceCarTypeSpinner.adapter = CarTypesSpinnerAdapter(requireContext(), cars.data.toMutableList())
+                        binding.ambulanceCarTypeSpinner.adapter =
+                            CarTypesSpinnerAdapter(requireContext(), cars.data.toMutableList())
 
                         loadingDialog().cancel()
                     }
@@ -181,82 +195,83 @@ class LocationSelectionFragment : BaseFragment(), EasyPermissions.PermissionCall
     }
 
 
-    private fun collectCheckRegionResponseForMoving(){
+    private fun collectCheckRegionResponseForMoving() {
         lifecycleScope.launch {
-            viewModel.checkRegionResponse.collect{
-                when(it){
-                    ApiResult.Empty -> {}
-                    is ApiResult.Failure -> {
-                        loadingDialog().cancel()
-                        showToast(requireContext(),"مكان التحرك خارج خدمتنا")
-                    }
-                    ApiResult.Loading -> loadingDialog().show()
-                    is ApiResult.Success<*> -> {
-                        val result=it.data as OrderRegionResponse
-                        movingGovId=result.governorate_id
-                        movingCityId=result.city_id
-                        loadingDialog().cancel()
-                    }
-                }
-            }
-        }
-    }
-
-
-    private fun collectCheckRegionResponseForArrival(){
-        lifecycleScope.launch {
-            viewModel.checkRegionResponse.collect{
-                when(it){
-                    ApiResult.Empty -> {}
-                    is ApiResult.Failure -> {
-                        loadingDialog().cancel()
-                        showToast(requireContext(),"منطقه الوصول غير مغطاه")
-                    }
-                    ApiResult.Loading -> loadingDialog().show()
-                    is ApiResult.Success<*> -> {
-                        val result=it.data as OrderRegionResponse
-                        arrivalCityId=result.city_id
-                        arrivalGovId=result.governorate_id
-                        loadingDialog().cancel()
-                    }
-                }
-            }
-        }
-    }
-
-    private fun collectCalculatePriceResponse(){
-        lifecycleScope.launch{
-            viewModel.calculatePriceResponse.collect{
-                when(it){
-                    ApiResult.Empty -> {}
-                    is ApiResult.Failure -> showToast(requireContext(),it.message!!)
-                    ApiResult.Loading -> {}
-                    is ApiResult.Success<*> -> {
-                        val result=it.data as CalculatePriceResponse
-                        try{
-                            showToast(requireContext(),result.data.price.toString())
-                        }catch (e:Exception){
-                            showToast(requireContext(),"لا يوجد توصيل فى المدينة")
+            repeatOnLifecycle(Lifecycle.State.STARTED){
+                viewModel.checkRegionResponse.collect {
+                    when (it) {
+                        ApiResult.Empty -> {}
+                        is ApiResult.Failure -> showToast(requireContext(), "مكان التحرك خارج خدمتنا")
+                        ApiResult.Loading -> {}
+                        is ApiResult.Success<*> -> {
+                            val result = it.data as OrderRegionResponse
+                            movingGovId = result.governorate_id
+                            movingCityId = result.city_id
                         }
-
                     }
                 }
             }
         }
     }
 
-    private fun initAnimation(view:View){
-        val translate=TranslateAnimation(
-            -(view.width.toFloat()),view.width.toFloat()/3,0f,0f
-        )
-        translate.fillAfter=true
-        translate.duration=1000
+
+    private fun collectCheckRegionResponseForArrival() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED){
+                viewModel.checkRegionResponse.collect {
+                    when (it) {
+                        ApiResult.Empty -> {}
+                        is ApiResult.Failure -> showToast(requireContext(), "منطقه الوصول غير مغطاه")
+                        ApiResult.Loading -> {}
+                        is ApiResult.Success<*> -> {
+                            val result = it.data as OrderRegionResponse
+                            arrivalCityId = result.city_id
+                            arrivalGovId = result.governorate_id
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun collectCalculatePriceResponse() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED){
+                viewModel.calculatePriceResponse.collect {
+                    when (it) {
+                        ApiResult.Empty -> {}
+                        is ApiResult.Failure -> showToast(requireContext(), it.message!!)
+                        ApiResult.Loading -> {}
+                        is ApiResult.Success<*> -> {
+                            val result = it.data as CalculatePriceResponse
+                            try {
+                                binding.tripCost.text="${result.data.price} ج.م "
+                                binding.confirmationCardView.visibility = View.VISIBLE
+                                initAnimation(binding.confirmationCardView)
+                            } catch (e: Exception) {
+                                showToast(requireContext(), result.massage)
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private fun initAnimation(view: View) {
+        val translate = TranslateAnimation(-(view.width.toFloat()), 0f, 0f, 0f)
+        translate.fillAfter = true
+        translate.duration = 1000
         view.startAnimation(translate)
+
+        val translateCalcBtn =TranslateAnimation(0f,-(binding.calcPriceBtn.width.toFloat()),0f,0f)
+        translateCalcBtn.duration=1000
+        translate.fillAfter=true
+        binding.calcPriceBtn.startAnimation(translateCalcBtn)
     }
 
     /** -------------------------------------------------------------------------------------------------------*/
-
-
 
 
     /** this section for handle location permission */
@@ -265,7 +280,6 @@ class LocationSelectionFragment : BaseFragment(), EasyPermissions.PermissionCall
         Manifest.permission.ACCESS_COARSE_LOCATION,
         Manifest.permission.ACCESS_FINE_LOCATION
     )
-
 
 
     private fun requestLocationPermission() {
@@ -284,13 +298,15 @@ class LocationSelectionFragment : BaseFragment(), EasyPermissions.PermissionCall
     }
 
 
-
     override fun onPermissionsGranted(requestCode: Int, perms: MutableList<String>) {}
 
 
-
     override fun onPermissionsDenied(requestCode: Int, perms: MutableList<String>) {
-        if (EasyPermissions.somePermissionPermanentlyDenied(this@LocationSelectionFragment, perms)) {
+        if (EasyPermissions.somePermissionPermanentlyDenied(
+                this@LocationSelectionFragment,
+                perms
+            )
+        ) {
             initPermissionDialog()
         } else {
             requestLocationPermission()
@@ -298,14 +314,13 @@ class LocationSelectionFragment : BaseFragment(), EasyPermissions.PermissionCall
     }
 
 
-
     private fun isGPSEnabled(context: Context): Boolean {
-        val locationManger = (context as Activity).getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        val locationManger =
+            (context as Activity).getSystemService(Context.LOCATION_SERVICE) as LocationManager
         return locationManger.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManger.isProviderEnabled(
             LocationManager.NETWORK_PROVIDER
         )
     }
-
 
 
     override fun onRequestPermissionsResult(
@@ -317,15 +332,13 @@ class LocationSelectionFragment : BaseFragment(), EasyPermissions.PermissionCall
     }
 
 
-
-
-    private fun initPermissionDialog(){
-        val permissionDialog=Dialog(requireContext())
+    private fun initPermissionDialog() {
+        val permissionDialog = Dialog(requireContext())
         permissionDialog.setContentView(R.layout.permission_request_dialog)
         permissionDialog.window?.setBackgroundDrawableResource(R.drawable._15_white_rect)
-        permissionDialog.window?.findViewById<Button>(R.id.settingBtn)?.setOnClickListener{
-            val intent=Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
-            val uri=Uri.fromParts("package",activity?.packageName,null)
+        permissionDialog.window?.findViewById<Button>(R.id.settingBtn)?.setOnClickListener {
+            val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+            val uri = Uri.fromParts("package", activity?.packageName, null)
             intent.data = uri
             startActivity(intent)
             permissionDialog.cancel()
