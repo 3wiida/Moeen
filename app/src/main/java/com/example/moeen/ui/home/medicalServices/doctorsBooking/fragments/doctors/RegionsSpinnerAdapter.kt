@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import com.example.moeen.R
+import com.example.moeen.databinding.DoctorsSpinnerItemLayoutBinding
 import com.example.moeen.databinding.SpinnerItemLayoutBinding
 import com.example.moeen.network.model.regionsResponse.RegionsResponse.Data
 
@@ -21,16 +22,16 @@ class RegionsSpinnerAdapter : BaseAdapter() {
 
     @SuppressLint("ViewHolder")
     override fun getView(p0: Int, p1: View?, p2: ViewGroup?): View {
-        val view = LayoutInflater.from(p2?.context).inflate(R.layout.spinner_item_layout, null, false)
-        val binding = SpinnerItemLayoutBinding.bind(view)
+        val view = LayoutInflater.from(p2?.context).inflate(R.layout.doctors_spinner_item_layout, null, false)
+        val binding = DoctorsSpinnerItemLayoutBinding.bind(view)
         val item = regionsList[p0]
 
-        binding.spinnerItemId.text = item.name
+        binding.doctorSpinnerItemId.text = item.name
 
         if(p0 == 0){
-            binding.spinnerItemId.setTextColor(p2?.context!!.getColor(R.color._92))
+            binding.doctorSpinnerItemId.setTextColor(p2?.context!!.getColor(R.color._92))
         }else{
-            binding.spinnerItemId.setTextColor(p2?.context!!.getColor(R.color.black))
+            binding.doctorSpinnerItemId.setTextColor(p2?.context!!.getColor(R.color.black))
         }
 
         return binding.root

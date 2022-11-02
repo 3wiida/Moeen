@@ -64,7 +64,8 @@
                     android:layout_weight="1"
                     android:layoutDirection="rtl"
                     android:textDirection="rtl"
-                    android:padding="0dp"/>
+                    android:padding="0dp"
+                    android:dropDownWidth="match_parent"/>
 
                 <Spinner
                     android:id="@+id/spCity"
@@ -72,7 +73,9 @@
                     android:layout_height="50dp"
                     android:layout_weight="1"
                     android:layoutDirection="rtl"
-                    android:textDirection="rtl"/>
+                    android:textDirection="rtl"
+                    android:padding="0dp"
+                    android:dropDownWidth="match_parent"/>
             </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
