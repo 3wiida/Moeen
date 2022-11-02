@@ -3,6 +3,7 @@ package com.example.moeen.ui.home.medicalServices.doctorsBooking.fragments.docto
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.RatingBar
 import android.widget.TextView
 import androidx.recyclerview.widget.AsyncListDiffer
@@ -23,6 +24,7 @@ class DoctorsAdapter : RecyclerView.Adapter<DoctorsAdapter.MyViewHolder>() {
         val specialization : TextView = itemView.findViewById(R.id.tvDoctorSpecialization)
         val location : TextView = itemView.findViewById(R.id.tvDoctorLocation)
         val price : TextView = itemView.findViewById(R.id.tvDoctorSessionPrice)
+        val btn : Button = itemView.findViewById(R.id.btnGoToDoctorProfile)
     }
 
     private val differCallback = object : DiffUtil.ItemCallback<Data>(){
@@ -40,6 +42,8 @@ class DoctorsAdapter : RecyclerView.Adapter<DoctorsAdapter.MyViewHolder>() {
         get() = differ.currentList
         set(value) = differ.submitList(value)
 
+    var onItemClicked : ((Int) -> Unit) ?= null
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         return MyViewHolder(
             LayoutInflater.from(parent.context).inflate(R.layout.doctor_item, parent, false)
@@ -56,6 +60,10 @@ class DoctorsAdapter : RecyclerView.Adapter<DoctorsAdapter.MyViewHolder>() {
             location.text = item.address
             price.text = item.medicalPrice.toString()
             Glide.with(itemView).load(item.photo).into(image)
+        }
+
+        holder.btn.setOnClickListener {
+            onItemClicked?.invoke(item.id)
         }
     }
 

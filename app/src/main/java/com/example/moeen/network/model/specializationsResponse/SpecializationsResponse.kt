@@ -17,7 +17,7 @@ data class SpecializationsResponse(
         @SerializedName("name")
         val name: String,
         @SerializedName("photo")
-        val photo: String,
+        val photo: String? = null,
         var checked : Boolean = false
     )
 }

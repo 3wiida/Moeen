@@ -1,6 +1,7 @@
 package com.example.moeen.ui.home.medicalServices.doctorsBooking.fragments.doctors
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,9 +10,11 @@ import android.widget.ArrayAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.moeen.R
 import com.example.moeen.base.BaseFragment
+import com.example.moeen.common.Constants.TAG
 import com.example.moeen.databinding.FragmentDoctorsBinding
 import com.example.moeen.network.model.citiesResponse.CitiesResponse
 import com.example.moeen.network.model.doctorsResponse.DoctorsResponse
@@ -58,7 +61,7 @@ class DoctorsFragment : BaseFragment() {
                         val result = (state.data as SpecializationsResponse).data
                         result.add(0, SpecializationsResponse.Data(-1, "الكل", "", true))
 
-                        specializationsAdapter.specializationsList = result
+                        specializationsAdapter.submitList(result)
                         binding.rvDoctorsSpecialization.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
                         binding.rvDoctorsSpecialization.adapter = specializationsAdapter
                     }
@@ -133,30 +136,45 @@ class DoctorsFragment : BaseFragment() {
             }
         }
 
-        specializationsAdapter.onItemClicked = {
-            if(it.name == "الكل"){
+        specializationsAdapter.onItemClicked = { clicked ->
+            if(clicked.name == "الكل"){
                 viewModel.getDoctors()
             }else {
-                viewModel.getDoctors(it.id)
+                viewModel.getDoctors(clicked.id)
             }
-            it.checked = true
+
+            val newList = specializationsAdapter.currentList.map { it.copy() }
+            newList.forEach {
+                it.checked = it.name == clicked.name
+            }
+            specializationsAdapter.submitList(newList)
         }
 
-
         binding.spCity.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-
-            }
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
 
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-//                if (position == 0) {
-//                    binding.spCity.setSelection(0)
-//                }else {
-                    val city = citiesSpinnerAdapter.getCityId(position)
-                    viewModel.getRegions(city)
-//                }
+                val city = citiesSpinnerAdapter.getCityId(position)
+                viewModel.getRegions(city)
             }
+        }
 
+        binding.btnDoctorsSearch.setOnClickListener {
+            val cityId = (binding.spCity.selectedItem as CitiesResponse.Data).id
+            val regionId = (binding.spNeighborhood.selectedItem as RegionsResponse.Data).id
+
+            if(cityId != -1 && regionId == -1){
+                viewModel.getDoctors(cityId = cityId)
+            }else if(cityId == -1 && regionId != -1){
+                viewModel.getDoctors(regionId = regionId)
+            }else if(cityId != -1 && regionId != -1){
+                viewModel.getDoctors(cityId =  cityId, regionId = regionId)
+            }
+        }
+
+        // TODO: Pass All Data
+        doctorsAdapter.onItemClicked = {
+            view?.findNavController()?.navigate(DoctorsFragmentDirections.actionDoctorsFragmentToDoctorProfileFragment(it))
         }
 
 

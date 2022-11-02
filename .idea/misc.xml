@@ -5,11 +5,6 @@
       <map>
         <entry key="..\:/Corptia/Mo3en/Moeen/app/src/main/res/layout/activity_home.xml" value="0.3398148148148148" />
         <entry key="..\:/Corptia/Mo3en/Moeen/app/src/main/res/layout/app_bar_home.xml" value="0.3398148148148148" />
-        <entry key="..\:/Corptia/Mo3en/Moeen/app/src/main/res/layout/doctors_spinner_item_layout.xml" value="0.3625" />
-        <entry key="..\:/Corptia/Mo3en/Moeen/app/src/main/res/layout/fragment_doctor_profile.xml" value="0.3625" />
-        <entry key="..\:/Corptia/Mo3en/Moeen/app/src/main/res/layout/fragment_doctors.xml" value="0.23277591973244147" />
-        <entry key="..\:/Corptia/Mo3en/Moeen/app/src/main/res/layout/permission_request_dialog.xml" value="0.3484375" />
-        <entry key="..\:/Corptia/Mo3en/Moeen/app/src/main/res/layout/spinner_item_layout.xml" value="0.3625" />
         <entry key="..\:/Users/Corptia 06/AndroidStudioProjects/Moeen/app/src/main/res/drawable/_10_blue_rect.xml" value="0.235" />
         <entry key="..\:/Users/Corptia 06/AndroidStudioProjects/Moeen/app/src/main/res/drawable/_10_gray_rect.xml" value="0.21" />
         <entry key="..\:/Users/Corptia 06/AndroidStudioProjects/Moeen/app/src/main/res/drawable/_10_topleft_10_topright_rect.xml" value="0.235" />
@@ -52,7 +47,7 @@
         <entry key="..\:/Users/Corptia/Desktop/abdo/Mo3en/Moeen/app/src/main/res/layout/activity_pathology_file.xml" value="0.35260416666666666" />
         <entry key="..\:/Users/Corptia/Desktop/abdo/Mo3en/Moeen/app/src/main/res/layout/activity_wallet_charging.xml" value="0.3453703703703704" />
         <entry key="..\:/Users/Corptia/Desktop/abdo/Mo3en/Moeen/app/src/main/res/layout/app_bar_home.xml" value="0.3453703703703704" />
-        <entry key="..\:/Users/Corptia/Desktop/abdo/Mo3en/Moeen/app/src/main/res/layout/doctor_item.xml" value="0.3453703703703704" />
+        <entry key="..\:/Users/Corptia/Desktop/abdo/Mo3en/Moeen/app/src/main/res/layout/doctor_item.xml" value="0.5401041666666667" />
         <entry key="..\:/Users/Corptia/Desktop/abdo/Mo3en/Moeen/app/src/main/res/layout/doctors_specialization_item.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Corptia/Desktop/abdo/Mo3en/Moeen/app/src/main/res/layout/drawer_header.xml" value="0.21180555555555555" />
         <entry key="..\:/Users/Corptia/Desktop/abdo/Mo3en/Moeen/app/src/main/res/layout/drawer_layout.xml" value="0.2824074074074074" />
@@ -61,9 +56,11 @@
         <entry key="..\:/Users/Corptia/Desktop/abdo/Mo3en/Moeen/app/src/main/res/layout/fragment_confirmation_and_payment.xml" value="0.33" />
         <entry key="..\:/Users/Corptia/Desktop/abdo/Mo3en/Moeen/app/src/main/res/layout/fragment_confirmation_data.xml" value="0.3453703703703704" />
         <entry key="..\:/Users/Corptia/Desktop/abdo/Mo3en/Moeen/app/src/main/res/layout/fragment_doctor_profile.xml" value="0.36666666666666664" />
-        <entry key="..\:/Users/Corptia/Desktop/abdo/Mo3en/Moeen/app/src/main/res/layout/fragment_doctors.xml" value="0.3453703703703704" />
+        <entry key="..\:/Users/Corptia/Desktop/abdo/Mo3en/Moeen/app/src/main/res/layout/fragment_doctors.xml" value="0.5074074074074074" />
+        <entry key="..\:/Users/Corptia/Desktop/abdo/Mo3en/Moeen/app/src/main/res/layout/fragment_location_selection.xml" value="0.5074074074074074" />
         <entry key="..\:/Users/Corptia/Desktop/abdo/Mo3en/Moeen/app/src/main/res/layout/fragment_search_for_doctors.xml" value="0.22642140468227426" />
         <entry key="..\:/Users/Corptia/Desktop/abdo/Mo3en/Moeen/app/src/main/res/layout/more_item_layout.xml" value="0.33" />
+        <entry key="..\:/Users/Corptia/Desktop/abdo/Mo3en/Moeen/app/src/main/res/layout/spinner_item_layout.xml" value="0.5541666666666667" />
         <entry key="..\:/Users/Corptia/Desktop/abdo/Mo3en/Moeen/app/src/main/res/menu/drawer_menu.xml" value="0.3592592592592593" />
       </map>
     </option>

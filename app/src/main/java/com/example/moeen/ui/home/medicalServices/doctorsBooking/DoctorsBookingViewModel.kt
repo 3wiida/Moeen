@@ -39,9 +39,9 @@ class DoctorsBookingViewModel @Inject constructor(private val repo: DoctorsBooki
         }
     }
 
-    fun getDoctors(id : Int? = null){
+    fun getDoctors(id : Int? = null, cityId : Int? = null, regionId : Int? = null){
         viewModelScope.launch(Dispatchers.IO){
-            when(val response = repo.getDoctors(id)){
+            when(val response = repo.getDoctors(id, cityId, regionId)){
                 is ResultWrapper.Failure -> {
                     _doctorsState.value = ApiResult.Failure(response.code, response.message)
                 }

@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import com.example.moeen.R
 import com.example.moeen.databinding.DoctorsSpinnerItemLayoutBinding
-import com.example.moeen.databinding.SpinnerItemLayoutBinding
 import com.example.moeen.network.model.citiesResponse.CitiesResponse.Data
 
 class CitiesSpinnerAdapter(private val citiesList: MutableList<Data>) : BaseAdapter() {

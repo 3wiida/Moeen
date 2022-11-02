@@ -13,6 +13,8 @@
         android:fontFamily="@font/cairo_regular"
         android:paddingStart="18dp"
         android:paddingEnd="18dp"
+        android:paddingTop="2dp"
+        android:paddingBottom="2dp"
         android:text="الكل"
         android:textColor="@color/_42"
         android:textSize="13sp"

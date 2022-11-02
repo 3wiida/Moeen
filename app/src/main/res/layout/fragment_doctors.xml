@@ -53,7 +53,7 @@
                     android:fontFamily="@font/cairo_semibold"
                     android:text="بحث"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/_14sp" />
+                    android:textSize="@dimen/_14sp"/>
 
                 <Spinner
                     android:id="@+id/spNeighborhood"

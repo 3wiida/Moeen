@@ -70,7 +70,9 @@ interface ApiServices {
 
     @GET("v1/doctors")
     suspend fun getDoctors(
-        @Query("specialty_id") id : Int? = null
+        @Query("specialty_id") id : Int? = null,
+        @Query("city_id") city : Int? = null,
+        @Query("region_id") region : Int? = null,
     ) : DoctorsResponse
 
     @GET("v1/cities")
