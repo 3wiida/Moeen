@@ -226,7 +226,7 @@
                         android:focusableInTouchMode="false"
                         android:hint="قم بتحديد الوقت"
                         android:drawableLeft="@drawable/ic_clock"
-                        android:background="@drawable/_15_gray_rect"
+                        android:background="@{viewModel.formErrors.contains(FormErrors.INVALID_TIME)? @drawable/_15_red_rect : @drawable/_15_gray_rect}"
                         android:fontFamily="@font/cairo_regular"
                         android:drawablePadding="5dp"
                         android:textSize="@dimen/_12sp" />
@@ -237,7 +237,7 @@
                         android:layout_height="50dp"
                         android:layout_marginLeft="15dp"
                         android:layout_weight="1"
-                        android:background="@drawable/_15_gray_rect"
+                        android:background="@{viewModel.formErrors.contains(FormErrors.INVALID_DATE)? @drawable/_15_red_rect : @drawable/_15_gray_rect}"
                         android:clickable="false"
                         android:cursorVisible="false"
                         android:drawableLeft="@drawable/ic_calendar"

@@ -11,10 +11,12 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.TranslateAnimation
+import android.widget.AdapterView
 import android.widget.Button
 import android.widget.TextView
 import androidx.databinding.DataBindingUtil
@@ -31,13 +33,14 @@ import com.example.moeen.network.model.carsTypesResponse.CarsTypesResponse
 import com.example.moeen.network.model.carsTypesResponse.Data
 import com.example.moeen.network.model.claculatePriceResponse.CalculatePriceResponse
 import com.example.moeen.network.model.orderRegionResponse.OrderRegionResponse
+import com.example.moeen.ui.home.transportServices.ambulance.AmbulanceActivity
 import com.example.moeen.ui.home.transportServices.ambulance.locationSelection.adapters.CarTypesSpinnerAdapter
 import com.example.moeen.ui.home.transportServices.ambulance.locationSelection.pojo.LocationAddress
+import com.example.moeen.ui.home.transportServices.mapsUtility.MapsFragment
 import com.example.moeen.utils.resultWrapper.ApiResult
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.launchIn
 import pub.devrel.easypermissions.EasyPermissions
 import javax.inject.Inject
 
@@ -49,10 +52,10 @@ class LocationSelectionFragment : BaseFragment(), EasyPermissions.PermissionCall
     lateinit var bundle: Bundle
     private lateinit var binding: FragmentLocationSelectionBinding
     private val viewModel: LocationSelectionViewModel by viewModels()
-    private var movingGovId: Int = 0
-    private var movingCityId: Int = 0
-    private var arrivalCityId: Int = 0
-    private var arrivalGovId: Int = 0
+    private var movingGovId: Int = -1
+    private var movingCityId: Int = -1
+    private var arrivalCityId: Int = -1
+    private var arrivalGovId: Int = -1
 
     /** -------------------------------------------------------------------------------- */
 
@@ -60,6 +63,8 @@ class LocationSelectionFragment : BaseFragment(), EasyPermissions.PermissionCall
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.getCarTypes()
+        val act=activity as AmbulanceActivity
+        act.setWhereAmI(0)
     }
 
 
@@ -86,11 +91,10 @@ class LocationSelectionFragment : BaseFragment(), EasyPermissions.PermissionCall
         val arrivalLocation = bundle.getSerializable("arrivalLocation") as LocationAddress?
         val movingLocation = bundle.getSerializable("movingLocation") as LocationAddress?
 
-
         /** Handle back Btn press */
         binding.backBtn.setOnClickListener {
-            bundle.putSerializable("arrivalLocation",null)
-            bundle.putSerializable("movingLocation",null)
+            bundle.putSerializable("arrivalLocation", null)
+            bundle.putSerializable("movingLocation", null)
             activity?.finish()
         }
 
@@ -140,32 +144,20 @@ class LocationSelectionFragment : BaseFragment(), EasyPermissions.PermissionCall
             val movingPlace = binding.movingPlaceEt.text.toString()
             val arrivalPlace = binding.arrivalPlaceEt.text.toString()
             val carId = binding.ambulanceCarTypeSpinner.selectedItem as Data
+            val date = binding.ambulanceDateSelectionEt.text.toString()
+            val time = binding.ambulanceTimeSelectionEt.text.toString()
 
-            if (viewModel.isFormValid(movingPlace, arrivalPlace, carId.id.toString())) {
+            if (viewModel.isFormValid(movingPlace, arrivalPlace, carId.id.toString(), date, time)) {
+
                 viewModel.checkOrderRegion(movingLocation!!.lat, movingLocation.lon)
                 collectCheckRegionResponseForMoving()
+
                 viewModel.checkOrderRegion(arrivalLocation!!.lat, arrivalLocation.lon)
                 collectCheckRegionResponseForArrival()
+
                 collectCalculatePriceResponse()
-                Log.d(TAG,"$movingGovId + $movingCityId + $arrivalGovId + $arrivalCityId" )
-                runBlocking {
-                    while(movingGovId==0 || arrivalGovId==0){
-                        collectCheckRegionResponseForMoving()
-                        collectCheckRegionResponseForArrival()
-                        delay(300L)
-                        Log.d(TAG,"$movingGovId + $movingCityId + $arrivalGovId + $arrivalCityId" )
-                    }
-                    viewModel.calculatePrice(
-                        movingGovId,
-                        arrivalGovId,
-                        movingCityId,
-                        arrivalCityId,
-                        carId.id
-                    )
-                }
             }
         }
-
     }
 
 
@@ -196,19 +188,16 @@ class LocationSelectionFragment : BaseFragment(), EasyPermissions.PermissionCall
 
 
     private fun collectCheckRegionResponseForMoving() {
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED){
-                viewModel.checkRegionResponse.collect {
-                    when (it) {
-                        ApiResult.Empty -> {}
-                        is ApiResult.Failure -> showToast(requireContext(), "مكان التحرك خارج خدمتنا")
-                        ApiResult.Loading -> {}
-                        is ApiResult.Success<*> -> {
-                            val result = it.data as OrderRegionResponse
-                            movingGovId = result.governorate_id
-                            movingCityId = result.city_id
-                        }
-                    }
+        viewModel.checkRegionResponse.observe(viewLifecycleOwner) {
+            when (it) {
+                ApiResult.Empty -> {}
+                is ApiResult.Failure -> showToast(requireContext(), "مكان التحرك خارج خدمتنا")
+                ApiResult.Loading -> {}
+                is ApiResult.Success<*> -> {
+                    val result = it.data as OrderRegionResponse
+                    movingGovId = result.governorate_id
+                    movingCityId = result.city_id
+                    Log.d(TAG, "collectCheckRegionResponseForMoving: $movingGovId + $movingCityId")
                 }
             }
         }
@@ -216,19 +205,30 @@ class LocationSelectionFragment : BaseFragment(), EasyPermissions.PermissionCall
 
 
     private fun collectCheckRegionResponseForArrival() {
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED){
-                viewModel.checkRegionResponse.collect {
-                    when (it) {
-                        ApiResult.Empty -> {}
-                        is ApiResult.Failure -> showToast(requireContext(), "منطقه الوصول غير مغطاه")
-                        ApiResult.Loading -> {}
-                        is ApiResult.Success<*> -> {
-                            val result = it.data as OrderRegionResponse
-                            arrivalCityId = result.city_id
-                            arrivalGovId = result.governorate_id
-                        }
-                    }
+        val carId = binding.ambulanceCarTypeSpinner.selectedItem as Data
+        viewModel.checkRegionResponse.observe(viewLifecycleOwner) {
+            when (it) {
+                ApiResult.Empty -> {}
+                is ApiResult.Failure -> showToast(
+                    requireContext(),
+                    "منطقه الوصول غير مغطاه"
+                )
+                ApiResult.Loading -> {}
+                is ApiResult.Success<*> -> {
+                    val result = it.data as OrderRegionResponse
+                    arrivalCityId = result.city_id
+                    arrivalGovId = result.governorate_id
+                    Log.d(
+                        TAG,
+                        "collectCheckRegionResponseForArrival: $arrivalGovId + $arrivalCityId"
+                    )
+                    viewModel.calculatePrice(
+                        movingGovId,
+                        arrivalGovId,
+                        movingCityId,
+                        arrivalCityId,
+                        carId.id
+                    )
                 }
             }
         }
@@ -237,16 +237,20 @@ class LocationSelectionFragment : BaseFragment(), EasyPermissions.PermissionCall
     @SuppressLint("SetTextI18n")
     private fun collectCalculatePriceResponse() {
         lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED){
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.calculatePriceResponse.collect {
                     when (it) {
                         ApiResult.Empty -> {}
-                        is ApiResult.Failure -> showToast(requireContext(), it.message!!)
-                        ApiResult.Loading -> {}
+                        is ApiResult.Failure -> {
+                            loadingDialog().dismiss()
+                            showToast(requireContext(), it.message!!)
+                        }
+                        ApiResult.Loading -> loadingDialog().show()
                         is ApiResult.Success<*> -> {
+                            loadingDialog().dismiss()
                             val result = it.data as CalculatePriceResponse
                             try {
-                                binding.tripCost.text="${result.data.price} ج.م "
+                                binding.tripCost.text = "${result.data.price} ج.م "
                                 binding.confirmationCardView.visibility = View.VISIBLE
                                 initAnimation(binding.confirmationCardView)
                             } catch (e: Exception) {
@@ -259,15 +263,30 @@ class LocationSelectionFragment : BaseFragment(), EasyPermissions.PermissionCall
         }
     }
 
+
     private fun initAnimation(view: View) {
         val translate = TranslateAnimation(-(view.width.toFloat()), 0f, 0f, 0f)
         translate.fillAfter = true
         translate.duration = 1000
         view.startAnimation(translate)
 
-        val translateCalcBtn =TranslateAnimation(0f,-(binding.calcPriceBtn.width.toFloat()),0f,0f)
-        translateCalcBtn.duration=1000
-        translate.fillAfter=true
+        val translateCalcBtn =
+            TranslateAnimation(0f, -(binding.calcPriceBtn.width.toFloat()), 0f, 0f)
+        translateCalcBtn.duration = 1000
+        translate.fillAfter = true
+        binding.calcPriceBtn.startAnimation(translateCalcBtn)
+    }
+
+    private fun reverseAnimation(view: View) {
+        val translate = TranslateAnimation(0f, -(view.width.toFloat()), 0f, 0f)
+        translate.fillAfter = true
+        translate.duration = 1000
+        view.startAnimation(translate)
+
+        val translateCalcBtn =
+            TranslateAnimation(-(binding.calcPriceBtn.width.toFloat()), 0f, 0f, 0f)
+        translateCalcBtn.duration = 1000
+        translateCalcBtn.fillAfter = true
         binding.calcPriceBtn.startAnimation(translateCalcBtn)
     }
 

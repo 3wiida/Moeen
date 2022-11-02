@@ -12,6 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import com.example.moeen.R
 import com.example.moeen.base.BaseFragment
+import com.example.moeen.ui.home.transportServices.ambulance.AmbulanceActivity
 import com.example.moeen.ui.home.transportServices.ambulance.locationSelection.pojo.LocationAddress
 import com.example.moeen.utils.resultWrapper.ApiResult
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -85,6 +86,8 @@ class MapsFragment  : BaseFragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        val act=activity as AmbulanceActivity
+        act.setWhereAmI(1)
         return inflater.inflate(R.layout.fragment_maps, container, false)
     }
 

@@ -5,15 +5,13 @@ import android.app.TimePickerDialog
 import android.content.Context
 import android.icu.util.Calendar
 import androidx.databinding.ObservableArrayList
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.example.moeen.utils.FormErrors
 import com.example.moeen.utils.resultWrapper.ApiResult
 import com.example.moeen.utils.resultWrapper.ResultWrapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -34,7 +32,7 @@ class LocationSelectionViewModel @Inject constructor(private val repo: LocationS
     var carTypes= _carTypes.asStateFlow()
 
     private var _checkRegionResponse:MutableStateFlow<ApiResult> = MutableStateFlow(ApiResult.Empty)
-    var checkRegionResponse = _checkRegionResponse.asStateFlow()
+    var checkRegionResponse = _checkRegionResponse.asLiveData()
 
     private var _calculatePriceResponse:MutableStateFlow<ApiResult> = MutableStateFlow(ApiResult.Empty)
     var calculatePriceResponse=_calculatePriceResponse.asStateFlow()
@@ -111,17 +109,15 @@ class LocationSelectionViewModel @Inject constructor(private val repo: LocationS
 
 
     /** check is all fields are correct and not empty */
-    fun isFormValid(movingPlace:String,arrivalPlace:String,carType:String):Boolean {
+    fun isFormValid(movingPlace:String,arrivalPlace:String,carType:String,date:String,time:String):Boolean {
         formErrors.clear()
-        if(movingPlace.isEmpty()){
-            formErrors.add(FormErrors.EMPTY_MOVING_PLACE)
-        }
-        if(arrivalPlace.isEmpty()){
-            formErrors.add(FormErrors.EMPTY_ARRIVAL_PLACE)
-        }
-        if(carType.isEmpty()){
-            formErrors.add(FormErrors.EMPTY_CAR_TYPE)
-        }
+
+        if(movingPlace.isEmpty()) formErrors.add(FormErrors.EMPTY_MOVING_PLACE)
+        if(arrivalPlace.isEmpty()) formErrors.add(FormErrors.EMPTY_ARRIVAL_PLACE)
+        if(carType.isEmpty()) formErrors.add(FormErrors.EMPTY_CAR_TYPE)
+        if(date.isEmpty()) formErrors.add(FormErrors.INVALID_DATE)
+        if(time.isEmpty()) formErrors.add(FormErrors.INVALID_TIME)
+
         return formErrors.isEmpty()
     }
 }

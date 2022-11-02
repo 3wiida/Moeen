@@ -12,7 +12,8 @@
         tools:layout="@layout/fragment_location_selection" >
         <action
             android:id="@+id/action_locationSelectionFragment_to_mapsFragment"
-            app:destination="@id/mapsFragment" />
+            app:destination="@id/mapsFragment"
+            app:popUpToInclusive="false" />
         <argument
             android:name="arrivalAddressLine"
             app:argType="string"
