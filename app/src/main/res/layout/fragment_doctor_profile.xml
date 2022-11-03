@@ -6,18 +6,194 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.home.medicalServices.doctorsBooking.fragments.ConfirmationAndPaymentFragment">
+        android:paddingTop="14dp"
+        tools:context=".ui.home.medicalServices.doctorsBooking.fragments.doctorProfile.DoctorProfileFragment">
 
-        <TextView
-            android:id="@+id/tvProfile"
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline29"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Doctor Profile"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="@dimen/_16dp" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline30"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_end="@dimen/_16dp" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/ivDoctorProfileImage"
+            android:layout_width="68dp"
+            android:layout_height="68dp"
+            android:src="@drawable/doctor_avatar"
+            app:layout_constraintEnd_toStartOf="@id/guideline30"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvDoctorProfileName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="14dp"
+            android:fontFamily="@font/cairo_semibold"
+            android:maxLines="1"
+            android:text="د/ مصطفى احمد"
+            android:textColor="@color/_444"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@+id/ivDoctorProfileImage"
+            app:layout_constraintEnd_toStartOf="@+id/ivDoctorProfileImage"
+            app:layout_constraintTop_toTopOf="@+id/ivDoctorProfileImage" />
+
+        <RatingBar
+            android:id="@+id/doctorProfileRating"
+            style="?android:attr/ratingBarStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="13dp"
+            android:progressBackgroundTint="@color/black"
+            android:progressTint="@color/starColor"
+            android:rating="1"
+            android:rotation="180"
+            android:scaleY="-1"
+            app:layout_constraintBottom_toBottomOf="@+id/tvDoctorProfileName"
+            app:layout_constraintEnd_toStartOf="@+id/tvDoctorProfileName"
+            app:layout_constraintHorizontal_bias="0.93"
+            app:layout_constraintStart_toStartOf="@+id/guideline29"
+            app:layout_constraintTop_toTopOf="@+id/tvDoctorProfileName" />
+
+        <TextView
+            android:id="@+id/tvDoctorProfileSpeciality"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/cairo_regular"
+            android:text="اخصائي طب وجراحة الفم و الاسنان"
+            android:textColor="@color/_92"
+            android:textSize="@dimen/_12sp"
+            app:layout_constraintBottom_toBottomOf="@+id/ivDoctorProfileHeadphoneBlue"
+            app:layout_constraintEnd_toStartOf="@+id/ivDoctorProfileHeadphoneBlue"
+            app:layout_constraintTop_toTopOf="@+id/ivDoctorProfileHeadphoneBlue" />
+
+        <ImageView
+            android:id="@+id/ivDoctorProfileHeadphoneBlue"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:layout_marginTop="8dp"
+            android:padding="@dimen/_5dp"
+            android:src="@drawable/ic_doctor_headphone_blue"
+            app:layout_constraintEnd_toStartOf="@+id/ivDoctorProfileImage"
+            app:layout_constraintTop_toBottomOf="@+id/tvDoctorProfileName" />
+
+        <TextView
+            android:id="@+id/tvDoctorProfileLocation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/cairo_semibold"
+            android:text="المهندسين شارع لبنان"
+            android:textColor="@color/_92"
+            android:textSize="@dimen/_12sp"
+            app:layout_constraintBottom_toBottomOf="@+id/ivProfileLocationPinBlue"
+            app:layout_constraintEnd_toStartOf="@+id/ivProfileLocationPinBlue"
+            app:layout_constraintTop_toTopOf="@+id/ivProfileLocationPinBlue" />
+
+        <ImageView
+            android:id="@+id/ivProfileLocationPinBlue"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:padding="@dimen/_5dp"
+            android:src="@drawable/ic_location_pin"
+            app:layout_constraintEnd_toStartOf="@+id/ivDoctorProfileImage"
+            app:layout_constraintTop_toBottomOf="@+id/ivDoctorProfileHeadphoneBlue" />
+
+        <View
+            android:id="@+id/lineSeparatorLeft"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="@color/separatorColor"
+            app:layout_constraintBottom_toBottomOf="@+id/llDoctorProfileSeparate"
+            app:layout_constraintEnd_toStartOf="@+id/llDoctorProfileSeparate"
+            app:layout_constraintStart_toStartOf="@+id/guideline29"
+            app:layout_constraintTop_toTopOf="@+id/llDoctorProfileSeparate" />
+
+        <LinearLayout
+            android:id="@+id/llDoctorProfileSeparate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:background="@drawable/_50_gray_rect"
+            android:orientation="horizontal"
+            android:paddingStart="19dp"
+            android:paddingTop="@dimen/_8dp"
+            android:paddingEnd="19dp"
+            android:paddingBottom="@dimen/_8dp"
+            app:layout_constraintEnd_toStartOf="@+id/guideline30"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="@+id/guideline29"
+            app:layout_constraintTop_toBottomOf="@+id/tvDoctorProfileLocation">
+
+            <TextView
+                android:id="@+id/tvDoctorProfileLE"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="6dp"
+                android:fontFamily="@font/cairo_bold"
+                android:text="ج.م"
+                android:textColor="@color/_92"
+                android:textSize="@dimen/_12sp" />
+
+            <TextView
+                android:id="@+id/tvDoctorProfilePrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/_12dp"
+                android:fontFamily="@font/cairo_bold"
+                android:text="350"
+                android:textColor="@color/_92"
+                android:textSize="@dimen/_12sp" />
+
+
+            <TextView
+                android:id="@+id/tvDoctorProfilePriceTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/cairo_semibold"
+                android:text="الكشف"
+                android:textColor="@color/_92"
+                android:textSize="@dimen/_12sp" />
+        </LinearLayout>
+
+        <View
+            android:id="@+id/lineSeparatorRight"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="@color/separatorColor"
+            app:layout_constraintBottom_toBottomOf="@+id/llDoctorProfileSeparate"
+            app:layout_constraintEnd_toStartOf="@+id/guideline30"
+            app:layout_constraintStart_toEndOf="@+id/llDoctorProfileSeparate"
+            app:layout_constraintTop_toTopOf="@+id/llDoctorProfileSeparate" />
+
+        <TextView
+            android:id="@+id/tvDoctorWorkTimes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_16dp"
+            android:fontFamily="@font/cairo_regular"
+            android:text="المواعيد المتاحة"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toStartOf="@+id/guideline30"
+            app:layout_constraintStart_toStartOf="@+id/guideline29"
+            app:layout_constraintTop_toBottomOf="@+id/llDoctorProfileSeparate" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvDoctorWorkTimes"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/_16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/guideline30"
+            app:layout_constraintStart_toStartOf="@+id/guideline29"
+            app:layout_constraintTop_toBottomOf="@+id/tvDoctorWorkTimes" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

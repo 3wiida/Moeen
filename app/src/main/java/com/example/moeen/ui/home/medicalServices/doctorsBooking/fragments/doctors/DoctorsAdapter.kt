@@ -13,7 +13,6 @@ import com.bumptech.glide.Glide
 import com.example.moeen.R
 import com.example.moeen.network.model.doctorsResponse.DoctorsResponse.Data
 import de.hdodenhof.circleimageview.CircleImageView
-import org.w3c.dom.Text
 
 class DoctorsAdapter : RecyclerView.Adapter<DoctorsAdapter.MyViewHolder>() {
 
@@ -38,11 +37,11 @@ class DoctorsAdapter : RecyclerView.Adapter<DoctorsAdapter.MyViewHolder>() {
     }
     private val differ = AsyncListDiffer(this, differCallback)
 
-    var doctorsList : List<Data>
+    var doctorsList : List<Data?>?
         get() = differ.currentList
         set(value) = differ.submitList(value)
 
-    var onItemClicked : ((Int) -> Unit) ?= null
+    var onItemClicked : ((Data) -> Unit) ?= null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         return MyViewHolder(
@@ -51,21 +50,25 @@ class DoctorsAdapter : RecyclerView.Adapter<DoctorsAdapter.MyViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        val item = doctorsList[position]
+        val item = doctorsList!![position]
 
         holder.apply {
-            name.text = item.name
-            rating.rating = item.rate.toFloat()
-            specialization.text = item.specialtyId.name
+            name.text = item!!.name
+            rating.rating = item.rate!!.toFloat()
+            specialization.text = item.specialtyId!!.name
             location.text = item.address
-            price.text = item.medicalPrice.toString()
+            if(item.medicalPrice == null){
+                price.text = "0"
+            }else {
+                price.text = item.medicalPrice.toString()
+            }
             Glide.with(itemView).load(item.photo).into(image)
         }
 
         holder.btn.setOnClickListener {
-            onItemClicked?.invoke(item.id)
+            onItemClicked?.invoke(item!!)
         }
     }
 
-    override fun getItemCount(): Int = doctorsList.size
+    override fun getItemCount(): Int = doctorsList!!.size
 }

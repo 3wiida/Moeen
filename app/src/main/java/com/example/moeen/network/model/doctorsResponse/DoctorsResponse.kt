@@ -2,98 +2,99 @@ package com.example.moeen.network.model.doctorsResponse
 
 
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
 data class DoctorsResponse(
     @SerializedName("data")
-    val `data`: List<Data>,
+    val `data`: List<Data?>?,
     @SerializedName("degress")
-    val degress: Degress,
+    val degress: Degress?,
     @SerializedName("links")
-    val links: Links,
+    val links: Links?,
     @SerializedName("massage")
-    val massage: String,
+    val massage: String?,
     @SerializedName("meta")
-    val meta: Meta,
+    val meta: Meta?,
     @SerializedName("status")
-    val status: Int
+    val status: Int?
 ) {
     data class Data(
         @SerializedName("address")
-        val address: String,
+        val address: String?,
         @SerializedName("auto_message")
-        val autoMessage: String,
+        val autoMessage: String?,
         @SerializedName("city_id")
-        val cityId: Int,
+        val cityId: Int?,
         @SerializedName("d_o_b")
-        val dOB: Any,
+        val dOB: Any?,
         @SerializedName("degree")
-        val degree: String,
+        val degree: String?,
         @SerializedName("email")
-        val email: String,
+        val email: String?,
         @SerializedName("gender")
-        val gender: String,
+        val gender: String?,
         @SerializedName("id")
-        val id: Int,
+        val id: Int?,
         @SerializedName("medical_price")
-        val medicalPrice: Int,
+        val medicalPrice: Int?,
         @SerializedName("name")
-        val name: String,
+        val name: String?,
         @SerializedName("nationality")
-        val nationality: Any,
+        val nationality: Any?,
         @SerializedName("phone")
-        val phone: String,
+        val phone: String?,
         @SerializedName("photo")
-        val photo: String,
+        val photo: String?,
         @SerializedName("rate")
-        val rate: String,
+        val rate: String?,
         @SerializedName("region")
-        val region: Region,
+        val region: Region?,
         @SerializedName("specialty_id")
-        val specialtyId: SpecialtyId,
+        val specialtyId: SpecialtyId?,
         @SerializedName("status")
-        val status: Any,
+        val status: Any?,
         @SerializedName("transport_photo")
-        val transportPhoto: Any,
+        val transportPhoto: Any?,
         @SerializedName("user_name")
-        val userName: Any,
+        val userName: Any?,
         @SerializedName("visit_price")
-        val visitPrice: Int,
+        val visitPrice: Int?,
         @SerializedName("work_times")
-        val workTimes: List<WorkTime>
-    ) {
+        val workTimes: List<WorkTime?>?
+    ) : Serializable {
         data class Region(
             @SerializedName("city")
-            val city: City,
+            val city: City?,
             @SerializedName("id")
-            val id: Int,
+            val id: Int?,
             @SerializedName("name")
-            val name: String
+            val name: String?
         ) {
             data class City(
                 @SerializedName("id")
-                val id: Int,
+                val id: Int?,
                 @SerializedName("name")
-                val name: String,
+                val name: String?,
                 @SerializedName("state")
-                val state: State
+                val state: State?
             ) {
                 data class State(
                     @SerializedName("country")
-                    val country: Country,
+                    val country: Country?,
                     @SerializedName("id")
-                    val id: Int,
+                    val id: Int?,
                     @SerializedName("name")
-                    val name: String
+                    val name: String?
                 ) {
                     data class Country(
                         @SerializedName("code")
-                        val code: String,
+                        val code: String?,
                         @SerializedName("id")
-                        val id: Int,
+                        val id: Int?,
                         @SerializedName("name")
-                        val name: String,
+                        val name: String?,
                         @SerializedName("nationality")
-                        val nationality: String
+                        val nationality: String?
                     )
                 }
             }
@@ -101,80 +102,80 @@ data class DoctorsResponse(
 
         data class SpecialtyId(
             @SerializedName("id")
-            val id: Int,
+            val id: Int?,
             @SerializedName("name")
-            val name: String,
+            val name: String?,
             @SerializedName("photo")
-            val photo: String
+            val photo: String?
         )
 
         data class WorkTime(
             @SerializedName("date")
-            val date: String,
+            val date: String?,
             @SerializedName("day")
-            val day: String,
+            val day: String?,
             @SerializedName("shifts")
-            val shifts: List<Shift>
+            val shifts: List<Shift?>?
         ) {
             data class Shift(
                 @SerializedName("day")
-                val day: String,
+                val day: String?,
                 @SerializedName("end")
-                val end: String,
+                val end: String?,
                 @SerializedName("id")
-                val id: Int,
+                val id: Int?,
                 @SerializedName("medical_times")
-                val medicalTimes: Int,
+                val medicalTimes: Int?,
                 @SerializedName("remaing_times")
-                val remaingTimes: Int,
+                val remaingTimes: Int?,
                 @SerializedName("start")
-                val start: String
+                val start: String?
             )
         }
     }
 
     data class Degress(
         @SerializedName("consultant")
-        val consultant: String,
+        val consultant: String?,
         @SerializedName("professor")
-        val professor: String,
+        val professor: String?,
         @SerializedName("professor-first")
-        val professorFirst: String,
+        val professorFirst: String?,
         @SerializedName("resident")
-        val resident: String,
+        val resident: String?,
         @SerializedName("specialist")
-        val specialist: String,
+        val specialist: String?,
         @SerializedName("specialist-first")
-        val specialistFirst: String,
+        val specialistFirst: String?,
         @SerializedName("trainee")
-        val trainee: String
+        val trainee: String?
     )
 
     data class Links(
         @SerializedName("first")
-        val first: String,
+        val first: String?,
         @SerializedName("last")
-        val last: String,
+        val last: String?,
         @SerializedName("next")
-        val next: Any,
+        val next: Any?,
         @SerializedName("prev")
-        val prev: Any
+        val prev: Any?
     )
 
     data class Meta(
         @SerializedName("current_page")
-        val currentPage: Int,
+        val currentPage: Int?,
         @SerializedName("from")
-        val from: Int,
+        val from: Int?,
         @SerializedName("last_page")
-        val lastPage: Int,
+        val lastPage: Int?,
         @SerializedName("path")
-        val path: String,
+        val path: String?,
         @SerializedName("per_page")
-        val perPage: Int,
+        val perPage: Int?,
         @SerializedName("to")
-        val to: Int,
+        val to: Int?,
         @SerializedName("total")
-        val total: Int
+        val total: Int?
     )
 }

@@ -23,14 +23,14 @@
     </fragment>
     <fragment
         android:id="@+id/doctorProfileFragment"
-        android:name="com.example.moeen.ui.home.medicalServices.doctorsBooking.fragments.DoctorProfileFragment"
+        android:name="com.example.moeen.ui.home.medicalServices.doctorsBooking.fragments.doctorProfile.DoctorProfileFragment"
         android:label="DoctorProfileFragment" >
         <action
             android:id="@+id/action_doctorProfileFragment_to_confirmationAndPaymentFragment"
             app:destination="@id/confirmationAndPaymentFragment" />
         <argument
-            android:name="doctorId"
-            app:argType="integer" />
+            android:name="doctor"
+            app:argType="com.example.moeen.network.model.doctorsResponse.DoctorsResponse$Data" />
     </fragment>
     <fragment
         android:id="@+id/confirmationAndPaymentFragment"

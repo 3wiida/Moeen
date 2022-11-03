@@ -21,4 +21,6 @@
     <color name="wallet_background">#F7FDFE</color>
     <color name="separate_items">#F5F7FF</color>
     <color name="starColor">#FFC646</color>
+    <color name="separatorColor">#E2E2E2</color>
+    <color name="green">#00AC56</color>
 </resources>

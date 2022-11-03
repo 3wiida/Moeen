@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
-import android.widget.ArrayAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -58,6 +57,8 @@ class DoctorsFragment : BaseFragment() {
                     }
                     is ApiResult.Success<*> -> withContext(Dispatchers.Main){
                         loadingDialog().cancel()
+
+                        // TODO: Solve the first item problem
                         val result = (state.data as SpecializationsResponse).data
                         result.add(0, SpecializationsResponse.Data(-1, "الكل", "", true))
 
@@ -172,8 +173,8 @@ class DoctorsFragment : BaseFragment() {
             }
         }
 
-        // TODO: Pass All Data
         doctorsAdapter.onItemClicked = {
+            Log.d(TAG, "onCreateView: $it")
             view?.findNavController()?.navigate(DoctorsFragmentDirections.actionDoctorsFragmentToDoctorProfileFragment(it))
         }
 
