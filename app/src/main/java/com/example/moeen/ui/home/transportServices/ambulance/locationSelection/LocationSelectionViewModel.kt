@@ -11,9 +11,7 @@ import com.example.moeen.utils.resultWrapper.ApiResult
 import com.example.moeen.utils.resultWrapper.ResultWrapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -31,13 +29,14 @@ class LocationSelectionViewModel @Inject constructor(private val repo: LocationS
     private var _carTypes: MutableStateFlow<ApiResult> = MutableStateFlow(ApiResult.Empty)
     var carTypes= _carTypes.asStateFlow()
 
-    private var _checkRegionResponse:MutableStateFlow<ApiResult> = MutableStateFlow(ApiResult.Empty)
-    var checkRegionResponse = _checkRegionResponse.asLiveData()
-
     private var _calculatePriceResponse:MutableStateFlow<ApiResult> = MutableStateFlow(ApiResult.Empty)
     var calculatePriceResponse=_calculatePriceResponse.asStateFlow()
 
+    private var _govId:MutableLiveData<Int> = MutableLiveData()
+    var govId:LiveData<Int> = _govId
+
     var formErrors:ObservableArrayList<FormErrors> = ObservableArrayList()
+    var count:Int=0
     /** ----------------------------------------------------------------------------------------------*/
 
 
@@ -80,18 +79,6 @@ class LocationSelectionViewModel @Inject constructor(private val repo: LocationS
                 is ResultWrapper.Failure -> _carTypes.value = ApiResult.Failure(message = response.message)
                 is ResultWrapper.Success -> _carTypes.value = ApiResult.Success(data = response.results)
             }
-        }
-    }
-
-
-    /** call to check order region response */
-    fun checkOrderRegion(lat:String,lon:String){
-        _checkRegionResponse.value=ApiResult.Loading
-        viewModelScope.launch(Dispatchers.IO){
-           when(val response=repo.checkOrderRegion(lat,lon)){
-               is ResultWrapper.Failure -> _checkRegionResponse.value=ApiResult.Failure(message = response.message)
-               is ResultWrapper.Success -> _checkRegionResponse.value=ApiResult.Success(data = response.results)
-           }
         }
     }
 

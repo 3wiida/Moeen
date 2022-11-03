@@ -8,10 +8,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.findNavController
 import com.example.moeen.R
 import com.example.moeen.base.BaseFragment
+import com.example.moeen.network.model.orderRegionResponse.OrderRegionResponse
 import com.example.moeen.ui.home.transportServices.ambulance.AmbulanceActivity
 import com.example.moeen.ui.home.transportServices.ambulance.locationSelection.pojo.LocationAddress
 import com.example.moeen.utils.resultWrapper.ApiResult
@@ -26,6 +29,7 @@ class MapsFragment  : BaseFragment() {
 
     /** vars */
     private val viewModel:MapsViewModel by viewModels()
+    private lateinit var regionResponse: OrderRegionResponse
     private lateinit var pickBtn:Button
     @Inject lateinit var bundle:Bundle
     /** ----------------------------------------------------------------------------------------- */
@@ -33,7 +37,6 @@ class MapsFragment  : BaseFragment() {
 
     @SuppressLint("MissingPermission")
     private val callback = OnMapReadyCallback { googleMap ->
-
         viewModel.getDeviceLocation(requireActivity())
         viewModel.deviceLocation.observe(viewLifecycleOwner){ location->
             googleMap.isMyLocationEnabled=true
@@ -43,9 +46,48 @@ class MapsFragment  : BaseFragment() {
         /** when user click to pick location */
         pickBtn.setOnClickListener{
             val ll=viewModel.pickCentralizedLocation(googleMap)
-            val fromWhereInfo= arguments?.let { MapsFragmentArgs.fromBundle(it).fromWhat }
+            viewModel.checkRegion(ll.latitude.toString(),ll.longitude.toString())
             viewModel.getLocationDetails(requireContext(),ll)
-            lifecycleScope.launch{
+
+        }
+    }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        val act=activity as AmbulanceActivity
+        act.setWhereAmI(1)
+        return inflater.inflate(R.layout.fragment_maps, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
+        pickBtn= view.findViewById(R.id.pickLocationBtn)
+        mapFragment?.getMapAsync(callback)
+        collectRegionResponse()
+    }
+
+    private fun collectRegionResponse(){
+        lifecycleScope.launch{
+            repeatOnLifecycle(Lifecycle.State.STARTED){
+                viewModel.checkRegionResponse.collect{  apiState->
+                    when(apiState){
+                        ApiResult.Empty -> {}
+                        is ApiResult.Failure -> showToast(requireContext(),apiState.message!!)
+                        ApiResult.Loading -> {}
+                        is ApiResult.Success<*> -> {
+                            regionResponse=apiState.data as OrderRegionResponse
+                            collectLocationState()
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private fun collectLocationState(){
+        val fromWhereInfo= arguments?.let { MapsFragmentArgs.fromBundle(it).fromWhat }
+        lifecycleScope.launch{
+            repeatOnLifecycle(Lifecycle.State.STARTED){
                 viewModel.locationState.collect{
                     when(it){
                         ApiResult.Empty -> {}
@@ -68,6 +110,8 @@ class MapsFragment  : BaseFragment() {
                                     address.longitude.toString()
                                 )
                                 bundle.putSerializable("movingLocation",movingLocation)
+                                bundle.putInt("movingGovId",regionResponse.governorate_id)
+                                bundle.putInt("movingCityId",regionResponse.city_id)
                                 requireView().findNavController().navigate(R.id.action_mapsFragment_to_locationSelectionFragment)
                             }else{
                                 val arrivalLocation=LocationAddress(
@@ -76,6 +120,8 @@ class MapsFragment  : BaseFragment() {
                                     address.longitude.toString()
                                 )
                                 bundle.putSerializable("arrivalLocation",arrivalLocation)
+                                bundle.putInt("arrivalGovId",regionResponse.governorate_id)
+                                bundle.putInt("arrivalCityId",regionResponse.city_id)
                                 requireView().findNavController().navigate(R.id.action_mapsFragment_to_locationSelectionFragment)
                             }
                         }
@@ -84,20 +130,4 @@ class MapsFragment  : BaseFragment() {
             }
         }
     }
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val act=activity as AmbulanceActivity
-        act.setWhereAmI(1)
-        return inflater.inflate(R.layout.fragment_maps, container, false)
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
-        pickBtn= view.findViewById(R.id.pickLocationBtn)
-        mapFragment?.getMapAsync(callback)
-    }
-
-
-
 }

@@ -1,7 +1,10 @@
 package com.example.moeen.base
 
+import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import android.os.Bundle
 import android.view.ViewGroup
 import android.widget.Toast
@@ -27,6 +30,20 @@ open class BaseActivity : AppCompatActivity() {
         dialog.setCancelable(false)
         dialog.window?.attributes?.windowAnimations= R.style.loadingDialogAnimation
         return dialog
+    }
+
+    @SuppressLint("MissingPermission")
+    fun checkInternetConnection(): Boolean {
+        val connectivityManager: ConnectivityManager = this.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val capabilities = connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
+        return if (capabilities != null) {
+            when {
+                capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
+                capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> true
+                capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
+                else -> false
+            }
+        } else false
     }
 
 }

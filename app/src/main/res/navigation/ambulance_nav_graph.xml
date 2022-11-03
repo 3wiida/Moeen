@@ -14,16 +14,6 @@
             android:id="@+id/action_locationSelectionFragment_to_mapsFragment"
             app:destination="@id/mapsFragment"
             app:popUpToInclusive="false" />
-        <argument
-            android:name="arrivalAddressLine"
-            app:argType="string"
-            app:nullable="true"
-            android:defaultValue=""/>
-        <argument
-            android:name="movingAddressLine"
-            app:argType="string"
-            app:nullable="true"
-            android:defaultValue=""/>
     </fragment>
     <fragment
         android:id="@+id/mapsFragment"

@@ -62,7 +62,7 @@ class HomeActivity : BaseActivity() {
                     }
                     is ApiResult.Failure -> withContext(Dispatchers.Main){
                         loadingDialog().cancel()
-                        showToast(this@HomeActivity, R.string.unknownError.toString())
+                        showToast(this@HomeActivity, getString(R.string.unknownError))
                     }
                     is ApiResult.Success<*> -> withContext(Dispatchers.Main){
                         loadingDialog().cancel()
@@ -82,7 +82,7 @@ class HomeActivity : BaseActivity() {
                     }
                     is ApiResult.Failure -> withContext(Dispatchers.Main){
                         loadingDialog().cancel()
-                        showToast(this@HomeActivity, R.string.unknownError.toString())
+                        showToast(this@HomeActivity, getString(R.string.unknownError))
                     }
                     is ApiResult.Success<*> -> withContext(Dispatchers.Main){
                         loadingDialog().cancel()
@@ -105,7 +105,7 @@ class HomeActivity : BaseActivity() {
                         }
                         is ApiResult.Failure -> withContext(Dispatchers.Main){
                             loadingDialog().cancel()
-                            showToast(this@HomeActivity, R.string.unknownError.toString())
+                            showToast(this@HomeActivity, getString(R.string.unknownError))
                         }
                         is ApiResult.Success<*> -> withContext(Dispatchers.Main){
                             loadingDialog().cancel()

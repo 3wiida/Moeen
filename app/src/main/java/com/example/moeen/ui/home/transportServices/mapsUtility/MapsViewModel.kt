@@ -2,13 +2,13 @@ package com.example.moeen.ui.home.transportServices.mapsUtility
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.Region
 import android.location.Geocoder
 import android.location.Location
 import android.os.Looper
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
 import com.example.moeen.utils.resultWrapper.ApiResult
+import com.example.moeen.utils.resultWrapper.ResultWrapper
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -16,15 +16,17 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
 @SuppressLint("StaticFieldLeak")
-class MapsViewModel @Inject constructor( @ApplicationContext private val context: Context) :
-    ViewModel() {
+class MapsViewModel @Inject constructor( @ApplicationContext private val context: Context , private val repo:MapsRepository) : ViewModel() {
 
     private var _deviceLocation = MutableLiveData<Location?>()
     var deviceLocation: LiveData<Location?> = _deviceLocation
@@ -34,6 +36,9 @@ class MapsViewModel @Inject constructor( @ApplicationContext private val context
 
     private var _locationState:MutableStateFlow<ApiResult> = MutableStateFlow(ApiResult.Loading)
     var locationState:StateFlow<ApiResult> = _locationState
+
+    private var _checkRegionResponse:MutableStateFlow<ApiResult> = MutableStateFlow(ApiResult.Empty)
+    var checkRegionResponse= _checkRegionResponse.asStateFlow()
 
     fun getMap(map: GoogleMap) {
         googleMap = map
@@ -89,7 +94,14 @@ class MapsViewModel @Inject constructor( @ApplicationContext private val context
 
     }
 
-
+    fun checkRegion(lat:String,lon:String){
+        viewModelScope.launch(Dispatchers.IO){
+            when(val response=repo.checkRegion(lat,lon)){
+                is ResultWrapper.Failure -> _checkRegionResponse.value=ApiResult.Failure(message = response.message)
+                is ResultWrapper.Success -> _checkRegionResponse.value=ApiResult.Success(data = response.results)
+            }
+        }
+    }
 
     fun moveCamera(map: GoogleMap, lat: Double, lon: Double) {
         map.moveCamera(CameraUpdateFactory.newLatLng(LatLng(lat, lon)))
