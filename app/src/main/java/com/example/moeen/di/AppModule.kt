@@ -1,6 +1,5 @@
 package com.example.moeen.di
 
-import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
 import com.example.moeen.common.Constants.BASE_URL
@@ -13,9 +12,11 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
+
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -23,7 +24,7 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideClient(@ApplicationContext context: Context): OkHttpClient {
+    fun provideClient(@ApplicationContext context: Context,logging:HttpLoggingInterceptor): OkHttpClient {
         return OkHttpClient.Builder().addInterceptor {
             it.proceed(
                 it.request().newBuilder()
@@ -31,7 +32,15 @@ object AppModule {
                     .addHeader("Content-Type","application/json")
                     .build()
             )
-        }.build()
+        }.addInterceptor(logging).build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideHttpLoggingInterceptor():HttpLoggingInterceptor{
+        val logging = HttpLoggingInterceptor()
+        logging.setLevel(HttpLoggingInterceptor.Level.BODY)
+        return logging
     }
 
     @Provides
