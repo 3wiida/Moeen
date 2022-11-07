@@ -2,7 +2,9 @@ package com.example.moeen.di
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import com.example.moeen.common.Constants.BASE_URL
+import com.example.moeen.common.Constants.TAG
 import com.example.moeen.network.api.ApiServices
 import com.example.moeen.utils.PrefUtils.PrefKeys.USER_TOKEN
 import com.example.moeen.utils.PrefUtils.PrefUtils.Companion.getFromPref
@@ -38,7 +40,7 @@ object AppModule {
     @Provides
     @Singleton
     fun provideHttpLoggingInterceptor():HttpLoggingInterceptor{
-        val logging = HttpLoggingInterceptor()
+        val logging = HttpLoggingInterceptor { message -> Log.d(TAG+"API", message) }
         logging.setLevel(HttpLoggingInterceptor.Level.BODY)
         return logging
     }

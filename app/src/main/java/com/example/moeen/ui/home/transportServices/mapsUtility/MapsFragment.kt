@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -76,7 +77,11 @@ class MapsFragment  : BaseFragment() {
                         ApiResult.Loading -> {}
                         is ApiResult.Success<*> -> {
                             regionResponse=apiState.data as OrderRegionResponse
-                            collectLocationState()
+                            if(regionResponse.status==0){
+                                Toast.makeText(requireContext(), regionResponse.message, Toast.LENGTH_SHORT).show()
+                            }else{
+                                collectLocationState()
+                            }
                         }
                     }
                 }

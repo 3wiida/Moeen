@@ -1,0 +1,421 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="com.example.moeen.ui.home.transportServices.confirmOrder.ConfirmOrderViewModel"/>
+        <import type="com.example.moeen.utils.FormErrors"/>
+        <variable
+            name="viewModel"
+            type="ConfirmOrderViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.home.transportServices.confirmOrder.ConfirmOrderActivity">
+
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline31"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.04" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline32"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.96" />
+
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp"
+            app:layout_constraintEnd_toStartOf="@+id/guideline32"
+            app:layout_constraintStart_toStartOf="@+id/guideline31"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:fontFamily="@font/cairo_semibold"
+                android:gravity="center"
+                android:text="تأكيد البيانات"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+
+            <ImageButton
+                android:id="@+id/backBtn"
+                android:layout_width="20dp"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent"
+                android:src="@drawable/backbtn" />
+        </LinearLayout>
+
+        <ScrollView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginBottom="30dp"
+            android:fillViewport="true"
+            android:scrollbarSize="0dp"
+            android:overScrollMode="never"
+            app:layout_constraintBottom_toTopOf="@+id/confirmOrderBtn"
+            app:layout_constraintEnd_toStartOf="@+id/guideline32"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="@+id/guideline31"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+            app:layout_constraintVertical_bias="0.0">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/textView16"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16sp"
+                    android:fontFamily="@font/cairo_regular"
+                    android:text="الاسم"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <EditText
+                    android:id="@+id/etConfirmOrderPersonName"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@{viewModel.formErrors.contains(FormErrors.INVALID_NAME) ? @drawable/_15_red_rect : @drawable/_10_gray_rect}"
+                    android:fontFamily="@font/cairo_regular"
+                    android:hint="قم بإدخال الاسم"
+                    android:inputType="textPersonName"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:textDirection="rtl"
+                    android:textSize="@dimen/_12sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView16" />
+
+                <TextView
+                    android:id="@+id/textView17"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/cairo_regular"
+                    android:text="رقم الهاتف"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/etConfirmOrderPersonName" />
+
+                <EditText
+                    android:id="@+id/etConfirmOrderPhoneNumber"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@{viewModel.formErrors.contains(FormErrors.INVALID_PHONE) ? @drawable/_10_null_red_rect : @drawable/_10_gray_rect}"
+                    android:ems="10"
+                    android:fontFamily="@font/cairo_regular"
+                    android:gravity="right|center"
+                    android:hint="قم بإدخال رقم الهاتف"
+                    android:inputType="phone"
+                    android:layoutDirection="rtl"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:textDirection="rtl"
+                    android:textSize="@dimen/_12sp"
+
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView17" />
+
+                <TextView
+                    android:id="@+id/textView18"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/cairo_regular"
+                    android:text="رقم هاتف اخر"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/etConfirmOrderPhoneNumber" />
+
+                <EditText
+                    android:id="@+id/etConfirmOrderAnotherPhoneNumber"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/_10_gray_rect"
+                    android:ems="10"
+                    android:fontFamily="@font/cairo_regular"
+                    android:gravity="right|center"
+                    android:hint="قم بإدخال رقم الهاتف"
+                    android:inputType="phone"
+                    android:layoutDirection="rtl"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:textDirection="rtl"
+                    android:textSize="@dimen/_12sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView18" />
+
+                <TextView
+                    android:id="@+id/textView19"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:fontFamily="@font/cairo_regular"
+                    android:text="اختر طريقه الدفع"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/etConfirmOrderAnotherPhoneNumber" />
+
+                <RadioGroup
+                    android:id="@+id/rgConfirmOrderPaymentMethod"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:checkedButton="@id/rbConfirmOrderWallet"
+                    android:orientation="horizontal"
+                    android:textDirection="rtl"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView19">
+
+                    <RadioButton
+                        android:id="@+id/rbConfirmOrderCreditCard"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/payment_method_background"
+                        android:button="@android:color/transparent"
+                        android:drawableRight="@drawable/ic_credit_card"
+                        android:drawablePadding="10dp"
+                        android:drawableTint="@color/_70"
+                        android:fontFamily="@font/cairo_regular"
+                        android:text="بطاقة الإئتمان"
+                        android:textSize="@dimen/_14sp" />
+
+                    <RadioButton
+                        android:id="@+id/rbConfirmOrderWallet"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/payment_method_background"
+                        android:button="@android:color/transparent"
+                        android:drawableRight="@drawable/ic_wallet"
+                        android:drawablePadding="10dp"
+                        android:fontFamily="@font/cairo_regular"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:text="المحفظة"
+                        android:textSize="@dimen/_14sp" />
+                </RadioGroup>
+
+                <TextView
+                    android:id="@+id/textView20"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:fontFamily="@font/cairo_regular"
+                    android:text="كود الخصم"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/rgConfirmOrderPaymentMethod" />
+
+                <EditText
+                    android:id="@+id/etConfirmOrderDiscountCode"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="14dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/_10_gray_rect"
+                    android:drawableLeft="@drawable/ic_discount_icon"
+                    android:drawablePadding="10dp"
+                    android:fontFamily="@font/cairo_regular"
+                    android:gravity="right|center"
+                    android:hint="أدخل كود الخصم"
+                    android:inputType="phone"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:textSize="@dimen/_12sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/btnConfirmOrderCheckDiscount"
+                    app:layout_constraintTop_toBottomOf="@+id/textView20" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btnConfirmOrderCheckDiscount"
+                    android:layout_width="80dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/_10_blue_rect"
+                    android:fontFamily="@font/cairo_semibold"
+                    android:text="تحقق"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/etConfirmOrderDiscountCode"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/etConfirmOrderDiscountCode" />
+
+                <TextView
+                    android:id="@+id/textView21"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:fontFamily="@font/cairo_regular"
+                    android:text="تكلفة الرحلة"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toEndOf="@+id/tvTripCostConfirmOrder"
+                    app:layout_constraintTop_toBottomOf="@+id/etConfirmOrderDiscountCode" />
+
+                <TextView
+                    android:id="@+id/tvTripCostConfirmOrder"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/cairo_regular"
+                    android:gravity="left"
+                    android:text="250 ج.م"
+
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/textView21"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/textView21" />
+
+                <TextView
+                    android:id="@+id/textView22"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="14dp"
+                    android:fontFamily="@font/cairo_regular"
+                    android:text="الضريبة"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toEndOf="@+id/tvTripCostConfirmOrder"
+                    app:layout_constraintTop_toBottomOf="@+id/textView21" />
+
+                <TextView
+                    android:id="@+id/tvTaxConfirmOrder"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/cairo_regular"
+                    android:gravity="left"
+                    android:text="100 ج.م"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/textView22"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/textView22" />
+
+                <TextView
+                    android:id="@+id/textView23"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="14dp"
+                    android:fontFamily="@font/cairo_regular"
+                    android:text="الخصم"
+                    android:textColor="@color/Blue"
+                    android:textSize="14sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toEndOf="@+id/tvTripCostConfirmOrder"
+                    app:layout_constraintTop_toBottomOf="@+id/textView22" />
+
+                <TextView
+                    android:id="@+id/tvDiscountConfirmOrder"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/cairo_regular"
+                    android:gravity="left"
+                    android:text="80 ج.م"
+                    android:textColor="@color/Blue"
+                    android:textSize="14sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/textView23"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/textView23" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="18dp"
+                    android:id="@+id/dividerLine"
+                    android:background="@android:color/darker_gray"
+                    app:layout_constraintStart_toEndOf="@+id/tvTripCostConfirmOrder"
+                    app:layout_constraintTop_toBottomOf="@+id/textView23" />
+
+                <TextView
+                    android:id="@+id/textView24"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="18dp"
+                    android:fontFamily="@font/cairo_bold"
+                    android:text="الإجمالي"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toEndOf="@+id/tvTripCostConfirmOrder"
+                    app:layout_constraintTop_toBottomOf="@+id/dividerLine" />
+
+                <TextView
+                    android:id="@+id/tvTotalCostConfirmOrder"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/cairo_bold"
+                    android:gravity="left"
+                    android:text="430 ج.م"
+                    android:layout_marginTop="18dp"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/textView24"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/dividerLine" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        </ScrollView>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/confirmOrderBtn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/_10_blue_rect"
+            android:fontFamily="@font/cairo_semibold"
+            android:text="تأكيد البيانات /  ارسال الطلب"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/guideline32"
+            app:layout_constraintStart_toStartOf="@+id/guideline31" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

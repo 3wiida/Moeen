@@ -32,11 +32,10 @@ class LocationSelectionViewModel @Inject constructor(private val repo: LocationS
     private var _calculatePriceResponse:MutableStateFlow<ApiResult> = MutableStateFlow(ApiResult.Empty)
     var calculatePriceResponse=_calculatePriceResponse.asStateFlow()
 
-    private var _govId:MutableLiveData<Int> = MutableLiveData()
-    var govId:LiveData<Int> = _govId
+    private var _calculateDistanceResponse:MutableStateFlow<ApiResult> = MutableStateFlow(ApiResult.Empty)
+    var calculateDistanceResponse = _calculateDistanceResponse.asStateFlow()
 
     var formErrors:ObservableArrayList<FormErrors> = ObservableArrayList()
-    var count:Int=0
     /** ----------------------------------------------------------------------------------------------*/
 
 
@@ -90,6 +89,17 @@ class LocationSelectionViewModel @Inject constructor(private val repo: LocationS
             when(val response=repo.calculatePrice(govId,govArrivalId, cityId, cityArrivalId, carTypeId)){
                 is ResultWrapper.Failure -> _calculatePriceResponse.value=ApiResult.Failure(message = response.message)
                 is ResultWrapper.Success -> _calculatePriceResponse.value=ApiResult.Success(data = response.results)
+            }
+        }
+    }
+
+    /** call to get Distance */
+    fun calculateDistance(carTypeId: Int, startLat:String, startLong:String, endLat:String, endLong:String){
+        _calculateDistanceResponse.value=ApiResult.Loading
+        viewModelScope.launch(Dispatchers.IO){
+            when(val response=repo.calculateDistance(carTypeId, startLat, startLong, endLat, endLong)){
+                is ResultWrapper.Failure -> _calculateDistanceResponse.value=ApiResult.Failure(message = response.message)
+                is ResultWrapper.Success -> _calculateDistanceResponse.value=ApiResult.Success(data= response.results)
             }
         }
     }

@@ -29,12 +29,14 @@ import com.example.moeen.R
 import com.example.moeen.base.BaseFragment
 import com.example.moeen.common.Constants.TAG
 import com.example.moeen.databinding.FragmentLocationSelectionBinding
+import com.example.moeen.network.model.calculateDistanceResponse.CalculateDistanceResponse
 import com.example.moeen.network.model.carsTypesResponse.CarsTypesResponse
 import com.example.moeen.network.model.carsTypesResponse.Data
 import com.example.moeen.network.model.claculatePriceResponse.CalculatePriceResponse
 import com.example.moeen.ui.home.transportServices.ambulance.AmbulanceActivity
 import com.example.moeen.ui.home.transportServices.ambulance.locationSelection.adapters.CarTypesSpinnerAdapter
 import com.example.moeen.ui.home.transportServices.ambulance.locationSelection.pojo.LocationAddress
+import com.example.moeen.ui.home.transportServices.confirmOrder.ConfirmOrderActivity
 import com.example.moeen.utils.resultWrapper.ApiResult
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
@@ -92,6 +94,7 @@ class LocationSelectionFragment : BaseFragment(), EasyPermissions.PermissionCall
 
         if (checkInternetConnection()) {
             collectCalculatePriceResponse()
+            collectDistanceFlow()
         } else {
             Toast.makeText(requireContext(), "من فضلك تحقق من اتصالك بالانترنت", Toast.LENGTH_SHORT)
                 .show()
@@ -202,6 +205,13 @@ class LocationSelectionFragment : BaseFragment(), EasyPermissions.PermissionCall
 
                 override fun onNothingSelected(p0: AdapterView<*>?) {}
             }
+
+        binding.confirmTripBtn.setOnClickListener{
+            val carId=(binding.ambulanceCarTypeSpinner.selectedItem as Data).id
+            viewModel.calculateDistance(carId,movingLocation!!.lat,movingLocation.lon,arrivalLocation!!.lat,arrivalLocation.lon)
+            bundle.putInt("carTypeId",carId)
+            bundle.putString("date",binding.ambulanceDateSelectionEt.text.toString())
+        }
     }
 
 
@@ -254,6 +264,35 @@ class LocationSelectionFragment : BaseFragment(), EasyPermissions.PermissionCall
                                 initAnimation(binding.confirmationCardView)
                             } catch (e: Exception) {
                                 showToast(requireContext(), result.massage)
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    /** collect Distance Flow */
+    private fun collectDistanceFlow(){
+        lifecycleScope.launch{
+            repeatOnLifecycle(Lifecycle.State.STARTED){
+                viewModel.calculateDistanceResponse.collect{ apiResult ->
+                    when(apiResult){
+                        ApiResult.Empty -> {}
+                        is ApiResult.Failure -> {
+                            loadingDialog().cancel()
+                            showToast(requireContext(),apiResult.message!!)
+                        }
+                        ApiResult.Loading -> loadingDialog().show()
+                        is ApiResult.Success<*> -> {
+                            val result=apiResult.data as CalculateDistanceResponse
+                            loadingDialog().dismiss()
+                            if(result.status==0)
+                                showToast(requireContext(),result.massage)
+                            else{
+                                bundle.putDouble("distance",result.data.distance)
+                                Log.d(TAG, "collectDistanceFlow: ${result.data.distance}")
+                                start_activity(ConfirmOrderActivity())
                             }
                         }
                     }

@@ -30,6 +30,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.*
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class HomeActivity : BaseActivity() {
@@ -43,6 +44,7 @@ class HomeActivity : BaseActivity() {
     private val adapter5 = HomeViewPagerAdapter()
     private val drawerAdapter = DrawerAdapter()
     private var sliderPagesNumber = 3
+    @Inject lateinit var bundle:Bundle
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -140,7 +142,10 @@ class HomeActivity : BaseActivity() {
 
         adapter1.onItemClick = { item->
             when(item.id){
-                1 -> startActivity(Intent(this,AmbulanceActivity::class.java))
+                1 -> {
+                    bundle.putInt("serviceId",item.id)
+                    startActivity(Intent(this,AmbulanceActivity::class.java))
+                }
             }
         }
 
