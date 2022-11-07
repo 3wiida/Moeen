@@ -11,11 +11,11 @@ import com.example.moeen.network.model.regionsResponse.RegionsResponse.Data
 
 class RegionsSpinnerAdapter : BaseAdapter() {
 
-    var regionsList : MutableList<Data> = ArrayList()
+    var regionsList : MutableList<Data?> = ArrayList()
 
     override fun getCount(): Int = regionsList.size
 
-    override fun getItem(p0: Int): Any = regionsList[p0]
+    override fun getItem(p0: Int): Any = regionsList[p0]!!
 
     override fun getItemId(p0: Int): Long = 0
 
@@ -25,7 +25,7 @@ class RegionsSpinnerAdapter : BaseAdapter() {
         val binding = DoctorsSpinnerItemLayoutBinding.bind(view)
         val item = regionsList[p0]
 
-        binding.doctorSpinnerItemId.text = item.name
+        binding.doctorSpinnerItemId.text = item!!.name
 
         if(p0 == 0){
             binding.doctorSpinnerItemId.setTextColor(p2?.context!!.getColor(R.color._92))

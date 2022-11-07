@@ -129,7 +129,8 @@ data class DoctorsResponse(
                 @SerializedName("remaing_times")
                 val remaingTimes: Int?,
                 @SerializedName("start")
-                val start: String?
+                val start: String?,
+                var clicked: Boolean = false
             )
         }
     }

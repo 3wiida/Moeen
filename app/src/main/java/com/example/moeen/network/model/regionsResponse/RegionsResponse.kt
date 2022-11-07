@@ -5,45 +5,45 @@ import com.google.gson.annotations.SerializedName
 
 data class RegionsResponse(
     @SerializedName("data")
-    val `data`: MutableList<Data>,
+    val `data`: MutableList<Data?>?,
     @SerializedName("massage")
-    val massage: String,
+    val massage: String?,
     @SerializedName("status")
-    val status: Int
+    val status: Int?
 ) {
     data class Data(
         @SerializedName("city")
-        val city: City? = null,
+        val city: City?,
         @SerializedName("id")
-        val id: Int,
+        val id: Int?,
         @SerializedName("name")
-        val name: String
+        val name: String?
     ) {
         data class City(
             @SerializedName("id")
-            val id: Int,
+            val id: Int?,
             @SerializedName("name")
-            val name: String,
+            val name: String?,
             @SerializedName("state")
-            val state: State
+            val state: State?
         ) {
             data class State(
                 @SerializedName("country")
-                val country: Country,
+                val country: Country?,
                 @SerializedName("id")
-                val id: Int,
+                val id: Int?,
                 @SerializedName("name")
-                val name: String
+                val name: String?
             ) {
                 data class Country(
                     @SerializedName("code")
-                    val code: String,
+                    val code: String?,
                     @SerializedName("id")
-                    val id: Int,
+                    val id: Int?,
                     @SerializedName("name")
-                    val name: String,
+                    val name: String?,
                     @SerializedName("nationality")
-                    val nationality: String
+                    val nationality: String?
                 )
             }
         }

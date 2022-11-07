@@ -1,13 +1,12 @@
 package com.example.moeen.ui.home.medicalServices.doctorsBooking.fragments.doctorProfile
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.*
 import com.example.moeen.R
-import com.example.moeen.common.Constants.TAG
 import com.example.moeen.network.model.doctorsResponse.DoctorsResponse.Data.WorkTime
 
 class WorkTimesAdapter : ListAdapter<WorkTime, WorkTimesAdapter.MyViewHolder>(WorkTimesDiff()) {
@@ -16,7 +15,10 @@ class WorkTimesAdapter : ListAdapter<WorkTime, WorkTimesAdapter.MyViewHolder>(Wo
         val date : TextView = itemView.findViewById(R.id.tvWorkTimeItemDayDate)
         val day : TextView = itemView.findViewById(R.id.tvWorkTimeItemDay)
         val rvTimes : RecyclerView = itemView.findViewById(R.id.rvDayWorkTimes)
+        val btn : TextView = itemView.findViewById(R.id.tvReserveWorkTime)
     }
+
+    var onItemClicked : ((WorkTime.Shift) -> Unit) ?= null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         return MyViewHolder(
@@ -36,6 +38,10 @@ class WorkTimesAdapter : ListAdapter<WorkTime, WorkTimesAdapter.MyViewHolder>(Wo
         childAdapter.submitList(item.shifts)
         holder.rvTimes.layoutManager = GridLayoutManager(holder.itemView.context, 2)
         holder.rvTimes.adapter = childAdapter
+
+        holder.btn.setOnClickListener {
+            onItemClicked?.invoke(item.shifts!![0]!!)
+        }
     }
 }
 

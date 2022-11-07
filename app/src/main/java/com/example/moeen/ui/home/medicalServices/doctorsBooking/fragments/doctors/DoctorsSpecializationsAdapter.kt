@@ -45,10 +45,10 @@ class DoctorsSpecializationsAdapter(private val context: Context) : ListAdapter<
         }
 
         if(item.checked){
-            holder.itemView.setBackgroundResource(R.drawable._10_blue_rect)
+            holder.itemView.setBackgroundResource(R.drawable._30_blue_rect)
             holder.name.setTextColor(context.getColor(R.color.white))
         } else{
-            holder.itemView.setBackgroundResource(R.drawable._10_gray_rect)
+            holder.itemView.setBackgroundResource(R.drawable._30_gray_rect)
             holder.name.setTextColor(context.getColor(R.color.black))
         }
 

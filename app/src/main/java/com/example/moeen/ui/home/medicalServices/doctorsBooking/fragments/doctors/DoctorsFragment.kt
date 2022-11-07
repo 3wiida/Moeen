@@ -8,7 +8,9 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.moeen.R
@@ -29,67 +31,120 @@ import kotlinx.coroutines.withContext
 @AndroidEntryPoint
 class DoctorsFragment : BaseFragment() {
 
-    private lateinit var binding : FragmentDoctorsBinding
-    private lateinit var specializationsAdapter : DoctorsSpecializationsAdapter
+    private lateinit var binding: FragmentDoctorsBinding
+    private lateinit var specializationsAdapter: DoctorsSpecializationsAdapter
     private val doctorsAdapter = DoctorsAdapter()
     private lateinit var citiesSpinnerAdapter: CitiesSpinnerAdapter
     private val regionsSpinnerAdapter = RegionsSpinnerAdapter()
-    private val viewModel : DoctorsBookingViewModel by viewModels()
+    private val viewModel: DoctorsBookingViewModel by viewModels()
 
     // TODO: test variable
     private var num = 0
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        /*viewModel.getSpecializations()
+        lifecycleScope.launch(Dispatchers.IO) {
+            repeatOnLifecycle(Lifecycle.State.CREATED) {
+
+                Log.d(TAG, "enter number: ${num++}")
+
+                viewModel.specializationState.collect { state ->
+                    when (state) {
+                        ApiResult.Empty -> {}
+                        ApiResult.Loading -> withContext(Dispatchers.Main) {
+                            loadingDialog().show()
+                        }
+                        is ApiResult.Failure -> withContext(Dispatchers.Main) {
+                            loadingDialog().cancel()
+                            showToast(requireContext(), R.string.unknownError.toString())
+                        }
+                        is ApiResult.Success<*> -> withContext(Dispatchers.Main) {
+                            loadingDialog().cancel()
+
+                            // TODO: Solve the first item problem
+                            val result = (state.data as SpecializationsResponse).data
+                            result.add(0, SpecializationsResponse.Data(-1, "الكل", "", true))
+
+                            specializationsAdapter.submitList(result)
+                            binding.rvDoctorsSpecialization.layoutManager = LinearLayoutManager(
+                                requireContext(),
+                                LinearLayoutManager.HORIZONTAL,
+                                false
+                            )
+                            binding.rvDoctorsSpecialization.adapter = specializationsAdapter
+                        }
+                    }
+                }
+            }
+        }*/
+
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_doctors, container, false)
 
         specializationsAdapter = DoctorsSpecializationsAdapter(requireContext())
-        viewModel.getCities()
         viewModel.getSpecializations()
+        viewModel.getCities()
         viewModel.getDoctors()
 
+
         // TODO: LifecycleScope is executed everytime the fragment is loaded, check the logs
+        /** Get All Specialities */
         lifecycleScope.launch(Dispatchers.IO) {
 
-            Log.d(TAG, "enter number: ${num++}")
+            //Log.d(TAG, "enter number: ${num++}")
 
             viewModel.specializationState.collect { state ->
-                Log.d(TAG, "state: $state")
-                when(state){
+                when (state) {
                     ApiResult.Empty -> {}
-                    ApiResult.Loading -> withContext(Dispatchers.Main){
+                    ApiResult.Loading -> withContext(Dispatchers.Main) {
                         loadingDialog().show()
                     }
-                    is ApiResult.Failure -> withContext(Dispatchers.Main){
+                    is ApiResult.Failure -> withContext(Dispatchers.Main) {
                         loadingDialog().cancel()
                         showToast(requireContext(), R.string.unknownError.toString())
                     }
-                    is ApiResult.Success<*> -> withContext(Dispatchers.Main){
+                    is ApiResult.Success<*> -> withContext(Dispatchers.Main) {
                         loadingDialog().cancel()
 
                         // TODO: Solve the first item problem
                         val result = (state.data as SpecializationsResponse).data
-                        result.add(0, SpecializationsResponse.Data(-1, "الكل", "", true))
-
-                        specializationsAdapter.submitList(result)
-                        binding.rvDoctorsSpecialization.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-                        binding.rvDoctorsSpecialization.adapter = specializationsAdapter
+                        if (result.isNotEmpty()) {
+                            if (specializationsAdapter.currentList.isEmpty()) {
+                                if(result.first().id != -1) {
+                                    result.add(0, SpecializationsResponse.Data(-1, "الكل", "", true))
+                                    specializationsAdapter.submitList(result)
+                                    binding.rvDoctorsSpecialization.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+                                    binding.rvDoctorsSpecialization.adapter = specializationsAdapter
+                                }
+                            }
+                        }
                     }
                 }
             }
         }
 
+
+        /** Get All Doctors */
         lifecycleScope.launch(Dispatchers.IO) {
             viewModel.doctorsState.collect { state ->
-                when(state){
+                when (state) {
                     ApiResult.Empty -> {}
-                    ApiResult.Loading -> withContext(Dispatchers.Main){
+                    ApiResult.Loading -> withContext(Dispatchers.Main) {
                         loadingDialog().show()
                     }
-                    is ApiResult.Failure -> withContext(Dispatchers.Main){
+                    is ApiResult.Failure -> withContext(Dispatchers.Main) {
                         loadingDialog().cancel()
                         showToast(requireContext(), R.string.unknownError.toString())
                     }
-                    is ApiResult.Success<*> -> withContext(Dispatchers.Main){
+                    is ApiResult.Success<*> -> withContext(Dispatchers.Main) {
                         loadingDialog().cancel()
                         val result = (state.data as DoctorsResponse).data
 
@@ -101,18 +156,20 @@ class DoctorsFragment : BaseFragment() {
             }
         }
 
-        lifecycleScope.launch(Dispatchers.IO){
-            viewModel.citiesState.collect{ state ->
-                when(state){
+
+        /** Get All Cities */
+        lifecycleScope.launch(Dispatchers.IO) {
+            viewModel.citiesState.collect { state ->
+                when (state) {
                     ApiResult.Empty -> {}
-                    ApiResult.Loading -> withContext(Dispatchers.Main){
+                    ApiResult.Loading -> withContext(Dispatchers.Main) {
                         loadingDialog().show()
                     }
-                    is ApiResult.Failure -> withContext(Dispatchers.Main){
+                    is ApiResult.Failure -> withContext(Dispatchers.Main) {
                         loadingDialog().cancel()
                         showToast(requireContext(), R.string.unknownError.toString())
                     }
-                    is ApiResult.Success<*> -> withContext(Dispatchers.Main){
+                    is ApiResult.Success<*> -> withContext(Dispatchers.Main) {
                         val result = (state.data as CitiesResponse).data
                         result.add(0, CitiesResponse.Data(-1, "المدينة"))
 
@@ -123,20 +180,22 @@ class DoctorsFragment : BaseFragment() {
             }
         }
 
-        lifecycleScope.launch(Dispatchers.IO){
-            viewModel.regionsState.collect{ state ->
-                when(state){
+
+        /** Get All Regions */
+        lifecycleScope.launch(Dispatchers.IO) {
+            viewModel.regionsState.collect { state ->
+                when (state) {
                     ApiResult.Empty -> {}
-                    ApiResult.Loading -> withContext(Dispatchers.Main){
+                    ApiResult.Loading -> withContext(Dispatchers.Main) {
                         loadingDialog().show()
                     }
-                    is ApiResult.Failure -> withContext(Dispatchers.Main){
+                    is ApiResult.Failure -> withContext(Dispatchers.Main) {
                         loadingDialog().cancel()
                         showToast(requireContext(), R.string.unknownError.toString())
                     }
-                    is ApiResult.Success<*> -> withContext(Dispatchers.Main){
-                        val result = (state.data as RegionsResponse).data
-                        result.add(0, RegionsResponse.Data(null , -1, "الحى"))
+                    is ApiResult.Success<*> -> withContext(Dispatchers.Main) {
+                        val result = (state.data as RegionsResponse).data!!
+                        result.add(0, RegionsResponse.Data(null, -1, "الحى"))
 
                         regionsSpinnerAdapter.regionsList = result
                         binding.spNeighborhood.adapter = regionsSpinnerAdapter
@@ -145,11 +204,15 @@ class DoctorsFragment : BaseFragment() {
             }
         }
 
+
+        /** Handle Speciality Click */
         specializationsAdapter.onItemClicked = { clicked ->
-            if(clicked.name == "الكل"){
+            if (clicked.name == "الكل") {
                 viewModel.getDoctors()
-            }else {
+                binding.tvDoctorsSpecializationTitle.text = "كل التخصصات"
+            } else {
                 viewModel.getDoctors(clicked.id)
+                binding.tvDoctorsSpecializationTitle.text = clicked.name
             }
 
             val newList = specializationsAdapter.currentList.map { it.copy() }
@@ -159,30 +222,45 @@ class DoctorsFragment : BaseFragment() {
             specializationsAdapter.submitList(newList)
         }
 
-        binding.spCity.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+
+        /** Handle Cities Spinner Item Click */
+        binding.spCity.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {}
 
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
                 val city = citiesSpinnerAdapter.getCityId(position)
                 viewModel.getRegions(city)
             }
         }
 
+
+        /** Search For Doctors Button */
         binding.btnDoctorsSearch.setOnClickListener {
             val cityId = (binding.spCity.selectedItem as CitiesResponse.Data).id
             val regionId = (binding.spNeighborhood.selectedItem as RegionsResponse.Data).id
 
-            if(cityId != -1 && regionId == -1){
+            if (cityId != -1 && regionId == -1) {
                 viewModel.getDoctors(cityId = cityId)
-            }else if(cityId == -1 && regionId != -1){
+            } else if (cityId == -1 && regionId != -1) {
                 viewModel.getDoctors(regionId = regionId)
-            }else if(cityId != -1 && regionId != -1){
-                viewModel.getDoctors(cityId =  cityId, regionId = regionId)
+            } else if (cityId != -1 && regionId != -1) {
+                viewModel.getDoctors(cityId = cityId, regionId = regionId)
             }
+
+            binding.spCity.setSelection(0)
+            binding.spNeighborhood.setSelection(0)
         }
 
+
+        /** Handle Doctor Click */
         doctorsAdapter.onItemClicked = {
-            view?.findNavController()?.navigate(DoctorsFragmentDirections.actionDoctorsFragmentToDoctorProfileFragment(it))
+            view?.findNavController()
+                ?.navigate(DoctorsFragmentDirections.actionDoctorsFragmentToDoctorProfileFragment(it))
         }
 
 

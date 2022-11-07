@@ -1,24 +1,186 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.home.medicalServices.doctorsBooking.fragments.ConfirmationAndPaymentFragment"
-    android:orientation="vertical">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Confirmation And Payment"
-        android:layout_weight="2"/>
+        android:layout_height="match_parent"
+        android:background="@drawable/booking_payment_background"
+        tools:context=".ui.home.medicalServices.doctorsBooking.fragments.ConfirmationAndPaymentFragment">
 
-    <Button
-        android:id="@+id/btnNextConfirmation"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Next"
-        android:layout_weight="1"
-        android:layout_gravity="center"/>
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline31"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="@dimen/_16dp" />
 
-</LinearLayout>
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline32"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_end="@dimen/_16dp" />
+
+        <TextView
+            android:id="@+id/tvConfirmPaymentCaution"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="24dp"
+            android:background="@drawable/payment_caution_background"
+            android:fontFamily="@font/cairo_bold"
+            android:gravity="center"
+            android:text="سيتم تجميد مبلغ بقيمه 1 دولار لحين قبول الطلب "
+            android:textColor="@color/Blue"
+            android:textSize="11sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <RadioGroup
+            android:id="@+id/rgPaymentMethod"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="24dp"
+            android:checkedButton="@id/rbPayWithWallet"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvConfirmPaymentCaution">
+
+            <RadioButton
+                android:id="@+id/rbPayWithWallet"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/_5dp"
+                android:background="@drawable/payment_method_background"
+                android:buttonTint="@color/radio_button_background_selector"
+                android:drawableEnd="@drawable/ic_wallet"
+                android:drawablePadding="@dimen/_8dp"
+                android:drawableTint="@color/_70"
+                android:fontFamily="@font/cairo_regular"
+                android:padding="@dimen/_16dp"
+                android:text="دفع بالمحفظة"
+                android:textColor="@color/_3c"
+                android:textSize="16sp" />
+
+            <RadioButton
+                android:id="@+id/rbPayWithCreditCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/payment_method_background"
+                android:buttonTint="@color/radio_button_background_selector"
+                android:drawableEnd="@drawable/ic_credit_card"
+                android:drawablePadding="@dimen/_8dp"
+                android:drawableTint="@color/_70"
+                android:fontFamily="@font/cairo_regular"
+                android:padding="@dimen/_16dp"
+                android:text="دفع ببطاقة الإئتمان"
+                android:textColor="@color/_3c"
+                android:textSize="16sp" />
+
+        </RadioGroup>
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_16dp"
+            app:cardCornerRadius="@dimen/_10dp"
+            app:cardElevation="@dimen/_5dp"
+            app:layout_constraintEnd_toStartOf="@+id/guideline32"
+            app:layout_constraintStart_toStartOf="@+id/guideline31"
+            app:layout_constraintTop_toBottomOf="@+id/rgPaymentMethod">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="35dp"
+                android:paddingTop="22dp"
+                android:paddingEnd="35dp"
+                android:paddingBottom="22dp">
+
+                <ImageView
+                    android:id="@+id/ivConfirmPayment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/management"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvCalculateConfirmPayment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/cairo_semibold"
+                    android:text="جارى حساب تكلفه الجلسة"
+                    android:textColor="#ADB5BD"
+                    android:textSize="11sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/ivConfirmPayment"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/ivConfirmPayment" />
+
+                <View
+                    android:id="@+id/view"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="12dp"
+                    android:background="@color/_70"
+                    app:layout_constraintTop_toBottomOf="@+id/ivConfirmPayment"
+                    tools:layout_editor_absoluteX="35dp" />
+
+                <TextView
+                    android:id="@+id/tvEgyptianPoundConfirmPayment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/cairo_semibold"
+                    android:text="جنيه مصري"
+                    android:textColor="@color/_42"
+                    android:textSize="16sp"
+                    android:layout_marginTop="@dimen/_20dp"
+                    app:layout_constraintEnd_toStartOf="@+id/tvConfirmPaymentPrice"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintHorizontal_chainStyle="packed"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/view" />
+
+                <TextView
+                    android:id="@+id/tvConfirmPaymentPrice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/cairo_semibold"
+                    android:text="250"
+                    android:textColor="@color/_42"
+                    android:textSize="16sp"
+                    android:layout_marginTop="@dimen/_20dp"
+                    android:layout_marginStart="@dimen/_10dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/tvEgyptianPoundConfirmPayment"
+                    app:layout_constraintTop_toBottomOf="@+id/view" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnConfirmPayment"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/_10_blue_rect"
+            android:fontFamily="@font/cairo_semibold"
+            android:text="تأكيد البيانات /  ارسال الطلب"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_14sp"
+            android:layout_marginBottom="26dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/guideline32"
+            app:layout_constraintStart_toStartOf="@+id/guideline31" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

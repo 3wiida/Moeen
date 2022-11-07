@@ -40,9 +40,40 @@
         <action
             android:id="@+id/action_confirmationAndPaymentFragment_to_confirmationDataFragment"
             app:destination="@id/confirmationDataFragment" />
+        <argument
+            android:name="doctorName"
+            app:argType="string" />
+        <argument
+            android:name="doctorSpeciality"
+            app:argType="string" />
+        <argument
+            android:name="day"
+            app:argType="string" />
+        <argument
+            android:name="startTime"
+            app:argType="string" />
+        <argument
+            android:name="endTime"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/confirmationDataFragment"
         android:name="com.example.moeen.ui.home.medicalServices.doctorsBooking.fragments.ConfirmationDataFragment"
-        android:label="ConfirmationDataFragment" />
+        android:label="ConfirmationDataFragment">
+        <argument
+            android:name="doctorName"
+            app:argType="string" />
+        <argument
+            android:name="doctorSpeciality"
+            app:argType="string" />
+        <argument
+            android:name="day"
+            app:argType="string" />
+        <argument
+            android:name="startTime"
+            app:argType="string" />
+        <argument
+            android:name="endTime"
+            app:argType="string" />
+    </fragment>
 </navigation>
