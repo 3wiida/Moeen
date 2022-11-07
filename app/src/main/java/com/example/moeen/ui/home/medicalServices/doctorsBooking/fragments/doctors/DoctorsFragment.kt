@@ -36,6 +36,9 @@ class DoctorsFragment : BaseFragment() {
     private val regionsSpinnerAdapter = RegionsSpinnerAdapter()
     private val viewModel : DoctorsBookingViewModel by viewModels()
 
+    // TODO: test variable
+    private var num = 0
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_doctors, container, false)
 
@@ -44,8 +47,13 @@ class DoctorsFragment : BaseFragment() {
         viewModel.getSpecializations()
         viewModel.getDoctors()
 
+        // TODO: LifecycleScope is executed everytime the fragment is loaded, check the logs
         lifecycleScope.launch(Dispatchers.IO) {
+
+            Log.d(TAG, "enter number: ${num++}")
+
             viewModel.specializationState.collect { state ->
+                Log.d(TAG, "state: $state")
                 when(state){
                     ApiResult.Empty -> {}
                     ApiResult.Loading -> withContext(Dispatchers.Main){
@@ -174,7 +182,6 @@ class DoctorsFragment : BaseFragment() {
         }
 
         doctorsAdapter.onItemClicked = {
-            Log.d(TAG, "onCreateView: $it")
             view?.findNavController()?.navigate(DoctorsFragmentDirections.actionDoctorsFragmentToDoctorProfileFragment(it))
         }
 
