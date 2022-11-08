@@ -1,4 +1,4 @@
-package com.example.moeen.utils
+package com.example.moeen.utils.otherUtils
 
 import android.content.Context
 import kotlin.math.roundToInt
@@ -13,7 +13,7 @@ fun removePhoneFirstZero(countryCode:String,phoneNumber:String):String{
 }
 
 fun dpToPx(dp : Int, context : Context): Int {
-    val density = context.resources.displayMetrics.density;
+    val density = context.resources.displayMetrics.density
     return (dp * density).roundToInt()
 }
 
@@ -40,5 +40,6 @@ enum class FormErrors{
     INVALID_DATE,
     INVALID_TIME,
     INVALID_MOVING_PLACE,
-    INVALID_ARRIVAL_PLACE
+    INVALID_ARRIVAL_PLACE,
+    INVALID_COUPON_CODE
 }

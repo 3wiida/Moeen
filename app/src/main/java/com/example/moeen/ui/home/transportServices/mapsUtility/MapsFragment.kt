@@ -17,10 +17,11 @@ import com.example.moeen.R
 import com.example.moeen.base.BaseFragment
 import com.example.moeen.network.model.orderRegionResponse.OrderRegionResponse
 import com.example.moeen.ui.home.transportServices.ambulance.AmbulanceActivity
-import com.example.moeen.ui.home.transportServices.ambulance.locationSelection.pojo.LocationAddress
+import com.example.moeen.ui.home.transportServices.locationSelection.pojo.LocationAddress
 import com.example.moeen.utils.resultWrapper.ApiResult
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.MarkerOptions
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -32,7 +33,9 @@ class MapsFragment  : BaseFragment() {
     private val viewModel:MapsViewModel by viewModels()
     private lateinit var regionResponse: OrderRegionResponse
     private lateinit var pickBtn:Button
+    private var markerExist=false
     @Inject lateinit var bundle:Bundle
+
     /** ----------------------------------------------------------------------------------------- */
 
 
@@ -50,6 +53,17 @@ class MapsFragment  : BaseFragment() {
             viewModel.checkRegion(ll.latitude.toString(),ll.longitude.toString())
             viewModel.getLocationDetails(requireContext(),ll)
 
+        }
+
+        googleMap.setOnMapClickListener { latLng->
+
+            if(!markerExist){
+                googleMap.addMarker(MarkerOptions().position(latLng).icon(viewModel.bitmapFromVector(requireContext(),R.drawable.ic_location_marker)))
+                markerExist=true
+            }else{
+                googleMap.clear()
+                googleMap.addMarker(MarkerOptions().position(latLng).icon(viewModel.bitmapFromVector(requireContext(),R.drawable.ic_location_marker)))
+            }
         }
     }
 
@@ -78,7 +92,7 @@ class MapsFragment  : BaseFragment() {
                         is ApiResult.Success<*> -> {
                             regionResponse=apiState.data as OrderRegionResponse
                             if(regionResponse.status==0){
-                                Toast.makeText(requireContext(), regionResponse.message, Toast.LENGTH_SHORT).show()
+                                showToast(requireContext(),regionResponse.message)
                             }else{
                                 collectLocationState()
                             }
@@ -109,7 +123,7 @@ class MapsFragment  : BaseFragment() {
                             //if 1 -> moving Edit Text
                             //if 2 -> arrival Edit Text
                             if(fromWhereInfo==1){
-                                val movingLocation=LocationAddress(
+                                val movingLocation= LocationAddress(
                                     address.getAddressLine(0),
                                     address.latitude.toString(),
                                     address.longitude.toString()
@@ -117,9 +131,11 @@ class MapsFragment  : BaseFragment() {
                                 bundle.putSerializable("movingLocation",movingLocation)
                                 bundle.putInt("movingGovId",regionResponse.governorate_id)
                                 bundle.putInt("movingCityId",regionResponse.city_id)
+                                bundle.putInt("movingRegionId",regionResponse.region_id)
+
                                 requireView().findNavController().navigate(R.id.action_mapsFragment_to_locationSelectionFragment)
                             }else{
-                                val arrivalLocation=LocationAddress(
+                                val arrivalLocation= LocationAddress(
                                     address.getAddressLine(0),
                                     address.latitude.toString(),
                                     address.longitude.toString()
@@ -127,6 +143,7 @@ class MapsFragment  : BaseFragment() {
                                 bundle.putSerializable("arrivalLocation",arrivalLocation)
                                 bundle.putInt("arrivalGovId",regionResponse.governorate_id)
                                 bundle.putInt("arrivalCityId",regionResponse.city_id)
+                                bundle.putInt("arrivalRegionId",regionResponse.region_id)
                                 requireView().findNavController().navigate(R.id.action_mapsFragment_to_locationSelectionFragment)
                             }
                         }

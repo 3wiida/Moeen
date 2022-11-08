@@ -1,18 +1,19 @@
 package com.example.moeen.ui.home.transportServices.confirmOrder
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.viewModels
+import androidx.databinding.ObservableFloat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.example.moeen.base.BaseActivity
-import com.example.moeen.common.Constants.TAG
 import com.example.moeen.databinding.ActivityConfirmOrderBinding
-import com.example.moeen.ui.home.transportServices.ambulance.locationSelection.pojo.LocationAddress
+import com.example.moeen.ui.home.transportServices.locationSelection.pojo.LocationAddress
 import com.example.moeen.ui.home.transportServices.confirmOrder.pojo.OrderBody
 import com.example.moeen.utils.resultWrapper.ApiResult
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -21,6 +22,7 @@ class ConfirmOrderActivity : BaseActivity() {
     /** vars */
     private lateinit var binding: ActivityConfirmOrderBinding
     private val viewModel: ConfirmOrderViewModel by viewModels()
+
     @Inject
     lateinit var bundle: Bundle
 
@@ -34,6 +36,11 @@ class ConfirmOrderActivity : BaseActivity() {
     private var serviceId: Int = 0
     private var couponCode: String? = null
     private var paymentMethod: Int = 1
+    private var movingRegionId:Int=1
+    private var arrivalRegionId:Int=1
+    private lateinit var name:String
+    private lateinit var phone:String
+    private lateinit var otherPhone:String
     private lateinit var movingLat: String
     private lateinit var movingLong: String
     private lateinit var arrivalLat: String
@@ -42,11 +49,23 @@ class ConfirmOrderActivity : BaseActivity() {
     private lateinit var arrivalAddressTitle: String
     private lateinit var tripDate: String
 
+    //prices
+    var tripCost=ObservableFloat()
+    var tax=ObservableFloat()
+    var discount=ObservableFloat()
+    var total=ObservableFloat()
+
+    //flows
+    private  var makeOrderJob:Job?=null
+    private  var checkCouponJob:Job?=null
+
     /** ---------------------------------------------------------------------------------*/
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityConfirmOrderBinding.inflate(layoutInflater)
+        binding.viewModel=viewModel
+        binding.activity=this
         receiveParametersFromBundle()
         setContentView(binding.root)
 
@@ -57,10 +76,50 @@ class ConfirmOrderActivity : BaseActivity() {
         }
 
         binding.confirmOrderBtn.setOnClickListener {
-            validateForm()
-            Log.d(TAG, "onCreate: ${viewModel.formErrors}")
+            if(validateForm() && checkInternetConnection()){
+                name=binding.etConfirmOrderPersonName.text.toString().trim()
+                phone=binding.etConfirmOrderPhoneNumber.text.toString().trim()
+                otherPhone=binding.etConfirmOrderAnotherPhoneNumber.text.toString().trim()
+                couponCode=binding.etConfirmOrderDiscountCode.text.toString().trim()
+                val order = OrderBody(
+                    name,
+                    phone,
+                    govId,
+                    govIdArrival,
+                    cityId,
+                    cityIdArrival,
+                    distance,
+                    carId,
+                    serviceId,
+                    tripDate,
+                    paymentMethod,
+                    movingAddressTitle,
+                    arrivalAddressTitle,
+                    couponCode,
+                    movingLat,
+                    movingLong,
+                    arrivalLat,
+                    arrivalLong,
+                    movingRegionId,
+                    arrivalRegionId,
+                    otherPhone
+                )
+                viewModel.makeOrder(order)
+            }
         }
 
+
+        binding.backBtn.setOnClickListener{
+            finish()
+        }
+
+
+        binding.btnConfirmOrderCheckDiscount.setOnClickListener {
+            couponCode=binding.etConfirmOrderDiscountCode.text.toString().trim()
+            if(validateCoupon(couponCode)){
+                viewModel.checkCoupon(couponCode!!,tripCost.get())
+            }
+        }
     }
 
     /** check is form valid or not */
@@ -68,6 +127,10 @@ class ConfirmOrderActivity : BaseActivity() {
         val name = binding.etConfirmOrderPersonName.text.toString().trim()
         val phone = binding.etConfirmOrderPhoneNumber.text.toString().trim()
         return viewModel.validateForm(name, phone)
+    }
+
+    private fun validateCoupon(couponCode:String?):Boolean{
+        return viewModel.validateCoupon(couponCode)
     }
 
 
@@ -89,12 +152,15 @@ class ConfirmOrderActivity : BaseActivity() {
         arrivalLong = arrivalLocation.lon
         movingAddressTitle = movingLocation.addressLine
         arrivalAddressTitle = arrivalLocation.addressLine
+        movingRegionId=bundle.getInt("movingRegionId")
+        arrivalRegionId=bundle.getInt("arrivalRegionId")
+        tripCost.set(bundle.getFloat("tripPrice"))
     }
 
-    /** collect Data Section, it's Danger */
+    /** collect Data Section, DangerArea!!! */
     private fun collectMakeOrderFlow() {
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
+         makeOrderJob=lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.CREATED) {
                 viewModel.makeOrderResponse.collect { response ->
                     when (response) {
                         ApiResult.Empty -> {}
@@ -105,11 +171,46 @@ class ConfirmOrderActivity : BaseActivity() {
                         ApiResult.Loading -> loadingDialog().show()
                         is ApiResult.Success<*> -> {
                             loadingDialog().cancel()
-                            showToast(this@ConfirmOrderActivity, "Success")
+                            showToast(this@ConfirmOrderActivity, "تم بنجاح")
+                            //waiting for response body of make order
                         }
                     }
                 }
             }
         }
+    }
+
+    private fun collectCheckOrderFlow(){
+        checkCouponJob=lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.CREATED){
+                viewModel.checkCouponResponse.collectLatest { result->
+                    when(result){
+                        ApiResult.Empty -> {}
+                        is ApiResult.Failure -> {
+                            loadingDialog().dismiss()
+                            showToast(this@ConfirmOrderActivity,result.message!!)
+                        }
+                        ApiResult.Loading -> loadingDialog().show()
+                        is ApiResult.Success<*> -> {
+                            loadingDialog().dismiss()
+                            //waiting for response body of check coupon
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+
+
+
+
+    override fun onDestroy() {
+
+        makeOrderJob?.cancel()
+
+        checkCouponJob?.cancel()
+
+        super.onDestroy()
     }
 }

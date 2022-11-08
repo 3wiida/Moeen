@@ -1,4 +1,4 @@
-package com.example.moeen.ui.home.transportServices.ambulance.locationSelection.adapters
+package com.example.moeen.ui.home.transportServices.locationSelection.adapters
 
 import android.annotation.SuppressLint
 import android.content.Context

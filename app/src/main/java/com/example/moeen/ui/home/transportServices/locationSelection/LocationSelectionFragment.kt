@@ -1,4 +1,4 @@
-package com.example.moeen.ui.home.transportServices.ambulance.locationSelection
+package com.example.moeen.ui.home.transportServices.locationSelection
 
 import android.Manifest
 import android.annotation.SuppressLint
@@ -34,12 +34,13 @@ import com.example.moeen.network.model.carsTypesResponse.CarsTypesResponse
 import com.example.moeen.network.model.carsTypesResponse.Data
 import com.example.moeen.network.model.claculatePriceResponse.CalculatePriceResponse
 import com.example.moeen.ui.home.transportServices.ambulance.AmbulanceActivity
-import com.example.moeen.ui.home.transportServices.ambulance.locationSelection.adapters.CarTypesSpinnerAdapter
-import com.example.moeen.ui.home.transportServices.ambulance.locationSelection.pojo.LocationAddress
+import com.example.moeen.ui.home.transportServices.locationSelection.adapters.CarTypesSpinnerAdapter
+import com.example.moeen.ui.home.transportServices.locationSelection.pojo.LocationAddress
 import com.example.moeen.ui.home.transportServices.confirmOrder.ConfirmOrderActivity
 import com.example.moeen.utils.resultWrapper.ApiResult
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.collectLatest
 import pub.devrel.easypermissions.EasyPermissions
 import javax.inject.Inject
 
@@ -60,6 +61,13 @@ class LocationSelectionFragment : BaseFragment(), EasyPermissions.PermissionCall
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.getCarTypes()
+        if (checkInternetConnection()) {
+            collectCalculatePriceResponse()
+            collectDistanceFlow()
+        } else {
+            Toast.makeText(requireContext(), "من فضلك تحقق من اتصالك بالانترنت", Toast.LENGTH_SHORT)
+                .show()
+        }
         val act = activity as AmbulanceActivity
         act.setWhereAmI(0)
     }
@@ -92,13 +100,7 @@ class LocationSelectionFragment : BaseFragment(), EasyPermissions.PermissionCall
         val arrivalGovId = bundle.getInt("arrivalGovId")
         val arrivalCityId = bundle.getInt("arrivalCityId")
 
-        if (checkInternetConnection()) {
-            collectCalculatePriceResponse()
-            collectDistanceFlow()
-        } else {
-            Toast.makeText(requireContext(), "من فضلك تحقق من اتصالك بالانترنت", Toast.LENGTH_SHORT)
-                .show()
-        }
+
 
 
         /** Handle back Btn press */
@@ -258,6 +260,7 @@ class LocationSelectionFragment : BaseFragment(), EasyPermissions.PermissionCall
                             loadingDialog().dismiss()
                             val result = it.data as CalculatePriceResponse
                             try {
+                                bundle.putFloat("tripPrice",it.data.data.price.toFloat())
                                 binding.tripCost.text = "${it.data.data.price} ج.م "
                                 binding.confirmationCardView.visibility = View.VISIBLE
                                 isCalcBtnClicked = true
@@ -276,7 +279,7 @@ class LocationSelectionFragment : BaseFragment(), EasyPermissions.PermissionCall
     private fun collectDistanceFlow(){
         lifecycleScope.launch{
             repeatOnLifecycle(Lifecycle.State.STARTED){
-                viewModel.calculateDistanceResponse.collect{ apiResult ->
+                viewModel.calculateDistanceResponse.collectLatest{ apiResult ->
                     when(apiResult){
                         ApiResult.Empty -> {}
                         is ApiResult.Failure -> {

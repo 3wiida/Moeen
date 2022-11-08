@@ -104,9 +104,10 @@ interface ApiServices {
     ):OrderRegionResponse
 
     @FormUrlEncoded
-    @POST("v1/make-orderv2")
+    @POST("v1/make-orderv3")
     suspend fun makeTransportOrder(
         @Field("name") name:String,
+        @Field("phone") phone: String,
         @Field("governorate_id") governorate_id:Int,
         @Field("governorate_id_arrival") governorate_id_arrival:Int,
         @Field("city_id") city_id:Int,
@@ -139,4 +140,11 @@ interface ApiServices {
 
     @GET("v1/payment-methods")
     suspend fun getPaymentMethods() : PaymentMethodsResponse
+
+    @FormUrlEncoded
+    @POST("v1/check-coupon")
+    suspend fun checkCoupon(
+        @Field("coupon_code") coupon_code:String,
+        @Field("price") price:Float
+    )
 }

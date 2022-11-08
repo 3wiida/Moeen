@@ -5,21 +5,21 @@
 
     <data>
 
-        <import type="com.example.moeen.utils.FormErrors" />
+        <import type="com.example.moeen.utils.otherUtils.FormErrors" />
 
         <import type="android.content.Context" />
 
-        <import type="com.example.moeen.ui.home.transportServices.ambulance.locationSelection.LocationSelectionViewModel" />
+        <import type="com.example.moeen.ui.home.transportServices.locationSelection.LocationSelectionViewModel" />
 
         <variable
             name="viewModel"
-            type="LocationSelectionViewModel" />
+            type="com.example.moeen.ui.home.transportServices.locationSelection.LocationSelectionViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.home.transportServices.ambulance.locationSelection.LocationSelectionFragment">
+        tools:context=".ui.home.transportServices.locationSelection.LocationSelectionFragment">
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline19"

@@ -6,10 +6,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.moeen.common.Constants.TAG
 import com.example.moeen.ui.home.transportServices.confirmOrder.pojo.OrderBody
-import com.example.moeen.utils.FormErrors
+import com.example.moeen.utils.otherUtils.FormErrors
 import com.example.moeen.utils.resultWrapper.ApiResult
 import com.example.moeen.utils.resultWrapper.ResultWrapper
-import com.google.android.gms.common.api.Api
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -21,8 +20,13 @@ import javax.inject.Inject
 class ConfirmOrderViewModel @Inject constructor(private val repo:ConfirmOrderRepository):ViewModel(){
     /** vars */
     var formErrors = ObservableArrayList<FormErrors>()
+    var couponError:ObservableArrayList<FormErrors> = ObservableArrayList()
+
     private var _makeOrderResponse:MutableStateFlow<ApiResult> =MutableStateFlow(ApiResult.Empty)
     var makeOrderResponse=_makeOrderResponse.asStateFlow()
+
+    private var _checkCouponResponse:MutableStateFlow<ApiResult> =MutableStateFlow(ApiResult.Empty)
+    var checkCouponResponse=_checkCouponResponse.asStateFlow()
     /**-------------------------------------------------------------------------------*/
 
     /** validate form */
@@ -41,6 +45,15 @@ class ConfirmOrderViewModel @Inject constructor(private val repo:ConfirmOrderRep
         return formErrors.isEmpty()
     }
 
+    fun validateCoupon(code:String?):Boolean{
+        couponError.clear()
+        if(code==null || code.isEmpty()){
+            couponError.add(FormErrors.INVALID_COUPON_CODE)
+        }
+
+        return couponError.isEmpty()
+    }
+
     /** call for make order */
     fun makeOrder(orderBody: OrderBody){
         _makeOrderResponse.value=ApiResult.Loading
@@ -48,6 +61,17 @@ class ConfirmOrderViewModel @Inject constructor(private val repo:ConfirmOrderRep
             when(val response=repo.makeTransportOrder(orderBody)){
                 is ResultWrapper.Failure -> _makeOrderResponse.value=ApiResult.Failure(message = response.message)
                 is ResultWrapper.Success -> _makeOrderResponse.value=ApiResult.Success(data = response.results)
+            }
+        }
+    }
+
+    /** call to check coupon */
+    fun checkCoupon(couponCode:String,price:Float){
+        _checkCouponResponse.value=ApiResult.Loading
+        viewModelScope.launch(Dispatchers.IO){
+            when(val response=repo.checkCoupon(couponCode,price)){
+                is ResultWrapper.Failure -> _checkCouponResponse.value=ApiResult.Failure(message = response.message)
+                is ResultWrapper.Success -> _checkCouponResponse.value=ApiResult.Success(data = response.results)
             }
         }
     }

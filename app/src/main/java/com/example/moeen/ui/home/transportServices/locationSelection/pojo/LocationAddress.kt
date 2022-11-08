@@ -1,4 +1,4 @@
-package com.example.moeen.ui.home.transportServices.ambulance.locationSelection.pojo
+package com.example.moeen.ui.home.transportServices.locationSelection.pojo
 
 import java.io.Serializable
 

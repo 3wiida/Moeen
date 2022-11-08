@@ -5,7 +5,7 @@ import android.os.Bundle
 import androidx.fragment.app.FragmentTransaction
 import androidx.navigation.findNavController
 import com.example.moeen.R
-import com.example.moeen.ui.home.transportServices.ambulance.locationSelection.LocationSelectionFragment
+import com.example.moeen.ui.home.transportServices.locationSelection.LocationSelectionFragment
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 

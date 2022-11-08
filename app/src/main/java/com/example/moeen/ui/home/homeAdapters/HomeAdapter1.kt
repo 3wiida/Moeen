@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.moeen.R
 import com.example.moeen.network.model.homeResponse.Service
-import com.example.moeen.utils.dpToPx
+import com.example.moeen.utils.otherUtils.dpToPx
 
 class HomeAdapter1(private val context: Context) : RecyclerView.Adapter<HomeAdapter1.MyViewHolder>() {
 

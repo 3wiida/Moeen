@@ -16,14 +16,7 @@
         android:layout_height="match_parent"
         tools:context=".ui.home.transportServices.mapsUtility.MapsFragment" />
 
-    <ImageView
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:src="@drawable/ic_baseline_location_on_24"/>
+
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/pickLocationBtn"

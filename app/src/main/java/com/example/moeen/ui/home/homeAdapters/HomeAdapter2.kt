@@ -15,7 +15,7 @@ import com.bumptech.glide.load.resource.bitmap.CenterInside
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.moeen.R
 import com.example.moeen.network.model.postsResponse.Data
-import com.example.moeen.utils.dpToPx
+import com.example.moeen.utils.otherUtils.dpToPx
 
 class HomeAdapter2(private val context: Context) : RecyclerView.Adapter<HomeAdapter2.MyViewHolder>() {
 

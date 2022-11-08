@@ -1,4 +1,4 @@
-package com.example.moeen.ui.home.transportServices.ambulance.locationSelection
+package com.example.moeen.ui.home.transportServices.locationSelection
 
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
@@ -6,11 +6,12 @@ import android.content.Context
 import android.icu.util.Calendar
 import androidx.databinding.ObservableArrayList
 import androidx.lifecycle.*
-import com.example.moeen.utils.FormErrors
+import com.example.moeen.utils.otherUtils.FormErrors
 import com.example.moeen.utils.resultWrapper.ApiResult
 import com.example.moeen.utils.resultWrapper.ResultWrapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -61,7 +62,7 @@ class LocationSelectionViewModel @Inject constructor(private val repo: LocationS
         val time = Calendar.getInstance()
         val timePickerDialog = TimePickerDialog(
             context, { _, i, i2 ->
-                _timeMutableLiveDate.postValue("$i2 : $i")
+                _timeMutableLiveDate.postValue("${if((i2<10))"0$i2" else i2} : ${if((i<10)) "0$i" else i}")
             }, time.get(Calendar.HOUR_OF_DAY),
             time.get(Calendar.MINUTE),
             true
@@ -88,7 +89,11 @@ class LocationSelectionViewModel @Inject constructor(private val repo: LocationS
         viewModelScope.launch(Dispatchers.IO){
             when(val response=repo.calculatePrice(govId,govArrivalId, cityId, cityArrivalId, carTypeId)){
                 is ResultWrapper.Failure -> _calculatePriceResponse.value=ApiResult.Failure(message = response.message)
-                is ResultWrapper.Success -> _calculatePriceResponse.value=ApiResult.Success(data = response.results)
+                is ResultWrapper.Success -> {
+                    _calculatePriceResponse.value=ApiResult.Success(data = response.results)
+                    delay(300L)
+                    _calculatePriceResponse.value=ApiResult.Empty
+                }
             }
         }
     }
@@ -99,7 +104,11 @@ class LocationSelectionViewModel @Inject constructor(private val repo: LocationS
         viewModelScope.launch(Dispatchers.IO){
             when(val response=repo.calculateDistance(carTypeId, startLat, startLong, endLat, endLong)){
                 is ResultWrapper.Failure -> _calculateDistanceResponse.value=ApiResult.Failure(message = response.message)
-                is ResultWrapper.Success -> _calculateDistanceResponse.value=ApiResult.Success(data= response.results)
+                is ResultWrapper.Success -> {
+                    _calculateDistanceResponse.value=ApiResult.Success(data= response.results)
+                    delay(500L)
+                    _calculateDistanceResponse.value=ApiResult.Empty
+                }
             }
         }
     }

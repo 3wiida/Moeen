@@ -9,6 +9,7 @@ class ConfirmOrderRepository @Inject constructor(private val apiServices: ApiSer
     suspend fun makeTransportOrder(orderBody: OrderBody) = performSafeApiCall {
         apiServices.makeTransportOrder(
             orderBody.name,
+            orderBody.phone,
             orderBody.governorate_id,
             orderBody.governorate_id_arrival,
             orderBody.city_id,
@@ -26,8 +27,10 @@ class ConfirmOrderRepository @Inject constructor(private val apiServices: ApiSer
             orderBody.end_longitude,
             orderBody.region_id,
             orderBody.region_id_arrival,
-            orderBody.phone,
+            orderBody.other_phone,
             orderBody.coupon_code
         )
     }
+
+    suspend fun checkCoupon(code:String,price:Float)= performSafeApiCall { apiServices.checkCoupon(code,price) }
 }

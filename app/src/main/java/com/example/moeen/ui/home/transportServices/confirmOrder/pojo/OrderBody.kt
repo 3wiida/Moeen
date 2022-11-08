@@ -2,7 +2,7 @@ package com.example.moeen.ui.home.transportServices.confirmOrder.pojo
 
 data class OrderBody (
     val name:String="",
-    val phone:String="",
+    val phone:String="01018359931",
     val governorate_id:Int=-1,
     val governorate_id_arrival:Int=-1,
     val city_id:Int=-1,
@@ -10,8 +10,6 @@ data class OrderBody (
     val distance:Double=0.0,
     val car_type_id:Int=-1,
     val service_id:Int=-1,
-    val start_address_type:String="Location",
-    val end_address_type:String="Location",
     val schedule_date:String="",
     val payment_method_id:Int=-1,
     val start_address_title:String="",

@@ -1,20 +1,17 @@
 package com.example.moeen.ui.home.medicalServices.doctorsBooking.fragments.doctors
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.core.view.marginEnd
 import androidx.core.view.marginStart
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.moeen.R
-import com.example.moeen.common.Constants.TAG
 import com.example.moeen.network.model.specializationsResponse.SpecializationsResponse.Data
-import com.example.moeen.utils.dpToPx
+import com.example.moeen.utils.otherUtils.dpToPx
 
 
 class DoctorsSpecializationsAdapter(private val context: Context) : ListAdapter<Data, DoctorsSpecializationsAdapter.MyViewHolder>(DifferCallback()) {

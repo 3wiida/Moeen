@@ -15,7 +15,7 @@ import com.example.moeen.common.Constants.TAG
 import com.example.moeen.databinding.FragmentLoginBinding
 import com.example.moeen.network.model.countriesResponse.CountriesResponse
 import com.example.moeen.ui.home.HomeActivity
-import com.example.moeen.utils.removePhoneFirstZero
+import com.example.moeen.utils.otherUtils.removePhoneFirstZero
 import com.example.moeen.utils.resultWrapper.ApiResult
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch

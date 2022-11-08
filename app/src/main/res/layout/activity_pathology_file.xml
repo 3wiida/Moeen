@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import type="com.example.moeen.utils.FormErrors"/>
+        <import type="com.example.moeen.utils.otherUtils.FormErrors"/>
         <import type="com.example.moeen.ui.pathologyFile.PathologyFileViewModel"/>
         <import type="android.content.Context"/>
         <variable

@@ -1,4 +1,4 @@
-package com.example.moeen.ui.home.transportServices.ambulance.locationSelection
+package com.example.moeen.ui.home.transportServices.locationSelection
 
 import com.example.moeen.network.api.ApiServices
 import com.example.moeen.utils.resultWrapper.performSafeApiCall
