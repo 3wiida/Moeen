@@ -10,6 +10,7 @@ import com.example.moeen.network.model.doctorsResponse.DoctorsResponse
 import com.example.moeen.network.model.homeResponse.HomeResponse
 import com.example.moeen.network.model.loginResponse.LoginResponse
 import com.example.moeen.network.model.orderRegionResponse.OrderRegionResponse
+import com.example.moeen.network.model.paymentMethodsResponse.PaymentMethodsResponse
 import com.example.moeen.network.model.postsResponse.PostsResponse
 import com.example.moeen.network.model.profileResponse.ProfileResponse
 import retrofit2.http.Field
@@ -135,4 +136,7 @@ interface ApiServices {
         @Query("end_latitude") end_latitude:String,
         @Query("end_longitude") end_longitude:String
     ):CalculateDistanceResponse
+
+    @GET("v1/payment-methods")
+    suspend fun getPaymentMethods() : PaymentMethodsResponse
 }

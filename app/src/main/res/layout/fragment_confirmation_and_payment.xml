@@ -41,7 +41,17 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <RadioGroup
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvPaymentMethods"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvConfirmPaymentCaution" />
+
+        <!--<RadioGroup
             android:id="@+id/rgPaymentMethod"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -84,7 +94,7 @@
                 android:textColor="@color/_3c"
                 android:textSize="16sp" />
 
-        </RadioGroup>
+        </RadioGroup>-->
 
         <com.google.android.material.card.MaterialCardView
             android:layout_width="0dp"
@@ -94,7 +104,7 @@
             app:cardElevation="@dimen/_5dp"
             app:layout_constraintEnd_toStartOf="@+id/guideline32"
             app:layout_constraintStart_toStartOf="@+id/guideline31"
-            app:layout_constraintTop_toBottomOf="@+id/rgPaymentMethod">
+            app:layout_constraintTop_toBottomOf="@+id/rvPaymentMethods">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -137,11 +147,11 @@
                     android:id="@+id/tvEgyptianPoundConfirmPayment"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_20dp"
                     android:fontFamily="@font/cairo_semibold"
                     android:text="جنيه مصري"
                     android:textColor="@color/_42"
                     android:textSize="16sp"
-                    android:layout_marginTop="@dimen/_20dp"
                     app:layout_constraintEnd_toStartOf="@+id/tvConfirmPaymentPrice"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintHorizontal_chainStyle="packed"
@@ -152,12 +162,12 @@
                     android:id="@+id/tvConfirmPaymentPrice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10dp"
+                    android:layout_marginTop="@dimen/_20dp"
                     android:fontFamily="@font/cairo_semibold"
                     android:text="250"
                     android:textColor="@color/_42"
                     android:textSize="16sp"
-                    android:layout_marginTop="@dimen/_20dp"
-                    android:layout_marginStart="@dimen/_10dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toEndOf="@+id/tvEgyptianPoundConfirmPayment"
@@ -171,12 +181,12 @@
             android:id="@+id/btnConfirmPayment"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="26dp"
             android:background="@drawable/_10_blue_rect"
             android:fontFamily="@font/cairo_semibold"
             android:text="تأكيد البيانات /  ارسال الطلب"
             android:textColor="@color/white"
             android:textSize="@dimen/_14sp"
-            android:layout_marginBottom="26dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/guideline32"
             app:layout_constraintStart_toStartOf="@+id/guideline31" />

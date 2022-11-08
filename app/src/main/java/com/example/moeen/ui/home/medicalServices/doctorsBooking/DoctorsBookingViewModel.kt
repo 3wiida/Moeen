@@ -26,6 +26,9 @@ class DoctorsBookingViewModel @Inject constructor(private val repo: DoctorsBooki
     private var _regionsState: MutableStateFlow<ApiResult> = MutableStateFlow(ApiResult.Loading)
     var regionsState: StateFlow<ApiResult> = _regionsState
 
+    private var _paymentState: MutableStateFlow<ApiResult> = MutableStateFlow(ApiResult.Loading)
+    var paymentState: StateFlow<ApiResult> = _paymentState
+
     fun getSpecializations(){
         viewModelScope.launch(Dispatchers.IO){
             when(val response = repo.getSpecializations()){
@@ -73,6 +76,19 @@ class DoctorsBookingViewModel @Inject constructor(private val repo: DoctorsBooki
                 }
                 is ResultWrapper.Success-> {
                     _regionsState.value = ApiResult.Success(response.results)
+                }
+            }
+        }
+    }
+
+    fun getPaymentMethods(){
+        viewModelScope.launch(Dispatchers.IO){
+            when(val response = repo.getPaymentMethods()){
+                is ResultWrapper.Failure -> {
+                    _paymentState.value = ApiResult.Failure(response.code, response.message)
+                }
+                is ResultWrapper.Success -> {
+                    _paymentState.value = ApiResult.Success(response.results)
                 }
             }
         }
