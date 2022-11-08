@@ -6,7 +6,6 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingTop="14dp"
         tools:context=".ui.home.medicalServices.doctorsBooking.fragments.doctorProfile.DoctorProfileFragment">
 
         <androidx.constraintlayout.widget.Guideline
@@ -23,13 +22,22 @@
             android:orientation="vertical"
             app:layout_constraintGuide_end="@dimen/_16dp" />
 
+        <include
+            android:id="@+id/include"
+            layout="@layout/doctor_booking_top_app_bar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/ivDoctorProfileImage"
             android:layout_width="68dp"
             android:layout_height="68dp"
             android:src="@drawable/doctor_avatar"
+            android:layout_marginTop="14dp"
             app:layout_constraintEnd_toStartOf="@id/guideline30"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/include" />
 
         <TextView
             android:id="@+id/tvDoctorProfileName"

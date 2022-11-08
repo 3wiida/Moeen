@@ -23,6 +23,14 @@
             android:orientation="vertical"
             app:layout_constraintGuide_end="@dimen/_16dp" />
 
+        <include
+            android:id="@+id/include"
+            layout="@layout/doctor_booking_top_app_bar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <TextView
             android:id="@+id/tvConfirmPaymentCaution"
             android:layout_width="0dp"
@@ -39,7 +47,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/include" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvPaymentMethods"

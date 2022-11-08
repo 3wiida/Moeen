@@ -1,21 +1,17 @@
 package com.example.moeen.ui.home.medicalServices.doctorsBooking.fragments.doctors
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.moeen.R
 import com.example.moeen.base.BaseFragment
-import com.example.moeen.common.Constants.TAG
 import com.example.moeen.databinding.FragmentDoctorsBinding
 import com.example.moeen.network.model.citiesResponse.CitiesResponse
 import com.example.moeen.network.model.doctorsResponse.DoctorsResponse
@@ -38,56 +34,13 @@ class DoctorsFragment : BaseFragment() {
     private val regionsSpinnerAdapter = RegionsSpinnerAdapter()
     private val viewModel: DoctorsBookingViewModel by viewModels()
 
-    // TODO: test variable
-    private var num = 0
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        /*viewModel.getSpecializations()
-        lifecycleScope.launch(Dispatchers.IO) {
-            repeatOnLifecycle(Lifecycle.State.CREATED) {
-
-                Log.d(TAG, "enter number: ${num++}")
-
-                viewModel.specializationState.collect { state ->
-                    when (state) {
-                        ApiResult.Empty -> {}
-                        ApiResult.Loading -> withContext(Dispatchers.Main) {
-                            loadingDialog().show()
-                        }
-                        is ApiResult.Failure -> withContext(Dispatchers.Main) {
-                            loadingDialog().cancel()
-                            showToast(requireContext(), R.string.unknownError.toString())
-                        }
-                        is ApiResult.Success<*> -> withContext(Dispatchers.Main) {
-                            loadingDialog().cancel()
-
-                            // TODO: Solve the first item problem
-                            val result = (state.data as SpecializationsResponse).data
-                            result.add(0, SpecializationsResponse.Data(-1, "الكل", "", true))
-
-                            specializationsAdapter.submitList(result)
-                            binding.rvDoctorsSpecialization.layoutManager = LinearLayoutManager(
-                                requireContext(),
-                                LinearLayoutManager.HORIZONTAL,
-                                false
-                            )
-                            binding.rvDoctorsSpecialization.adapter = specializationsAdapter
-                        }
-                    }
-                }
-            }
-        }*/
-
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_doctors, container, false)
+
+        binding.include.tvFragmentTitle.text = "الأطباء"
+        binding.include.ivBackArrow.setOnClickListener {
+            view?.findNavController()?.navigateUp()
+        }
 
         specializationsAdapter = DoctorsSpecializationsAdapter(requireContext())
         viewModel.getSpecializations()
@@ -98,9 +51,6 @@ class DoctorsFragment : BaseFragment() {
         // TODO: LifecycleScope is executed everytime the fragment is loaded, check the logs
         /** Get All Specialities */
         lifecycleScope.launch(Dispatchers.IO) {
-
-            //Log.d(TAG, "enter number: ${num++}")
-
             viewModel.specializationState.collect { state ->
                 when (state) {
                     ApiResult.Empty -> {}

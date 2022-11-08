@@ -9,6 +9,14 @@
         android:background="@drawable/confirm_background"
         tools:context=".ui.home.medicalServices.doctorsBooking.fragments.ConfirmationAndPaymentFragment">
 
+        <include
+            android:id="@+id/include"
+            layout="@layout/doctor_booking_top_app_bar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -17,7 +25,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toBottomOf="@+id/include">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -333,10 +341,10 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:background="@color/_c9"
-                        android:layout_marginTop="@dimen/_8dp"
                         android:layout_marginStart="@dimen/_8dp"
-                        android:layout_marginEnd="@dimen/_8dp"/>
+                        android:layout_marginTop="@dimen/_8dp"
+                        android:layout_marginEnd="@dimen/_8dp"
+                        android:background="@color/_c9" />
 
                     <LinearLayout
                         android:id="@+id/llTotalPrice"

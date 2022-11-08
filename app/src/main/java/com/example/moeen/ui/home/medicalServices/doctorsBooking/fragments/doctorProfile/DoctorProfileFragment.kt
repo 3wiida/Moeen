@@ -1,7 +1,6 @@
 package com.example.moeen.ui.home.medicalServices.doctorsBooking.fragments.doctorProfile
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -12,7 +11,6 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.moeen.R
-import com.example.moeen.common.Constants
 import com.example.moeen.databinding.FragmentDoctorProfileBinding
 import com.example.moeen.network.model.doctorsResponse.DoctorsResponse.Data
 import dagger.hilt.android.AndroidEntryPoint
@@ -29,6 +27,18 @@ class DoctorProfileFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_doctor_profile, container, false)
         doctor = args.doctor
+
+        val doctorName = doctor.name!!.split(" ")
+
+        if(doctorName.size >= 2){
+            binding.include.tvFragmentTitle.text = "دكتور ${doctorName[0]} ${doctorName[1]}"
+        } else {
+            binding.include.tvFragmentTitle.text = "دكتور ${doctorName[0]}"
+        }
+
+        binding.include.ivBackArrow.setOnClickListener {
+            view?.findNavController()?.navigateUp()
+        }
 
 
         /** Get data from the past fragment */

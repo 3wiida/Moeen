@@ -3,116 +3,135 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <ScrollView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <include
+            android:id="@+id/include"
+            layout="@layout/doctor_booking_top_app_bar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/_fc"
-            tools:context=".ui.home.medicalServices.doctorsBooking.fragments.ConfirmationAndPaymentFragment">
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/include">
 
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline26"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_end="@dimen/_16dp" />
-
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline27"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_begin="@dimen/_16dp" />
-
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline28"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layout_constraintGuide_begin="@dimen/_16dp" />
-
-            <LinearLayout
-                android:id="@+id/llDoctorsSpinners"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:orientation="horizontal"
-                app:layout_constraintEnd_toStartOf="@+id/guideline26"
-                app:layout_constraintStart_toStartOf="@+id/guideline27"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/btnDoctorsSearch"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@drawable/_10_blue_rect"
-                    android:fontFamily="@font/cairo_semibold"
-                    android:text="بحث"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/_14sp"/>
-
-                <Spinner
-                    android:id="@+id/spNeighborhood"
-                    android:layout_width="0dp"
-                    android:layout_height="50dp"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_weight="1"
-                    android:layoutDirection="rtl"
-                    android:textDirection="rtl"
-                    android:padding="0dp"
-                    android:dropDownWidth="match_parent"/>
-
-                <Spinner
-                    android:id="@+id/spCity"
-                    android:layout_width="0dp"
-                    android:layout_height="50dp"
-                    android:layout_weight="1"
-                    android:layoutDirection="rtl"
-                    android:textDirection="rtl"
-                    android:padding="0dp"
-                    android:dropDownWidth="match_parent"/>
-            </LinearLayout>
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvDoctorsSpecialization"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:layoutDirection="rtl"
-                android:overScrollMode="never"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/llDoctorsSpinners" />
+                android:background="@color/_fc"
+                tools:context=".ui.home.medicalServices.doctorsBooking.fragments.ConfirmationAndPaymentFragment">
 
-            <TextView
-                android:id="@+id/tvDoctorsSpecializationTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:fontFamily="@font/cairo_regular"
-                android:text="كل التخصصات"
-                android:textColor="@color/black"
-                android:textSize="16sp"
-                app:layout_constraintEnd_toStartOf="@+id/guideline26"
-                app:layout_constraintTop_toBottomOf="@+id/rvDoctorsSpecialization" />
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guideline26"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_end="@dimen/_16dp" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvDoctors"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:overScrollMode="never"
-                app:layout_constraintEnd_toStartOf="@+id/guideline26"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="@+id/guideline27"
-                app:layout_constraintTop_toBottomOf="@id/tvDoctorsSpecializationTitle" />
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guideline27"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_begin="@dimen/_16dp" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </ScrollView>
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guideline28"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layout_constraintGuide_begin="@dimen/_16dp" />
+
+                <LinearLayout
+                    android:id="@+id/llDoctorsSpinners"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline26"
+                    app:layout_constraintStart_toStartOf="@+id/guideline27"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btnDoctorsSearch"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/_10_blue_rect"
+                        android:fontFamily="@font/cairo_semibold"
+                        android:text="بحث"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/_14sp" />
+
+                    <Spinner
+                        android:id="@+id/spNeighborhood"
+                        android:layout_width="0dp"
+                        android:layout_height="50dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_weight="1"
+                        android:dropDownWidth="match_parent"
+                        android:layoutDirection="rtl"
+                        android:padding="0dp"
+                        android:textDirection="rtl" />
+
+                    <Spinner
+                        android:id="@+id/spCity"
+                        android:layout_width="0dp"
+                        android:layout_height="50dp"
+                        android:layout_weight="1"
+                        android:dropDownWidth="match_parent"
+                        android:layoutDirection="rtl"
+                        android:padding="0dp"
+                        android:textDirection="rtl" />
+                </LinearLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvDoctorsSpecialization"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:layoutDirection="rtl"
+                    android:overScrollMode="never"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/llDoctorsSpinners" />
+
+                <TextView
+                    android:id="@+id/tvDoctorsSpecializationTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:fontFamily="@font/cairo_regular"
+                    android:text="كل التخصصات"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline26"
+                    app:layout_constraintTop_toBottomOf="@+id/rvDoctorsSpecialization" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvDoctors"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:overScrollMode="never"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline26"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="@+id/guideline27"
+                    app:layout_constraintTop_toBottomOf="@id/tvDoctorsSpecializationTitle" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

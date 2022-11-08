@@ -35,6 +35,11 @@ class ConfirmationAndPaymentFragment : BaseFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_confirmation_and_payment, container, false)
 
+        binding.include.tvFragmentTitle.text = "بيانات البطاقة الائتمانية"
+        binding.include.ivBackArrow.setOnClickListener {
+            view?.findNavController()?.navigateUp()
+        }
+
         viewModel.getPaymentMethods()
 
         lifecycleScope.launch(Dispatchers.IO){
