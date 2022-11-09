@@ -1,14 +1,18 @@
 package com.example.moeen.ui.home.medicalServices.doctorsBooking.fragments
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.RadioButton
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.moeen.R
+import com.example.moeen.common.Constants.TAG
 import com.example.moeen.network.model.paymentMethodsResponse.PaymentMethodsResponse.Data
+import kotlin.math.log
 
 class PaymentMethodsAdapter (private val itemLayout:Int): ListAdapter<Data, PaymentMethodsAdapter.MyViewHolder>(PaymentDiffUtils()){
 
@@ -25,10 +29,20 @@ class PaymentMethodsAdapter (private val itemLayout:Int): ListAdapter<Data, Paym
     }
 
     override fun onBindViewHolder(holder: PaymentMethodsAdapter.MyViewHolder, position: Int) {
-        val item = currentList[position]
+        val item = getItem(position)
         holder.rb.text = item.name
-        holder.itemView.setOnClickListener{
+        holder.rb.setOnClickListener{
             onItemClicked?.invoke(item)
+            for(i in currentList){
+                i?.isChecked = item.id == i?.id
+            }
+            if(item?.isChecked == true){
+                Log.d(TAG, "onBindViewHolder: should be blue")
+                holder.rb.setBackgroundResource(R.drawable._10_null_blue_rect)
+            }else{
+                Log.d(TAG, "onBindViewHolder: should be gray")
+                holder.rb.setBackgroundResource(R.drawable._10_gray_rect)
+            }
         }
     }
 

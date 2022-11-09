@@ -34,6 +34,7 @@ class ConfirmOrderActivity : BaseActivity() {
     /** vars */
     private lateinit var binding: ActivityConfirmOrderBinding
     private val viewModel: ConfirmOrderViewModel by viewModels()
+    private val ad=PaymentMethodsAdapter(R.layout.payment_method_rv_line)
 
     @Inject
     lateinit var bundle: Bundle
@@ -60,7 +61,7 @@ class ConfirmOrderActivity : BaseActivity() {
     private lateinit var movingAddressTitle: String
     private lateinit var arrivalAddressTitle: String
     private lateinit var tripDate: String
-    private val ad=PaymentMethodsAdapter(R.layout.payment_method_rv_line)
+
 
     //prices
     var tripCost=ObservableFloat()
@@ -80,12 +81,6 @@ class ConfirmOrderActivity : BaseActivity() {
         binding.viewModel=viewModel
         binding.activity=this
         receiveParametersFromBundle()
-        ad.onItemClicked={  paymentMethod ->
-            paymentMethod.id?.let {
-                paymentMethodId=it
-                Log.d(TAG, "initRv: $it")
-            }
-        }
         total.set(tripCost.get()-discount.get())
         setContentView(binding.root)
         if (checkInternetConnection()) {
@@ -103,6 +98,7 @@ class ConfirmOrderActivity : BaseActivity() {
                 phone=binding.etConfirmOrderPhoneNumber.text.toString().trim()
                 otherPhone=binding.etConfirmOrderAnotherPhoneNumber.text.toString().trim()
                 couponCode=binding.etConfirmOrderDiscountCode.text.toString().trim()
+                Log.d(TAG, "onCreate: $paymentMethodId")
                 val order = OrderBody(
                     name,
                     phone,
@@ -260,6 +256,11 @@ class ConfirmOrderActivity : BaseActivity() {
                             }else{
                                 ad.submitList(paymentMethods.data)
                                 initRv()
+                                ad.onItemClicked={ method ->
+                                    method.id?.let {
+                                        paymentMethodId=it
+                                    }
+                                }
                             }
                         }
                     }
