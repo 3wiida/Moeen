@@ -3,7 +3,6 @@ package com.example.moeen.ui.home.medicalServices.doctorsBooking.fragments.docto
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.*
 import com.example.moeen.R

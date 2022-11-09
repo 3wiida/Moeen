@@ -1,6 +1,5 @@
 package com.example.moeen.ui.home.medicalServices.doctorsBooking
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.moeen.R
 import com.example.moeen.base.BaseActivity

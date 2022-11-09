@@ -56,12 +56,17 @@
         <entry key="..\:/Users/Corptia 06/AndroidStudioProjects/moeen/app/src/main/res/drawable/_15_red_rect.xml" value="0.1935" />
         <entry key="..\:/Users/Corptia 06/AndroidStudioProjects/moeen/app/src/main/res/drawable/_7_null_gray_rect.xml" value="0.1935" />
         <entry key="..\:/Users/Corptia 06/AndroidStudioProjects/moeen/app/src/main/res/drawable/ic_credit_card.xml" value="0.1935" />
+        <entry key="..\:/Users/Corptia 06/AndroidStudioProjects/moeen/app/src/main/res/drawable/ic_location_marker.xml" value="0.2235" />
         <entry key="..\:/Users/Corptia 06/AndroidStudioProjects/moeen/app/src/main/res/drawable/payment_method_backgroud.xml" value="0.1935" />
         <entry key="..\:/Users/Corptia 06/AndroidStudioProjects/moeen/app/src/main/res/drawable/payment_method_background.xml" value="0.1935" />
         <entry key="..\:/Users/Corptia 06/AndroidStudioProjects/moeen/app/src/main/res/drawable/wallet_background.xml" value="0.1935" />
         <entry key="..\:/Users/Corptia 06/AndroidStudioProjects/moeen/app/src/main/res/layout/activity_ambulance.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Corptia 06/AndroidStudioProjects/moeen/app/src/main/res/layout/activity_confirm_order.xml" value="0.31574074074074077" />
+        <entry key="..\:/Users/Corptia 06/AndroidStudioProjects/moeen/app/src/main/res/layout/complete_order_dialog_layout.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Corptia 06/AndroidStudioProjects/moeen/app/src/main/res/layout/fragment_location_selection.xml" value="0.30092592592592593" />
+        <entry key="..\:/Users/Corptia 06/AndroidStudioProjects/moeen/app/src/main/res/layout/fragment_maps.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Corptia 06/AndroidStudioProjects/moeen/app/src/main/res/layout/payment_method_item.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Corptia 06/AndroidStudioProjects/moeen/app/src/main/res/layout/payment_method_rv_line.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Corptia/Desktop/abdo/Mo3en/Moeen/app/src/main/res/drawable/_10_blue_rect.xml" value="0.337" />
         <entry key="..\:/Users/Corptia/Desktop/abdo/Mo3en/Moeen/app/src/main/res/drawable/_10_light_blue_rect.xml" value="0.337" />
         <entry key="..\:/Users/Corptia/Desktop/abdo/Mo3en/Moeen/app/src/main/res/drawable/_15_gray_rect.xml" value="0.5475" />

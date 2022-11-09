@@ -6,6 +6,7 @@ import com.example.moeen.network.model.chronicDiseaseResponse.ChronicDiseaseResp
 import com.example.moeen.network.model.citiesResponse.CitiesResponse
 import com.example.moeen.network.model.claculatePriceResponse.CalculatePriceResponse
 import com.example.moeen.network.model.countriesResponse.CountriesResponse
+import com.example.moeen.network.model.couponResponse.CouponResponse
 import com.example.moeen.network.model.doctorsResponse.DoctorsResponse
 import com.example.moeen.network.model.homeResponse.HomeResponse
 import com.example.moeen.network.model.loginResponse.LoginResponse
@@ -19,7 +20,6 @@ import retrofit2.http.GET
 import retrofit2.http.POST
 import com.example.moeen.network.model.regionsResponse.RegionsResponse
 import com.example.moeen.network.model.specializationsResponse.SpecializationsResponse
-import com.example.moeen.ui.home.transportServices.confirmOrder.pojo.OrderBody
 import retrofit2.http.*
 
 interface ApiServices {
@@ -146,5 +146,5 @@ interface ApiServices {
     suspend fun checkCoupon(
         @Field("coupon_code") coupon_code:String,
         @Field("price") price:Float
-    )
+    ):CouponResponse
 }

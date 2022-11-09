@@ -27,6 +27,9 @@ class ConfirmOrderViewModel @Inject constructor(private val repo:ConfirmOrderRep
 
     private var _checkCouponResponse:MutableStateFlow<ApiResult> =MutableStateFlow(ApiResult.Empty)
     var checkCouponResponse=_checkCouponResponse.asStateFlow()
+
+    private var _paymentMethodsResponse:MutableStateFlow<ApiResult> = MutableStateFlow(ApiResult.Empty)
+    var paymentMethodsResponse=_paymentMethodsResponse.asStateFlow()
     /**-------------------------------------------------------------------------------*/
 
     /** validate form */
@@ -72,6 +75,18 @@ class ConfirmOrderViewModel @Inject constructor(private val repo:ConfirmOrderRep
             when(val response=repo.checkCoupon(couponCode,price)){
                 is ResultWrapper.Failure -> _checkCouponResponse.value=ApiResult.Failure(message = response.message)
                 is ResultWrapper.Success -> _checkCouponResponse.value=ApiResult.Success(data = response.results)
+            }
+        }
+    }
+
+
+    /** call to get payment methods */
+    fun getPaymentMethods(){
+        _paymentMethodsResponse.value=ApiResult.Loading
+        viewModelScope.launch(Dispatchers.IO){
+            when(val response=repo.getPaymentMethods()){
+                is ResultWrapper.Failure -> _paymentMethodsResponse.value=ApiResult.Failure(message = response.message)
+                is ResultWrapper.Success -> _paymentMethodsResponse.value=ApiResult.Success(data = response.results)
             }
         }
     }

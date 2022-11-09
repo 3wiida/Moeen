@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_45dp"
+        app:srcCompat="@drawable/thank_you_order" />
+
+    <TextView
+        android:id="@+id/textView25"
+        android:textAlignment="center"
+        android:fontFamily="@font/cairo_bold"
+        android:textSize="24sp"
+        android:textColor="@color/black"
+        android:gravity="center"
+        android:layout_marginTop="@dimen/_12dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="شكرا لك" />
+
+    <TextView
+        android:id="@+id/textView27"
+        android:fontFamily="@font/cairo_semibold"
+        android:textSize="@dimen/_14sp"
+        android:gravity="center"
+        android:layout_marginTop="7dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="لقد تم إستلام طلبك بنجاح" />
+
+    <TextView
+        android:id="@+id/textView26"
+        android:fontFamily="@font/cairo_semibold"
+        android:textSize="@dimen/_14sp"
+        android:gravity="center"
+        android:textColor="@color/black"
+        android:layout_marginTop="12dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/_45dp"
+        android:text="سيتم ابلاغكم فور قبوله" />
+</LinearLayout>

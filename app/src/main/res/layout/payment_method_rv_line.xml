@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_marginTop="@dimen/_10dp"
+    android:layout_marginLeft="@dimen/_10dp"
+    android:layout_height="match_parent">
+
+    <RadioButton
+        android:id="@+id/rbPaymentItem"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/_5dp"
+        android:background="@drawable/payment_method_background"
+        android:buttonTint="@color/radio_button_background_selector"
+        android:drawableStart="@drawable/ic_wallet"
+        android:drawablePadding="@dimen/_8dp"
+        android:drawableTint="@color/_70"
+        android:fontFamily="@font/cairo_regular"
+        android:padding="@dimen/_16dp"
+        android:textDirection="rtl"
+        android:gravity="right"
+        android:layoutDirection="rtl"
+        android:button="@android:color/transparent"
+        android:text="دفع بالمحفظة"
+        android:textColor="@color/_3c"
+        android:textSize="16sp" />
+
+</LinearLayout>

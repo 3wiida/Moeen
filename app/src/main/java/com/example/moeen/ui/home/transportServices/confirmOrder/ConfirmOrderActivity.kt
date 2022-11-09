@@ -1,15 +1,27 @@
 package com.example.moeen.ui.home.transportServices.confirmOrder
 
+import android.app.Dialog
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
+import android.view.ViewGroup
 import androidx.activity.viewModels
 import androidx.databinding.ObservableFloat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.recyclerview.widget.GridLayoutManager
+import com.example.moeen.R
 import com.example.moeen.base.BaseActivity
+import com.example.moeen.common.Constants.TAG
 import com.example.moeen.databinding.ActivityConfirmOrderBinding
+import com.example.moeen.network.model.couponResponse.CouponResponse
+import com.example.moeen.network.model.paymentMethodsResponse.PaymentMethodsResponse
+import com.example.moeen.ui.home.HomeActivity
+import com.example.moeen.ui.home.medicalServices.doctorsBooking.fragments.PaymentMethodsAdapter
 import com.example.moeen.ui.home.transportServices.locationSelection.pojo.LocationAddress
 import com.example.moeen.ui.home.transportServices.confirmOrder.pojo.OrderBody
+import com.example.moeen.utils.otherUtils.FormErrors
 import com.example.moeen.utils.resultWrapper.ApiResult
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
@@ -35,7 +47,7 @@ class ConfirmOrderActivity : BaseActivity() {
     private var distance: Double = 0.0
     private var serviceId: Int = 0
     private var couponCode: String? = null
-    private var paymentMethod: Int = 1
+    private var paymentMethodId: Int = 1
     private var movingRegionId:Int=1
     private var arrivalRegionId:Int=1
     private lateinit var name:String
@@ -48,10 +60,11 @@ class ConfirmOrderActivity : BaseActivity() {
     private lateinit var movingAddressTitle: String
     private lateinit var arrivalAddressTitle: String
     private lateinit var tripDate: String
+    private val ad=PaymentMethodsAdapter(R.layout.payment_method_rv_line)
 
     //prices
     var tripCost=ObservableFloat()
-    var tax=ObservableFloat()
+    //var tax=ObservableFloat()
     var discount=ObservableFloat()
     var total=ObservableFloat()
 
@@ -67,10 +80,19 @@ class ConfirmOrderActivity : BaseActivity() {
         binding.viewModel=viewModel
         binding.activity=this
         receiveParametersFromBundle()
+        ad.onItemClicked={  paymentMethod ->
+            paymentMethod.id?.let {
+                paymentMethodId=it
+                Log.d(TAG, "initRv: $it")
+            }
+        }
+        total.set(tripCost.get()-discount.get())
         setContentView(binding.root)
-
         if (checkInternetConnection()) {
+            viewModel.getPaymentMethods()
             collectMakeOrderFlow()
+            collectCheckOrderFlow()
+            collectPaymentMethodsFlow()
         } else {
             showToast(this, "no internet connection")
         }
@@ -92,7 +114,7 @@ class ConfirmOrderActivity : BaseActivity() {
                     carId,
                     serviceId,
                     tripDate,
-                    paymentMethod,
+                    paymentMethodId,
                     movingAddressTitle,
                     arrivalAddressTitle,
                     couponCode,
@@ -166,13 +188,12 @@ class ConfirmOrderActivity : BaseActivity() {
                         ApiResult.Empty -> {}
                         is ApiResult.Failure -> {
                             loadingDialog().cancel()
-                            showToast(this@ConfirmOrderActivity, response.message!!)
+                            response.message?.let { showToast(this@ConfirmOrderActivity, it) }
                         }
                         ApiResult.Loading -> loadingDialog().show()
                         is ApiResult.Success<*> -> {
                             loadingDialog().cancel()
-                            showToast(this@ConfirmOrderActivity, "تم بنجاح")
-                            //waiting for response body of make order
+                            showThanksDialog()
                         }
                     }
                 }
@@ -193,11 +214,82 @@ class ConfirmOrderActivity : BaseActivity() {
                         ApiResult.Loading -> loadingDialog().show()
                         is ApiResult.Success<*> -> {
                             loadingDialog().dismiss()
-                            //waiting for response body of check coupon
+                            val couponResult = result.data as CouponResponse
+                            if(couponResult.status==0){
+                                Log.d(TAG, "collectCheckOrderFlow: enter state 0")
+                                viewModel.couponError.add(FormErrors.INVALID_COUPON_CODE)
+                                couponResult.massage?.let { message ->
+
+                                    showToast(this@ConfirmOrderActivity,message)
+                                }
+                            }else{
+                                Log.d(TAG, "collectCheckOrderFlow: enter state 1")
+                                couponResult.massage?.let { message ->
+                                    showToast(this@ConfirmOrderActivity,message)
+                                    couponResult.data?.discount?.let { discount.set(it) }
+                                    couponResult.data?.totalPrice?.let { total.set(it) }
+                                }
+                            }
                         }
                     }
                 }
             }
+        }
+    }
+
+    private fun collectPaymentMethodsFlow(){
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.RESUMED){
+                viewModel.paymentMethodsResponse.collectLatest { result->
+                    when(result){
+                        ApiResult.Empty -> {}
+                        is ApiResult.Failure -> {
+                            loadingDialog().dismiss()
+                            result.message?.let { showToast(this@ConfirmOrderActivity, it) }
+                        }
+                        ApiResult.Loading -> loadingDialog().show()
+                        is ApiResult.Success<*> -> {
+                            loadingDialog().dismiss()
+                            val paymentMethods=result.data as PaymentMethodsResponse
+                            if(paymentMethods.status==0){
+                                paymentMethods.massage?.let {
+                                    showToast(this@ConfirmOrderActivity,
+                                        it
+                                    )
+                                }
+                            }else{
+                                ad.submitList(paymentMethods.data)
+                                initRv()
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    /** thank you dialog when user confirm order */
+    private fun showThanksDialog(){
+        val dialog=Dialog(this)
+        dialog.apply {
+            setContentView(R.layout.complete_order_dialog_layout)
+            window?.decorView?.setBackgroundResource(R.drawable._15_white_rect)
+            window?.setLayout(900,ViewGroup.LayoutParams.WRAP_CONTENT)
+            dialog.window?.attributes?.windowAnimations= R.style.loadingDialogAnimation
+        }
+        dialog.setOnCancelListener {
+            val intent=Intent(this,HomeActivity::class.java)
+            intent.flags=Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivity(intent)
+        }
+        dialog.show()
+    }
+
+
+    private fun initRv(){
+        binding.paymentMethodRv.apply {
+            adapter=ad
+            layoutManager=GridLayoutManager(this@ConfirmOrderActivity,2)
         }
     }
 

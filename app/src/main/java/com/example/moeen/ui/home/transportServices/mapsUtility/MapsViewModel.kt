@@ -21,6 +21,7 @@ import com.google.android.gms.maps.model.MarkerOptions
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -103,7 +104,10 @@ class MapsViewModel @Inject constructor( @ApplicationContext private val context
         viewModelScope.launch(Dispatchers.IO){
             when(val response=repo.checkRegion(lat,lon)){
                 is ResultWrapper.Failure -> _checkRegionResponse.value=ApiResult.Failure(message = response.message)
-                is ResultWrapper.Success -> _checkRegionResponse.value=ApiResult.Success(data = response.results)
+                is ResultWrapper.Success -> {
+                    _checkRegionResponse.value=ApiResult.Success(data = response.results)
+                    delay(300L)
+                }
             }
         }
     }

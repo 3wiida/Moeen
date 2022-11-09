@@ -10,7 +10,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.moeen.R
 import com.example.moeen.network.model.paymentMethodsResponse.PaymentMethodsResponse.Data
 
-class PaymentMethodsAdapter : ListAdapter<Data, PaymentMethodsAdapter.MyViewHolder>(PaymentDiffUtils()){
+class PaymentMethodsAdapter (private val itemLayout:Int): ListAdapter<Data, PaymentMethodsAdapter.MyViewHolder>(PaymentDiffUtils()){
+
+    var onItemClicked:((Data) -> Unit) ?=null
 
     inner class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         val rb : RadioButton = itemView.findViewById(R.id.rbPaymentItem)
@@ -18,15 +20,19 @@ class PaymentMethodsAdapter : ListAdapter<Data, PaymentMethodsAdapter.MyViewHold
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PaymentMethodsAdapter.MyViewHolder {
         return MyViewHolder(
-            LayoutInflater.from(parent.context).inflate(R.layout.payment_method_item, parent, false)
+            LayoutInflater.from(parent.context).inflate(itemLayout, parent, false)
         )
     }
 
     override fun onBindViewHolder(holder: PaymentMethodsAdapter.MyViewHolder, position: Int) {
         val item = currentList[position]
-
         holder.rb.text = item.name
+        holder.itemView.setOnClickListener{
+            onItemClicked?.invoke(item)
+        }
     }
+
+
 
 }
 

@@ -2,13 +2,11 @@ package com.example.moeen.ui.pathologyFile
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.widget.Button
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.example.moeen.R
 import com.example.moeen.base.BaseActivity
-import com.example.moeen.common.Constants.TAG
 import com.example.moeen.databinding.ActivityPathologyFileBinding
 import com.example.moeen.network.model.profileResponse.BloodType
 import com.example.moeen.network.model.profileResponse.Country
@@ -85,9 +83,9 @@ class PathologyFileActivity : BaseActivity() {
                 val nationality=(binding.nationalitySpinner.selectedItem as Country).nationality
                 val notes=binding.personAdditionalInfo.text.toString()
                 val region=(binding.personRegion.selectedItem as Region).id
-                val d_o_b=binding.personBirthday.text.toString()
+                val dob=binding.personBirthday.text.toString()
 
-                val newProfile = NewProfileModel(region, bloodType, name,gender , photo = null, nationalityId, nationality, weight, length, insuranceNumber,notes,d_o_b)
+                val newProfile = NewProfileModel(region, bloodType, name,gender , photo = null, nationalityId, nationality, weight, length, insuranceNumber,notes,dob)
                 viewModel.updateProfile(newProfile)
 
                 lifecycleScope.launch {

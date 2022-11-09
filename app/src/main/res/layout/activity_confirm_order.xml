@@ -194,48 +194,15 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/etConfirmOrderAnotherPhoneNumber" />
 
-                <RadioGroup
-                    android:id="@+id/rgConfirmOrderPaymentMethod"
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/paymentMethodRv"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:checkedButton="@id/rbConfirmOrderWallet"
-                    android:orientation="horizontal"
-                    android:textDirection="rtl"
+                    android:layoutDirection="rtl"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView19">
+                    app:layout_constraintTop_toBottomOf="@+id/textView19" />
 
-                    <RadioButton
-                        android:id="@+id/rbConfirmOrderCreditCard"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="10dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/payment_method_background"
-                        android:button="@android:color/transparent"
-                        android:drawableRight="@drawable/ic_credit_card"
-                        android:drawablePadding="10dp"
-                        android:drawableTint="@color/_70"
-                        android:fontFamily="@font/cairo_regular"
-                        android:text="بطاقة الإئتمان"
-                        android:textSize="@dimen/_14sp" />
-
-                    <RadioButton
-                        android:id="@+id/rbConfirmOrderWallet"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:background="@drawable/payment_method_background"
-                        android:button="@android:color/transparent"
-                        android:drawableRight="@drawable/ic_wallet"
-                        android:drawablePadding="10dp"
-                        android:fontFamily="@font/cairo_regular"
-                        android:paddingLeft="10dp"
-                        android:paddingRight="10dp"
-                        android:text="المحفظة"
-                        android:textSize="@dimen/_14sp" />
-                </RadioGroup>
 
                 <TextView
                     android:id="@+id/textView20"
@@ -249,7 +216,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/rgConfirmOrderPaymentMethod" />
+                    app:layout_constraintTop_toBottomOf="@+id/paymentMethodRv" />
 
                 <EditText
                     android:id="@+id/etConfirmOrderDiscountCode"
@@ -263,7 +230,7 @@
                     android:gravity="right|center"
                     android:background="@{viewModel.couponError.contains(FormErrors.INVALID_COUPON_CODE) ? @drawable/_10_null_red_rect : @drawable/_10_gray_rect}"
                     android:hint="أدخل كود الخصم"
-                    android:inputType="phone"
+                    android:inputType="text"
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"
                     android:textSize="@dimen/_12sp"
@@ -327,6 +294,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
+                        android:visibility="gone"
                         android:layout_marginTop="14dp">
 
                         <TextView
@@ -364,7 +332,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/cairo_regular"
                             android:gravity="left"
-                            android:text="80 ج.م"
+                            android:text='@{String.valueOf(activity.discount) + " ج.م"}'
                             android:layout_weight="1"
                             android:textColor="@color/Blue"
                             android:textSize="14sp" />
@@ -391,7 +359,6 @@
                     android:layout_marginTop="18dp"
                     android:background="@android:color/darker_gray"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/tvTripCostConfirmOrder"
                     app:layout_constraintTop_toBottomOf="@+id/linearLayout1" />
 
                 <TextView
@@ -413,7 +380,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/cairo_bold"
                     android:gravity="left"
-                    android:text="430 ج.م"
+                    android:text='@{String.valueOf(activity.total) + " ج.م"}'
                     android:textColor="@color/black"
                     android:textSize="14sp"
                     app:layout_constraintBottom_toBottomOf="@+id/textView24"

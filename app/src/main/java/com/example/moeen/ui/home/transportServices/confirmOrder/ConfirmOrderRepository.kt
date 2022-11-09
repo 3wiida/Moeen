@@ -33,4 +33,6 @@ class ConfirmOrderRepository @Inject constructor(private val apiServices: ApiSer
     }
 
     suspend fun checkCoupon(code:String,price:Float)= performSafeApiCall { apiServices.checkCoupon(code,price) }
+
+    suspend fun getPaymentMethods()= performSafeApiCall { apiServices.getPaymentMethods() }
 }

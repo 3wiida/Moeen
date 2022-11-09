@@ -2,13 +2,12 @@ package com.example.moeen.ui.home.transportServices.mapsUtility
 
 import android.annotation.SuppressLint
 import android.location.Address
-import android.location.Location
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -16,6 +15,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.findNavController
 import com.example.moeen.R
 import com.example.moeen.base.BaseFragment
+import com.example.moeen.common.Constants.TAG
 import com.example.moeen.network.model.orderRegionResponse.OrderRegionResponse
 import com.example.moeen.ui.home.transportServices.ambulance.AmbulanceActivity
 import com.example.moeen.ui.home.transportServices.locationSelection.pojo.LocationAddress
@@ -36,7 +36,7 @@ class MapsFragment  : BaseFragment() {
     private lateinit var regionResponse: OrderRegionResponse
     private lateinit var pickBtn:Button
     private var markerExist=false
-    var lastClickedLocation:LatLng?=null
+    private var lastClickedLocation:LatLng?=null
     @Inject lateinit var bundle:Bundle
 
     /** ----------------------------------------------------------------------------------------- */
@@ -100,10 +100,12 @@ class MapsFragment  : BaseFragment() {
                             regionResponse=apiState.data as OrderRegionResponse
                             if(regionResponse.status==0){
                                 showToast(requireContext(),"المنطقه غير مغطاه")
+                                Log.d(TAG, "collectRegionResponse: enter state zero")
                             }else{
                                 collectLocationState()
                             }
                         }
+
                     }
                 }
             }
@@ -154,6 +156,7 @@ class MapsFragment  : BaseFragment() {
                                 requireView().findNavController().navigate(R.id.action_mapsFragment_to_locationSelectionFragment)
                             }
                         }
+
                     }
                 }
             }
