@@ -2,6 +2,7 @@ package com.example.moeen.ui.home.transportServices.mapsUtility
 
 import android.annotation.SuppressLint
 import android.location.Address
+import android.location.Location
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -21,6 +22,7 @@ import com.example.moeen.ui.home.transportServices.locationSelection.pojo.Locati
 import com.example.moeen.utils.resultWrapper.ApiResult
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -34,6 +36,7 @@ class MapsFragment  : BaseFragment() {
     private lateinit var regionResponse: OrderRegionResponse
     private lateinit var pickBtn:Button
     private var markerExist=false
+    var lastClickedLocation:LatLng?=null
     @Inject lateinit var bundle:Bundle
 
     /** ----------------------------------------------------------------------------------------- */
@@ -49,20 +52,24 @@ class MapsFragment  : BaseFragment() {
 
         /** when user click to pick location */
         pickBtn.setOnClickListener{
-            val ll=viewModel.pickCentralizedLocation(googleMap)
-            viewModel.checkRegion(ll.latitude.toString(),ll.longitude.toString())
-            viewModel.getLocationDetails(requireContext(),ll)
-
+            if(lastClickedLocation==null){
+                showToast(requireContext(),"من فضلك فم بتحديد مكان")
+            }else{
+                viewModel.checkRegion(lastClickedLocation!!.latitude.toString(),lastClickedLocation!!.longitude.toString())
+                viewModel.getLocationDetails(requireContext(),lastClickedLocation!!)
+            }
         }
 
-        googleMap.setOnMapClickListener { latLng->
+        googleMap.setOnMapClickListener { point->
 
             if(!markerExist){
-                googleMap.addMarker(MarkerOptions().position(latLng).icon(viewModel.bitmapFromVector(requireContext(),R.drawable.ic_location_marker)))
+                googleMap.addMarker(MarkerOptions().position(point).icon(viewModel.bitmapFromVector(requireContext(),R.drawable.ic_location_marker)))
+                lastClickedLocation=point
                 markerExist=true
             }else{
                 googleMap.clear()
-                googleMap.addMarker(MarkerOptions().position(latLng).icon(viewModel.bitmapFromVector(requireContext(),R.drawable.ic_location_marker)))
+                googleMap.addMarker(MarkerOptions().position(point).icon(viewModel.bitmapFromVector(requireContext(),R.drawable.ic_location_marker)))
+                lastClickedLocation=point
             }
         }
     }
@@ -92,7 +99,7 @@ class MapsFragment  : BaseFragment() {
                         is ApiResult.Success<*> -> {
                             regionResponse=apiState.data as OrderRegionResponse
                             if(regionResponse.status==0){
-                                showToast(requireContext(),regionResponse.message)
+                                showToast(requireContext(),"المنطقه غير مغطاه")
                             }else{
                                 collectLocationState()
                             }
