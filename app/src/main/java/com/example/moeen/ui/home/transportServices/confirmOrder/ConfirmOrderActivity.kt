@@ -48,7 +48,7 @@ class ConfirmOrderActivity : BaseActivity() {
     private var distance: Double = 0.0
     private var serviceId: Int = 0
     private var couponCode: String? = null
-    private var paymentMethodId: Int = 1
+    private var paymentMethodId: Int = -1
     private var movingRegionId:Int=1
     private var arrivalRegionId:Int=1
     private lateinit var name:String
@@ -65,7 +65,6 @@ class ConfirmOrderActivity : BaseActivity() {
 
     //prices
     var tripCost=ObservableFloat()
-    //var tax=ObservableFloat()
     var discount=ObservableFloat()
     var total=ObservableFloat()
 
@@ -144,7 +143,7 @@ class ConfirmOrderActivity : BaseActivity() {
     private fun validateForm(): Boolean {
         val name = binding.etConfirmOrderPersonName.text.toString().trim()
         val phone = binding.etConfirmOrderPhoneNumber.text.toString().trim()
-        return viewModel.validateForm(name, phone)
+        return viewModel.validateForm(name, phone,paymentMethodId)
     }
 
     private fun validateCoupon(couponCode:String?):Boolean{
@@ -235,7 +234,7 @@ class ConfirmOrderActivity : BaseActivity() {
 
     private fun collectPaymentMethodsFlow(){
         lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.RESUMED){
+            repeatOnLifecycle(Lifecycle.State.STARTED){
                 viewModel.paymentMethodsResponse.collectLatest { result->
                     when(result){
                         ApiResult.Empty -> {}
@@ -293,7 +292,6 @@ class ConfirmOrderActivity : BaseActivity() {
             layoutManager=GridLayoutManager(this@ConfirmOrderActivity,2)
         }
     }
-
 
 
 

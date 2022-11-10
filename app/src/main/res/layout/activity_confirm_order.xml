@@ -187,7 +187,7 @@
                     android:layout_marginTop="30dp"
                     android:fontFamily="@font/cairo_regular"
                     android:text="اختر طريقه الدفع"
-                    android:textColor="@color/black"
+                    android:textColor="@{viewModel.formErrors.contains(FormErrors.INVALID_PAYMENT_METHOD) ? @color/red : @color/black }"
                     android:textSize="14sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"

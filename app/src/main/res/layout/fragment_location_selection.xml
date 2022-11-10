@@ -102,7 +102,6 @@
                     android:id="@+id/movingPlaceEt"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:ems="10"
                     android:clickable="false"
                     android:cursorVisible="false"
                     android:focusable="false"
@@ -115,7 +114,7 @@
                     android:textSize="@dimen/_12sp"
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"
-                    android:background="@{viewModel.formErrors.contains(FormErrors.EMPTY_MOVING_PLACE) ? @drawable/_15_red_rect : @drawable/_15_gray_rect}"
+                    android:background="@{viewModel.formErrors.contains(FormErrors.EMPTY_MOVING_PLACE) ? @drawable/_10_null_red_rect : @drawable/_10_gray_rect}"
                     android:inputType="textPersonName" />
 
                 <TextView
@@ -134,7 +133,6 @@
                     android:id="@+id/arrivalPlaceEt"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:ems="10"
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"
                     android:inputType="textPersonName"
@@ -146,7 +144,7 @@
                     android:focusableInTouchMode="false"
                     android:hint="قم بتحديد مكان الوصول"
                     android:drawableLeft="@drawable/ic_location"
-                    android:background="@{viewModel.formErrors.contains(FormErrors.EMPTY_ARRIVAL_PLACE) ? @drawable/_15_red_rect : @drawable/_15_gray_rect}"
+                    android:background="@{viewModel.formErrors.contains(FormErrors.EMPTY_ARRIVAL_PLACE) ? @drawable/_10_null_red_rect : @drawable/_10_gray_rect}"
                     android:fontFamily="@font/cairo_regular"
                     android:textSize="@dimen/_12sp" />
 
@@ -170,8 +168,7 @@
                     android:layoutDirection="rtl"
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"
-
-                    android:background="@{viewModel.formErrors.contains(FormErrors.EMPTY_CAR_TYPE) ? @drawable/_15_red_rect : @drawable/_15_gray_rect}"
+                    android:background="@{viewModel.formErrors.contains(FormErrors.EMPTY_CAR_TYPE) ? @drawable/_10_null_red_rect : @drawable/_10_gray_rect}"
                     android:fontFamily="@font/cairo_regular"
                     android:textSize="@dimen/_12sp" />
 
@@ -216,8 +213,6 @@
                         android:id="@+id/ambulanceTimeSelectionEt"
                         android:layout_width="wrap_content"
                         android:layout_height="50dp"
-                        android:ems="10"
-                        android:paddingLeft="10dp"
                         android:paddingRight="10dp"
                         android:inputType="textPersonName"
                         android:layout_weight="1"
@@ -230,7 +225,7 @@
                         android:focusableInTouchMode="false"
                         android:hint="قم بتحديد الوقت"
                         android:drawableLeft="@drawable/ic_clock"
-                        android:background="@{viewModel.formErrors.contains(FormErrors.INVALID_TIME)? @drawable/_15_red_rect : @drawable/_15_gray_rect}"
+                        android:background="@{viewModel.formErrors.contains(FormErrors.INVALID_TIME)? @drawable/_10_null_red_rect : @drawable/_10_gray_rect}"
                         android:fontFamily="@font/cairo_regular"
                         android:drawablePadding="5dp"
                         android:textSize="@dimen/_12sp" />
@@ -241,12 +236,11 @@
                         android:layout_height="50dp"
                         android:layout_marginLeft="15dp"
                         android:layout_weight="1"
-                        android:background="@{viewModel.formErrors.contains(FormErrors.INVALID_DATE)? @drawable/_15_red_rect : @drawable/_15_gray_rect}"
+                        android:background="@{viewModel.formErrors.contains(FormErrors.INVALID_DATE)? @drawable/_10_null_red_rect : @drawable/_10_gray_rect}"
                         android:clickable="false"
                         android:cursorVisible="false"
                         android:drawableLeft="@drawable/ic_calendar"
                         android:drawablePadding="5dp"
-                        android:ems="10"
                         android:textDirection="rtl"
                         android:focusable="false"
                         android:focusableInTouchMode="false"

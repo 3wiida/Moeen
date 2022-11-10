@@ -33,7 +33,7 @@ class ConfirmOrderViewModel @Inject constructor(private val repo:ConfirmOrderRep
     /**-------------------------------------------------------------------------------*/
 
     /** validate form */
-    fun validateForm(name:String,phoneNumber: String):Boolean{
+    fun validateForm(name:String,phoneNumber: String,paymentMethod:Int):Boolean{
         formErrors.clear()
         if(name.isEmpty()){
             formErrors.add(FormErrors.INVALID_NAME)
@@ -43,6 +43,10 @@ class ConfirmOrderViewModel @Inject constructor(private val repo:ConfirmOrderRep
         if(phoneNumber.isEmpty() || phoneNumber.length !=11){
             formErrors.add(FormErrors.INVALID_PHONE)
             Log.d(TAG, "validateForm: addedInvalidPhone")
+        }
+
+        if(paymentMethod==-1){
+            formErrors.add(FormErrors.INVALID_PAYMENT_METHOD)
         }
 
         return formErrors.isEmpty()

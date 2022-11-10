@@ -107,6 +107,7 @@ class MapsViewModel @Inject constructor( @ApplicationContext private val context
                 is ResultWrapper.Success -> {
                     _checkRegionResponse.value=ApiResult.Success(data = response.results)
                     delay(300L)
+                    _checkRegionResponse.value=ApiResult.Empty
                 }
             }
         }

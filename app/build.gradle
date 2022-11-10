@@ -111,6 +111,7 @@ dependencies {
 
     //GPS
     implementation "com.google.android.gms:play-services-location:21.0.0"
+    implementation 'com.google.android.libraries.places:places:2.7.0'
 
     //Easy permission
     implementation 'pub.devrel:easypermissions:3.0.0'
