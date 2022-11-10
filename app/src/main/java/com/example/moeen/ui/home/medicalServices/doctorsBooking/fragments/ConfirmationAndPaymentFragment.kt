@@ -63,7 +63,7 @@ class ConfirmationAndPaymentFragment : BaseFragment() {
 
         binding.btnConfirmPayment.setOnClickListener {
             view?.findNavController()?.navigate(ConfirmationAndPaymentFragmentDirections
-                .actionConfirmationAndPaymentFragmentToConfirmationDataFragment(args.doctorName, args.doctorSpeciality, args.day, args.startTime, args.endTime))
+                .actionConfirmationAndPaymentFragmentToConfirmationDataFragment(args.doctorName, args.doctorSpeciality, args.day, args.startTime, args.endTime, args.sessionPrice))
         }
 
 

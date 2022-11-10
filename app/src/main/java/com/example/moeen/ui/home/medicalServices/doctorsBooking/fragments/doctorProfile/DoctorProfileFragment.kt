@@ -68,7 +68,7 @@ class DoctorProfileFragment : Fragment() {
         /** Handle reserve click */
         workTimesAdapter.onItemClicked = {
             view?.findNavController()?.navigate(DoctorProfileFragmentDirections
-            .actionDoctorProfileFragmentToConfirmationAndPaymentFragment(doctor.name!!, doctor.specialtyId!!.name!!, it.day!!, it.start!!, it.end!!))
+            .actionDoctorProfileFragmentToConfirmationAndPaymentFragment(doctor.name!!, doctor.specialtyId!!.name!!, it.day!!, it.start!!, it.end!!, doctor.visitPrice!!))
         }
 
         return binding.root

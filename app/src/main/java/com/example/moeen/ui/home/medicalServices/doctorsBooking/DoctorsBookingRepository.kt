@@ -11,4 +11,5 @@ class DoctorsBookingRepository @Inject constructor(private val apiServices: ApiS
     suspend fun getCities() = performSafeApiCall { apiServices.getCities() }
     suspend fun getRegions(id : Int?) = performSafeApiCall { apiServices.getRegions(id) }
     suspend fun getPaymentMethods() = performSafeApiCall { apiServices.getPaymentMethods() }
+    suspend fun checkCoupon(code : String, price : Float) = performSafeApiCall { apiServices.checkCoupon(code, price) }
 }

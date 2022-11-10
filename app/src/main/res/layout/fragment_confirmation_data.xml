@@ -17,7 +17,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.core.widget.NestedScrollView
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginBottom="16dp"
@@ -208,6 +208,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/cv2">
 
                     <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btnCheckDiscountConfirmData"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -218,15 +219,17 @@
                         android:textSize="13sp" />
 
                     <EditText
+                        android:id="@+id/etDiscountConfirmData"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_marginStart="@dimen/_5dp"
                         android:layout_weight="3"
                         android:background="@drawable/_10_gray_white_rect"
                         android:drawableStart="@drawable/ic_discount_icon"
+                        android:drawablePadding="@dimen/_8dp"
                         android:fontFamily="@font/cairo_regular"
                         android:hint="أدخل كود الخصم"
-                        android:paddingStart="18dp"
+                        android:paddingStart="@dimen/_10dp"
                         android:paddingTop="@dimen/_8dp"
                         android:paddingEnd="18dp"
                         android:paddingBottom="@dimen/_8dp"
@@ -280,7 +283,9 @@
                         android:id="@+id/llTexes"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="2dp">
+                        android:layout_marginTop="2dp"
+                        android:visibility="gone"
+                        tools:visibility="visible">
 
                         <TextView
                             android:id="@+id/tvTexesPrice"
@@ -311,7 +316,9 @@
                         android:id="@+id/llDiscount"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="2dp">
+                        android:layout_marginTop="2dp"
+                        android:visibility="gone"
+                        tools:visibility="visible">
 
                         <TextView
                             android:id="@+id/tvDiscountPrice"
@@ -380,7 +387,7 @@
                 </LinearLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.core.widget.NestedScrollView>
+        </ScrollView>
 
 
         <androidx.appcompat.widget.AppCompatButton
